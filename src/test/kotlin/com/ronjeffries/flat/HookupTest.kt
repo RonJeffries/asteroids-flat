@@ -7,6 +7,6 @@ import org.junit.jupiter.api.Test
 class HookupTest {
     @Test
     fun `hook up`() {
-        assertThat(1+1-0).isEqualTo(2)
+        assertThat(1+1).isEqualTo(2)
     }
 }
