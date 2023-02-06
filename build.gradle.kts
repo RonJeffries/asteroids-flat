@@ -6,7 +6,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 group = "org.openrndr.template"
 version = "0.4.0"
 
-val applicationMainClass = "TemplateProgramKt"
+val applicationMainClass = "com.ronjeffries.flat.TemplateProgramKt"
 
 /**  ## additional ORX features to be added to this project */
 val orxFeatures = setOf<String>(
@@ -123,7 +123,9 @@ dependencies {
         }
     }
     implementation(kotlin("stdlib-jdk8"))
-    testImplementation(libs.junit)
+    implementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
+    testImplementation("org.assertj:assertj-core:3.23.1")
 }
 
 // ------------------------------------------------------------------------------------------------------------------ //
@@ -134,6 +136,9 @@ java {
 }
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "11"
+}
+tasks.withType<Test> {
+    useJUnitPlatform()
 }
 
 // ------------------------------------------------------------------------------------------------------------------ //
