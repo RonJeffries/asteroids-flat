@@ -10,24 +10,37 @@ import kotlin.math.sin
 
 fun main() = application {
     configure {
-        width = 768
-        height = 576
+        width = 512
+        height = 512
     }
 
     program {
-        val image = loadImage("data/images/pm5544.png")
+//        val image = loadImage("data/images/pm5544.png")
         val font = loadFont("data/fonts/default.otf", 64.0)
+        val asteroid = Asteroid(512.0, 512.0, 100.0, -90.0)
+        var lastTime = 0.0
+        var deltaTime = 0.0
 
         extend {
-            drawer.drawStyle.colorMatrix = tint(ColorRGBa.WHITE.shade(0.2))
-            drawer.image(image)
+            drawer.fill = ColorRGBa.WHITE
+            drawer.stroke = ColorRGBa.RED
+            deltaTime = seconds - lastTime
+            lastTime = seconds
+            moveAsteroid(asteroid, width + 0.0, height + 0.0, deltaTime)
+            with (asteroid) {
+                x += dx*deltaTime
+                if ( x > width) x -= width
+                if ( y > height ) y -= height
+                if ( x < 0 ) x += width
+                if ( y < 0 ) y += width
+                y += dy*deltaTime
+            }
 
-            drawer.fill = ColorRGBa.PINK
-            drawer.circle(cos(seconds) * width / 2.0 + width / 2.0, sin(0.5 * seconds) * height / 2.0 + height / 2.0, 140.0)
+            drawer.circle(asteroid.x, asteroid.y, 32.0)
 
             drawer.fontMap = font
             drawer.fill = ColorRGBa.WHITE
-            drawer.text("OPENRNDR", width / 2.0, height / 2.0)
+            drawer.text("Asteroids™", width / 2.0, height / 2.0)
         }
     }
 }
