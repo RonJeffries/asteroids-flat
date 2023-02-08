@@ -58,7 +58,7 @@ fun main() = application {
             }
             moveAsteroid(asteroid, width + 0.0, height + 0.0, deltaTime)
 
-            drawer.circle(asteroid.x, asteroid.y, 32.0)
+            drawAsteroid(asteroid, drawer)
 
             drawer.fontMap = font
             drawer.fill = ColorRGBa.WHITE
