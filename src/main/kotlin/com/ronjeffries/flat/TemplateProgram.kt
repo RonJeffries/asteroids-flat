@@ -53,15 +53,10 @@ fun main() = application {
             drawer.stroke = ColorRGBa.RED
             deltaTime = seconds - lastTime
             lastTime = seconds
-            moveAsteroid(asteroid, width + 0.0, height + 0.0, deltaTime)
-            with (asteroid) {
-                x += dx*deltaTime
-                if ( x > width) x -= width
-                if ( y > height ) y -= height
-                if ( x < 0 ) x += width
-                if ( y < 0 ) y += width
-                y += dy*deltaTime
+            if (controls_accelerate) {
+                asteroid.dy += 120.0*deltaTime
             }
+            moveAsteroid(asteroid, width + 0.0, height + 0.0, deltaTime)
 
             drawer.circle(asteroid.x, asteroid.y, 32.0)
 

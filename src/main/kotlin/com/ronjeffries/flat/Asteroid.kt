@@ -1,6 +1,6 @@
 package com.ronjeffries.flat
 
-data class Asteroid(var x: Double, var y: Double, val dx: Double, val dy: Double)
+data class Asteroid(var x: Double, var y: Double, var dx: Double, var dy: Double)
 
 fun moveAsteroid(asteroid: Asteroid, width: Double, height: Double, deltaTime: Double) {
     with (asteroid) {
