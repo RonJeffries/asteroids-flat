@@ -8,6 +8,12 @@ import org.openrndr.draw.tint
 import kotlin.math.cos
 import kotlin.math.sin
 
+var controls_left: Boolean = false
+var controls_right: Boolean = false
+var controls_accelerate: Boolean = false
+var controls_fire: Boolean = false
+var controls_hyperspace: Boolean = false
+
 fun main() = application {
     configure {
         width = 512
@@ -20,6 +26,27 @@ fun main() = application {
         val asteroid = Asteroid(512.0, 512.0, 100.0, -90.0)
         var lastTime = 0.0
         var deltaTime = 0.0
+        keyboard.keyDown.listen {
+            when (it.name) {
+                "d" -> {controls_left = true}
+                "f" -> {controls_right = true}
+                "j" -> {controls_accelerate = true}
+                "k" -> {controls_fire = true}
+                "space" -> {controls_hyperspace = true}
+//                "q" -> { insertQuarter()}
+            }
+        }
+        keyboard.keyUp.listen {
+            when (it.name) {
+                "d" -> {controls_left = false}
+                "f" -> {controls_right = false}
+                "j" -> {controls_accelerate = false}
+                "k" -> {controls_fire = false}
+                "space" -> {
+                    controls_hyperspace = false
+                }
+            }
+        }
 
         extend {
             drawer.fill = ColorRGBa.WHITE
