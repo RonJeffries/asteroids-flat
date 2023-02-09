@@ -20,17 +20,19 @@ fun main() = application {
 //        val image = loadImage("data/images/pm5544.png")
         val font = loadFont("data/fonts/default.otf", 64.0)
         val ship = SpaceObject(
+            SpaceObjectType.SHIP,
             512.0,
             512.0,
             100.0,
             -90.0,
-            45.0
+            45.0,
         )
         val asteroid = SpaceObject(
+            SpaceObjectType.ASTEROID,
             300.0,
             300.0,
             74.0,
-            40.0
+            40.0,
         )
         var lastTime = 0.0
         var deltaTime = 0.0
@@ -67,8 +69,8 @@ fun main() = application {
             move(ship, width + 0.0, height + 0.0, deltaTime)
             move(asteroid, width + 0.0, height + 0.0, deltaTime)
 
-            drawShip(ship, drawer)
-            drawAsteroid(asteroid, drawer)
+            draw(ship, drawer)
+            draw(asteroid, drawer)
 
             drawer.fontMap = font
             drawer.fill = ColorRGBa.WHITE

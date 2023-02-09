@@ -22,23 +22,29 @@ private val asteroidPoints =
         Vector2(2.0, 4.0), Vector2(4.0, 2.0),
     )
 
+enum class SpaceObjectType {
+    ASTEROID, SHIP
+}
+
+val points: Map<SpaceObjectType, List<Vector2>> = mapOf(
+    SpaceObjectType.ASTEROID to asteroidPoints,
+    SpaceObjectType.SHIP to shipPoints
+)
+
 data class SpaceObject(
+    val type: SpaceObjectType,
     var x: Double,
     var y: Double,
     var dx: Double,
     var dy: Double,
-    var angle: Double = 0.0
+    var angle: Double = 0.0,
 )
 
-fun drawAsteroid(spaceObject: SpaceObject, drawer: Drawer) {
-    draw(spaceObject, drawer, asteroidPoints)
-}
-
-fun drawShip(spaceObject: SpaceObject, drawer: Drawer) {
-    draw(spaceObject, drawer, shipPoints)
-}
-
-fun draw(spaceObject: SpaceObject, drawer: Drawer, points: List<Vector2>) {
+fun draw(
+    spaceObject: SpaceObject,
+    drawer: Drawer,
+) {
+    val points = points[spaceObject.type] ?: return
     drawer.isolated {
         drawer.translate(spaceObject.x, spaceObject.y)
         drawer.scale(4.00, 4.0)
