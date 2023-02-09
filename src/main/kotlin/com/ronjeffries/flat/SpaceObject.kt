@@ -22,14 +22,10 @@ private val asteroidPoints =
         Vector2(2.0, 4.0), Vector2(4.0, 2.0),
     )
 
-enum class SpaceObjectType {
-    ASTEROID, SHIP
+enum class SpaceObjectType(val points: List<Vector2>) {
+    ASTEROID(asteroidPoints),
+    SHIP(shipPoints)
 }
-
-val points: Map<SpaceObjectType, List<Vector2>> = mapOf(
-    SpaceObjectType.ASTEROID to asteroidPoints,
-    SpaceObjectType.SHIP to shipPoints
-)
 
 data class SpaceObject(
     val type: SpaceObjectType,
@@ -44,13 +40,12 @@ fun draw(
     spaceObject: SpaceObject,
     drawer: Drawer,
 ) {
-    val points = points[spaceObject.type] ?: return
     drawer.isolated {
         drawer.translate(spaceObject.x, spaceObject.y)
         drawer.scale(4.00, 4.0)
         drawer.rotate(spaceObject.angle)
         drawer.stroke = ColorRGBa.WHITE
-        drawer.lineStrip(points)
+        drawer.lineStrip(spaceObject.type.points)
     }
 }
 
