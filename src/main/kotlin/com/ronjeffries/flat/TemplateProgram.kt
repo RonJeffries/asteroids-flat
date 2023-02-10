@@ -34,6 +34,7 @@ fun main() = application {
             74.0,
             40.0,
         )
+        val spaceObjects = arrayOf(asteroid, ship)
         var lastTime = 0.0
         var deltaTime = 0.0
         keyboard.keyDown.listen {
@@ -66,15 +67,12 @@ fun main() = application {
             if (controls_accelerate) {
                 ship.dy += 120.0*deltaTime
             }
-            move(ship, width + 0.0, height + 0.0, deltaTime)
-            move(asteroid, width + 0.0, height + 0.0, deltaTime)
+            gameCycle(spaceObjects,width,height,drawer, deltaTime)
 
-            draw(ship, drawer)
-            draw(asteroid, drawer)
-
-            drawer.fontMap = font
-            drawer.fill = ColorRGBa.WHITE
-            drawer.text("Asteroids™", width / 2.0, height / 2.0)
+//            drawer.fontMap = font
+//            drawer.fill = ColorRGBa.WHITE
+//            drawer.text("Asteroids™", width / 2.0, height / 2.0)
         }
     }
 }
+
