@@ -55,11 +55,14 @@ fun move(spaceObject: SpaceObject, width: Int, height: Int, deltaTime: Double) {
 
 fun move(spaceObject: SpaceObject, width: Double, height: Double, deltaTime: Double) {
     with (spaceObject) {
-        x += dx*deltaTime
-        if ( x > width ) x -= width
-        if ( x < 0 ) x += width
-        y += dy*deltaTime
-        if ( y > height ) y -= height
-        if ( y < 0 ) y += height
+        x = limit(x+dx*deltaTime, width)
+        y = limit(y+dy*deltaTime, height)
     }
+}
+
+private fun limit(value: Double, max: Double): Double {
+    var result = value
+    while (result < 0) result += max
+    while (result > max) result -= max
+    return result
 }
