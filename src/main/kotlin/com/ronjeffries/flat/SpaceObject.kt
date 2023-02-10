@@ -59,7 +59,7 @@ fun move(spaceObject: SpaceObject, width: Double, height: Double, deltaTime: Dou
         if ( x > width ) x -= width
         if ( x < 0 ) x += width
         y += dy*deltaTime
-        if ( y > height ) y -= width
-        if ( y < 0 ) y += width
+        if ( y > height ) y -= height
+        if ( y < 0 ) y += height
     }
 }
