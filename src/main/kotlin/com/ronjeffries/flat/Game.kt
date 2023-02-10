@@ -10,10 +10,10 @@ fun gameCycle(
     drawer: Drawer,
     deltaTime: Double
 ) {
-    for (so in spaceObjects) {
-        move(so, width, height, deltaTime)
+    for (spaceObject in spaceObjects) {
+        move(spaceObject, width, height, deltaTime)
     }
-    for (so in spaceObjects) {
-        draw(so, drawer)
+    for (spaceObject in spaceObjects) {
+        draw(spaceObject, drawer)
     }
 }
