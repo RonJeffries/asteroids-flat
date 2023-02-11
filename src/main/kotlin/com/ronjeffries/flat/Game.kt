@@ -11,6 +11,11 @@ fun gameCycle(
     deltaTime: Double
 ) {
     for (spaceObject in spaceObjects) {
+        if (spaceObject.type == SpaceObjectType.SHIP) {
+            if (controls_accelerate) {
+                spaceObject.dy += 120.0*deltaTime
+            }
+        }
         move(spaceObject, width, height, deltaTime)
     }
     for (spaceObject in spaceObjects) {

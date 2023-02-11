@@ -64,9 +64,6 @@ fun main() = application {
             drawer.stroke = ColorRGBa.RED
             deltaTime = seconds - lastTime
             lastTime = seconds
-            if (controls_accelerate) {
-                ship.dy += 120.0*deltaTime
-            }
             gameCycle(spaceObjects,width,height,drawer, deltaTime)
         }
     }
