@@ -21,11 +21,11 @@ fun main() = application {
         val font = loadFont("data/fonts/default.otf", 64.0)
         val ship = SpaceObject(
             SpaceObjectType.SHIP,
-            512.0,
-            512.0,
-            100.0,
-            -90.0,
-            45.0,
+            width/2.0,
+            height/2.0,
+            0.0,
+            0.0,
+            0.0,
         )
         val asteroid = SpaceObject(
             SpaceObjectType.ASTEROID,

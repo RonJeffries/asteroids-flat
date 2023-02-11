@@ -1,6 +1,7 @@
 package com.ronjeffries.flat
 
 import org.openrndr.draw.Drawer
+import org.openrndr.math.Vector2
 
 
 fun gameCycle(
@@ -15,7 +16,9 @@ fun gameCycle(
             if ( controls_left ) spaceObject.angle -= 250.0*deltaTime
             if ( controls_right ) spaceObject.angle += 250.0*deltaTime
             if (controls_accelerate) {
-                spaceObject.dy += 120.0*deltaTime
+                val deltaV = Vector2(120.0,0.0).rotate(spaceObject.angle) * deltaTime
+                spaceObject.dx += deltaV.x
+                spaceObject.dy += deltaV.y
             }
         }
         move(spaceObject, width, height, deltaTime)
