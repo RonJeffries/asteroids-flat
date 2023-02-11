@@ -68,10 +68,6 @@ fun main() = application {
                 ship.dy += 120.0*deltaTime
             }
             gameCycle(spaceObjects,width,height,drawer, deltaTime)
-
-//            drawer.fontMap = font
-//            drawer.fill = ColorRGBa.WHITE
-//            drawer.text("Asteroids™", width / 2.0, height / 2.0)
         }
     }
 }
