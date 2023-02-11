@@ -12,6 +12,8 @@ fun gameCycle(
 ) {
     for (spaceObject in spaceObjects) {
         if (spaceObject.type == SpaceObjectType.SHIP) {
+            if ( controls_left ) spaceObject.angle -= 250.0*deltaTime
+            if ( controls_right ) spaceObject.angle += 250.0*deltaTime
             if (controls_accelerate) {
                 spaceObject.dy += 120.0*deltaTime
             }
