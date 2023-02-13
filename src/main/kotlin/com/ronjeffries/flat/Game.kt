@@ -3,7 +3,6 @@ package com.ronjeffries.flat
 import org.openrndr.draw.Drawer
 import org.openrndr.math.Vector2
 
-
 fun gameCycle(
     spaceObjects: Array<SpaceObject>,
     width: Int,
@@ -18,7 +17,7 @@ fun gameCycle(
         move(spaceObject, width, height, deltaTime)
     }
     for (spaceObject in spaceObjects) {
-        draw(spaceObject, drawer)
+        if (spaceObject.active) draw(spaceObject, drawer)
     }
 }
 
@@ -30,4 +29,16 @@ private fun applyControls(spaceObject: SpaceObject, deltaTime: Double) {
         spaceObject.dx += deltaV.x
         spaceObject.dy += deltaV.y
     }
+    if (controls_fire) fireMissile()
+}
+
+private fun fireMissile() {
+    controls_fire = false
+    val ship = spaceObjects[1]
+    val missile = spaceObjects[2]
+    missile.x = ship.x+ 50.0
+    missile.y = ship.y
+    missile.dx = 15.0
+    missile.dy = 0.0
+    missile.active = true
 }

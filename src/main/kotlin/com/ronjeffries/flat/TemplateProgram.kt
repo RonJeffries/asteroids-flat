@@ -10,6 +10,8 @@ var controls_accelerate: Boolean = false
 var controls_fire: Boolean = false
 var controls_hyperspace: Boolean = false
 
+lateinit var spaceObjects: Array<SpaceObject>
+
 fun main() = application {
     configure {
         width = 512
@@ -34,7 +36,13 @@ fun main() = application {
             74.0,
             40.0,
         )
-        val spaceObjects = arrayOf(asteroid, ship)
+        val missile = SpaceObject(
+            SpaceObjectType.MISSILE,
+            0.0, 0.0,
+            0.0, 0.0, 0.0,
+            false
+        )
+        spaceObjects = arrayOf(asteroid, ship,missile)
         var lastTime = 0.0
         var deltaTime = 0.0
         keyboard.keyDown.listen {

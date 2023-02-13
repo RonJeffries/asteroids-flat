@@ -22,9 +22,15 @@ private val asteroidPoints =
         Vector2(2.0, 4.0), Vector2(4.0, 2.0),
     )
 
+private val missilePoints =
+    listOf(Vector2(-1.0, -1.0), Vector2(-1.0, 1.0), Vector2(1.0, 1.0),
+        Vector2(1.0, -1.0), Vector2(-1.0, -1.0)
+    )
+
 enum class SpaceObjectType(val points: List<Vector2>) {
     ASTEROID(asteroidPoints),
-    SHIP(shipPoints)
+    SHIP(shipPoints),
+    MISSILE(missilePoints)
 }
 
 data class SpaceObject(
@@ -34,6 +40,7 @@ data class SpaceObject(
     var dx: Double,
     var dy: Double,
     var angle: Double = 0.0,
+    var active: Boolean = true,
 )
 
 fun draw(
