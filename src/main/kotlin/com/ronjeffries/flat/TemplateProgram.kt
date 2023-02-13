@@ -14,6 +14,7 @@ lateinit var spaceObjects: Array<SpaceObject>
 
 fun main() = application {
     configure {
+        title = "Asteroids"
         width = 512
         height = 512
     }
