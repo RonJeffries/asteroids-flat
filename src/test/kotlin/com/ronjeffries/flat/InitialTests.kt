@@ -33,4 +33,23 @@ class InitialTests {
         assertThat(spaceObject.x).isEqualTo(95.0, within(0.01))
         assertThat(spaceObject.y).isEqualTo(98.0, within(0.01))
     }
+
+    @Test
+    fun `initial array creation`() {
+        val objects: Array<SpaceObject> = createInitialObjects(6, 26) // number of missiles, number of asteroids
+        val mCount = objects.count { it.type == SpaceObjectType.MISSILE}
+        assertThat(mCount).isEqualTo(6)
+        assertThat(Ship.type).isEqualTo(SpaceObjectType.SHIP)
+        assertThat(Ship).isEqualTo(objects[6])
+    }
+
+    @Test
+    fun `start game makes ship active`() {
+        val objects = createInitialObjects(6, 26)
+        assertThat(Ship.active).isEqualTo(false)
+        startGame()
+        assertThat(Ship.active).isEqualTo(true)
+        assertThat(Ship.x).isEqualTo(Width/2 + 0.0)
+        assertThat(Ship.y).isEqualTo(Height/2 + 0.0)
+    }
 }

@@ -10,40 +10,18 @@ var controls_accelerate: Boolean = false
 var controls_fire: Boolean = false
 var controls_hyperspace: Boolean = false
 
-lateinit var spaceObjects: Array<SpaceObject>
-
 fun main() = application {
     configure {
         title = "Asteroids"
-        width = 512
-        height = 512
+        width = Width
+        height = Height
     }
 
     program {
 //        val image = loadImage("data/images/pm5544.png")
         val font = loadFont("data/fonts/default.otf", 64.0)
-        val ship = SpaceObject(
-            SpaceObjectType.SHIP,
-            width/2.0,
-            height/2.0,
-            0.0,
-            0.0,
-            0.0,
-        )
-        val asteroid = SpaceObject(
-            SpaceObjectType.ASTEROID,
-            300.0,
-            300.0,
-            74.0,
-            40.0,
-        )
-        val missile = SpaceObject(
-            SpaceObjectType.MISSILE,
-            0.0, 0.0,
-            0.0, 0.0, 0.0,
-            false
-        )
-        spaceObjects = arrayOf(asteroid, ship,missile)
+        spaceObjects = createInitialObjects(6,26)
+        startGame()
         var lastTime = 0.0
         var deltaTime = 0.0
         keyboard.keyDown.listen {

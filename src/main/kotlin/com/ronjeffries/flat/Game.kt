@@ -3,6 +3,13 @@ package com.ronjeffries.flat
 import org.openrndr.draw.Drawer
 import org.openrndr.math.Vector2
 
+// Globals
+
+const val Width = 1024
+const val Height = 1023
+lateinit var spaceObjects: Array<SpaceObject>
+lateinit var Ship: SpaceObject
+
 fun gameCycle(
     spaceObjects: Array<SpaceObject>,
     width: Int,
@@ -34,11 +41,32 @@ private fun applyControls(spaceObject: SpaceObject, deltaTime: Double) {
 
 private fun fireMissile() {
     controls_fire = false
-    val ship = spaceObjects[1]
     val missile = spaceObjects[2]
-    missile.x = ship.x+ 50.0
-    missile.y = ship.y
+    missile.x = Ship.x+ 50.0
+    missile.y = Ship.y
     missile.dx = 15.0
     missile.dy = 0.0
     missile.active = true
 }
+
+fun createInitialObjects(missileCount: Int, asteroidCount: Int): Array<SpaceObject> {
+    val objects = mutableListOf<SpaceObject>()
+    for ( i in 1..missileCount) {
+        objects.add(newMissile())
+    }
+    Ship = newShip()
+    objects.add(Ship)
+    return objects.toTypedArray()
+}
+
+fun startGame() {
+    Ship.active = true
+    Ship.x = Width/2 + 0.0
+    Ship.y = Height/2 + 0.0
+}
+
+private fun newMissile(): SpaceObject
+    = SpaceObject(SpaceObjectType.MISSILE, 0.0, 0.0, 0.0, 0.0, 0.0, false)
+
+private fun newShip(): SpaceObject
+    = SpaceObject(SpaceObjectType.SHIP, 0.0, 0.0, 0.0, 0.0, 0.0, false)
