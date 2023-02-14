@@ -52,4 +52,24 @@ class InitialTests {
         assertThat(Ship.x).isEqualTo(Width/2 + 0.0)
         assertThat(Ship.y).isEqualTo(Height/2 + 0.0)
     }
+
+    @Test
+    fun `can fire four missiles`() {
+        spaceObjects = createInitialObjects(6, 26)
+        assertThat(activeMissiles()).isEqualTo(0)
+        fireMissile()
+        assertThat(activeMissiles()).isEqualTo(1)
+        fireMissile()
+        assertThat(activeMissiles()).isEqualTo(2)
+        fireMissile()
+        assertThat(activeMissiles()).isEqualTo(3)
+        fireMissile()
+        assertThat(activeMissiles()).isEqualTo(4)
+        fireMissile()
+        assertThat(activeMissiles()).isEqualTo(4)
+    }
+
+    fun activeMissiles(): Int {
+        return spaceObjects.count { it.type == SpaceObjectType.MISSILE && it.active == true}
+    }
 }

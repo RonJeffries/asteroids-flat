@@ -39,14 +39,23 @@ private fun applyControls(spaceObject: SpaceObject, deltaTime: Double) {
     if (controls_fire) fireMissile()
 }
 
-private fun fireMissile() {
+fun fireMissile() {
     controls_fire = false
-    val missile = spaceObjects[2]
+    val missile: SpaceObject = availableShipMissile() ?: return
     missile.x = Ship.x+ 50.0
     missile.y = Ship.y
     missile.dx = 15.0
     missile.dy = 0.0
     missile.active = true
+}
+
+fun availableShipMissile(): SpaceObject? {
+    for ( i in 2..5) {
+        if (!spaceObjects[i].active) {
+            return spaceObjects[i]
+        }
+    }
+    return null
 }
 
 fun createInitialObjects(missileCount: Int, asteroidCount: Int): Array<SpaceObject> {
