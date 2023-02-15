@@ -56,23 +56,23 @@ class InitialTests {
     @Test
     fun `can fire four missiles`() {
         createGame(6, 26)
-        assertThat(activeMissiles()).isEqualTo(0)
+        assertThat(activeMissileCount()).isEqualTo(0)
         fireMissile()
-        assertThat(activeMissiles()).isEqualTo(1)
+        assertThat(activeMissileCount()).isEqualTo(1)
         fireMissile()
-        assertThat(activeMissiles()).isEqualTo(2)
+        assertThat(activeMissileCount()).isEqualTo(2)
         fireMissile()
-        assertThat(activeMissiles()).isEqualTo(3)
+        assertThat(activeMissileCount()).isEqualTo(3)
         fireMissile()
-        assertThat(activeMissiles()).isEqualTo(4)
+        assertThat(activeMissileCount()).isEqualTo(4)
         fireMissile()
-        assertThat(activeMissiles()).isEqualTo(4)
+        assertThat(activeMissileCount()).isEqualTo(4)
         val missile = spaceObjects.find { it.type == SpaceObjectType.MISSILE && it.active == true}
         tickTimer(missile!!, 3.1)
-        assertThat(activeMissiles()).describedAs("reactivating").isEqualTo(3)
+        assertThat(activeMissileCount()).describedAs("reactivating").isEqualTo(3)
     }
 
-    fun activeMissiles(): Int {
+    fun activeMissileCount(): Int {
         return spaceObjects.count { it.type == SpaceObjectType.MISSILE && it.active == true}
     }
 }
