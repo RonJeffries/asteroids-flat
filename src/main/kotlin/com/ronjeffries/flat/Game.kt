@@ -27,10 +27,20 @@ fun gameCycle(
         if (spaceObject.type == SpaceObjectType.SHIP) {
             applyControls(spaceObject, deltaTime)
         }
+        if (spaceObject.type == SpaceObjectType.MISSILE){
+            tickTimer(spaceObject, deltaTime)
+        }
         move(spaceObject, width, height, deltaTime)
     }
     for (spaceObject in spaceObjects) {
         if (spaceObject.active) draw(spaceObject, drawer)
+    }
+}
+
+private fun tickTimer(spaceObject: SpaceObject, deltaTime: Double) {
+    if (spaceObject.timer > 0) {
+        spaceObject.timer -= deltaTime
+        if (spaceObject.timer <= 0.0) spaceObject.active = false
     }
 }
 
@@ -54,6 +64,7 @@ fun fireMissile() {
     val velocity = Vector2(166.6, 0.0).rotate(Ship.angle)
     missile.dx = velocity.x + Ship.dx
     missile.dy = velocity.y + Ship.dy
+    missile.timer = 3.0
     missile.active = true
 }
 

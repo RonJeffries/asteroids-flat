@@ -41,7 +41,9 @@ data class SpaceObject(
     var dy: Double,
     var angle: Double = 0.0,
     var active: Boolean = true,
-)
+) {
+    var timer: Double = 0.0
+}
 
 fun draw(
     spaceObject: SpaceObject,
