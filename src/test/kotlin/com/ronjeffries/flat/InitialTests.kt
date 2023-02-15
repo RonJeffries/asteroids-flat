@@ -72,7 +72,7 @@ class InitialTests {
         assertThat(activeMissileCount()).describedAs("reactivating").isEqualTo(3)
     }
 
-    fun activeMissileCount(): Int {
+    private fun activeMissileCount(): Int {
         return spaceObjects.count { it.type == SpaceObjectType.MISSILE && it.active == true}
     }
 }
