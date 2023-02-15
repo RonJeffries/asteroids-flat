@@ -67,6 +67,9 @@ class InitialTests {
         assertThat(activeMissiles()).isEqualTo(4)
         fireMissile()
         assertThat(activeMissiles()).isEqualTo(4)
+        val missile = spaceObjects.find { it.type == SpaceObjectType.MISSILE && it.active == true}
+        tickTimer(missile!!, 3.1)
+        assertThat(activeMissiles()).describedAs("reactivating").isEqualTo(3)
     }
 
     fun activeMissiles(): Int {

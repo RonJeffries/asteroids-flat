@@ -37,7 +37,7 @@ fun gameCycle(
     }
 }
 
-private fun tickTimer(spaceObject: SpaceObject, deltaTime: Double) {
+fun tickTimer(spaceObject: SpaceObject, deltaTime: Double) {
     if (spaceObject.timer > 0) {
         spaceObject.timer -= deltaTime
         if (spaceObject.timer <= 0.0) spaceObject.active = false
