@@ -36,16 +36,16 @@ class InitialTests {
 
     @Test
     fun `initial array creation`() {
-        val objects: Array<SpaceObject> = createInitialObjects(6, 26) // number of missiles, number of asteroids
-        val mCount = objects.count { it.type == SpaceObjectType.MISSILE}
+        createGame(6, 26) // number of missiles, number of asteroids
+        val mCount = spaceObjects.count { it.type == SpaceObjectType.MISSILE}
         assertThat(mCount).isEqualTo(6)
         assertThat(Ship.type).isEqualTo(SpaceObjectType.SHIP)
-        assertThat(Ship).isEqualTo(objects[6])
+        assertThat(Ship).isEqualTo(spaceObjects[6])
     }
 
     @Test
     fun `start game makes ship active`() {
-        val objects = createInitialObjects(6, 26)
+        createGame(6, 26)
         assertThat(Ship.active).isEqualTo(false)
         startGame()
         assertThat(Ship.active).isEqualTo(true)
@@ -55,7 +55,7 @@ class InitialTests {
 
     @Test
     fun `can fire four missiles`() {
-        spaceObjects = createInitialObjects(6, 26)
+        createGame(6, 26)
         assertThat(activeMissiles()).isEqualTo(0)
         fireMissile()
         assertThat(activeMissiles()).isEqualTo(1)

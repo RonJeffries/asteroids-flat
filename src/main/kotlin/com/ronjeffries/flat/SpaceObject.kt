@@ -57,7 +57,7 @@ fun draw(
 }
 
 fun move(spaceObject: SpaceObject, width: Int, height: Int, deltaTime: Double) {
-    move(spaceObject, width + 0.0, height + 0.0, deltaTime)
+    move(spaceObject, width.toDouble(), height.toDouble(), deltaTime)
 }
 
 fun move(spaceObject: SpaceObject, width: Double, height: Double, deltaTime: Double) {

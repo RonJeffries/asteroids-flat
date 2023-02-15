@@ -4,12 +4,6 @@ import org.openrndr.application
 import org.openrndr.color.ColorRGBa
 import org.openrndr.draw.loadFont
 
-var controls_left: Boolean = false
-var controls_right: Boolean = false
-var controls_accelerate: Boolean = false
-var controls_fire: Boolean = false
-var controls_hyperspace: Boolean = false
-
 fun main() = application {
     configure {
         title = "Asteroids"
@@ -20,7 +14,7 @@ fun main() = application {
     program {
 //        val image = loadImage("data/images/pm5544.png")
         val font = loadFont("data/fonts/default.otf", 64.0)
-        spaceObjects = createInitialObjects(6,26)
+        createGame(6,26)
         startGame()
         var lastTime = 0.0
         var deltaTime = 0.0

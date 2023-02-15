@@ -5,8 +5,14 @@ import org.openrndr.math.Vector2
 
 // Globals
 
+var controls_left: Boolean = false
+var controls_right: Boolean = false
+var controls_accelerate: Boolean = false
+var controls_fire: Boolean = false
+var controls_hyperspace: Boolean = false
+
 const val Width = 1024
-const val Height = 1023
+const val Height = 1024
 lateinit var spaceObjects: Array<SpaceObject>
 lateinit var Ship: SpaceObject
 
@@ -42,10 +48,12 @@ private fun applyControls(spaceObject: SpaceObject, deltaTime: Double) {
 fun fireMissile() {
     controls_fire = false
     val missile: SpaceObject = availableShipMissile() ?: return
-    missile.x = Ship.x+ 50.0
-    missile.y = Ship.y
-    missile.dx = 15.0
-    missile.dy = 0.0
+    val offset = Vector2(50.0, 0.0).rotate(Ship.angle)
+    missile.x = offset.x + Ship.x
+    missile.y = offset.y + Ship.y
+    val velocity = Vector2(166.6, 0.0).rotate(Ship.angle)
+    missile.dx = velocity.x + Ship.dx
+    missile.dy = velocity.y + Ship.dy
     missile.active = true
 }
 
@@ -58,14 +66,14 @@ fun availableShipMissile(): SpaceObject? {
     return null
 }
 
-fun createInitialObjects(missileCount: Int, asteroidCount: Int): Array<SpaceObject> {
+fun createGame(missileCount: Int, asteroidCount: Int) {
     val objects = mutableListOf<SpaceObject>()
     for ( i in 1..missileCount) {
         objects.add(newMissile())
     }
     Ship = newShip()
     objects.add(Ship)
-    return objects.toTypedArray()
+    spaceObjects = objects.toTypedArray()
 }
 
 fun startGame() {
