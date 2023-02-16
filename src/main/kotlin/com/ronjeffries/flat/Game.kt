@@ -13,8 +13,18 @@ object Controls {
     var hyperspace: Boolean = false
 }
 
-const val Width = 1024
-const val Height = 1024
+object U {
+    const val AsteroidCount = 26
+    const val LightSpeed = 500.0
+    const val MissileCount = 6
+    const val MissileOffset = 50.0
+    const val MissileSpeed = LightSpeed/3.0
+    const val MissileTime = 3.0
+    const val ScreenHeight = 1024
+    const val ScreenWidth = 1024
+    const val ShipDeltaV = 120.0
+}
+
 lateinit var spaceObjects: Array<SpaceObject>
 lateinit var Ship: SpaceObject
 
@@ -50,7 +60,7 @@ private fun applyControls(spaceObject: SpaceObject, deltaTime: Double) {
     if (Controls.left) spaceObject.angle -= 250.0 * deltaTime
     if (Controls.right) spaceObject.angle += 250.0 * deltaTime
     if (Controls.accelerate) {
-        val deltaV = Vector2(120.0, 0.0).rotate(spaceObject.angle) * deltaTime
+        val deltaV = Vector2(U.ShipDeltaV, 0.0).rotate(spaceObject.angle) * deltaTime
         spaceObject.dx += deltaV.x
         spaceObject.dy += deltaV.y
     }
@@ -60,13 +70,13 @@ private fun applyControls(spaceObject: SpaceObject, deltaTime: Double) {
 fun fireMissile() {
     Controls.fire = false
     val missile: SpaceObject = availableShipMissile() ?: return
-    val offset = Vector2(50.0, 0.0).rotate(Ship.angle)
+    val offset = Vector2(U.MissileOffset, 0.0).rotate(Ship.angle)
     missile.x = offset.x + Ship.x
     missile.y = offset.y + Ship.y
-    val velocity = Vector2(166.6, 0.0).rotate(Ship.angle)
+    val velocity = Vector2(U.MissileSpeed, 0.0).rotate(Ship.angle)
     missile.dx = velocity.x + Ship.dx
     missile.dy = velocity.y + Ship.dy
-    missile.timer = 3.0
+    missile.timer = U.MissileTime
     missile.active = true
 }
 
@@ -89,10 +99,10 @@ fun createGame(missileCount: Int, asteroidCount: Int) {
     spaceObjects = objects.toTypedArray()
 }
 
-fun startGame() {
+fun startGame(width: Int, height: Int) {
     Ship.active = true
-    Ship.x = Width/2 + 0.0
-    Ship.y = Height/2 + 0.0
+    Ship.x = width/2.0
+    Ship.y = height/2.0
 }
 
 private fun newMissile(): SpaceObject
