@@ -50,9 +50,12 @@ fun gameCycle(
 }
 
 fun tickTimer(spaceObject: SpaceObject, deltaTime: Double) {
-    if (spaceObject.timer > 0) {
-        spaceObject.timer -= deltaTime
-        if (spaceObject.timer <= 0.0) spaceObject.active = false
+    if (spaceObject.timer != null) {
+        spaceObject.timer = spaceObject.timer!! - deltaTime
+        if (spaceObject.timer!! <= 0.0) {
+            spaceObject.timer = null
+            spaceObject.active = false
+        }
     }
 }
 

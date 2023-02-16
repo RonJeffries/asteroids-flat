@@ -42,7 +42,7 @@ data class SpaceObject(
     var angle: Double = 0.0,
     var active: Boolean = true,
 ) {
-    var timer: Double = 0.0
+    var timer: Double? = null
 }
 
 fun draw(
