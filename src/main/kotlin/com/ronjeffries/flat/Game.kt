@@ -5,11 +5,13 @@ import org.openrndr.math.Vector2
 
 // Globals
 
-var controls_left: Boolean = false
-var controls_right: Boolean = false
-var controls_accelerate: Boolean = false
-var controls_fire: Boolean = false
-var controls_hyperspace: Boolean = false
+object Controls {
+    var left: Boolean = false
+    var right: Boolean = false
+    var accelerate: Boolean = false
+    var fire: Boolean = false
+    var hyperspace: Boolean = false
+}
 
 const val Width = 1024
 const val Height = 1024
@@ -45,18 +47,18 @@ fun tickTimer(spaceObject: SpaceObject, deltaTime: Double) {
 }
 
 private fun applyControls(spaceObject: SpaceObject, deltaTime: Double) {
-    if (controls_left) spaceObject.angle -= 250.0 * deltaTime
-    if (controls_right) spaceObject.angle += 250.0 * deltaTime
-    if (controls_accelerate) {
+    if (Controls.left) spaceObject.angle -= 250.0 * deltaTime
+    if (Controls.right) spaceObject.angle += 250.0 * deltaTime
+    if (Controls.accelerate) {
         val deltaV = Vector2(120.0, 0.0).rotate(spaceObject.angle) * deltaTime
         spaceObject.dx += deltaV.x
         spaceObject.dy += deltaV.y
     }
-    if (controls_fire) fireMissile()
+    if (Controls.fire) fireMissile()
 }
 
 fun fireMissile() {
-    controls_fire = false
+    Controls.fire = false
     val missile: SpaceObject = availableShipMissile() ?: return
     val offset = Vector2(50.0, 0.0).rotate(Ship.angle)
     missile.x = offset.x + Ship.x

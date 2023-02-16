@@ -20,22 +20,22 @@ fun main() = application {
         var deltaTime = 0.0
         keyboard.keyDown.listen {
             when (it.name) {
-                "d" -> {controls_left = true}
-                "f" -> {controls_right = true}
-                "j" -> {controls_accelerate = true}
-                "k" -> {controls_fire = true}
-                "space" -> {controls_hyperspace = true}
+                "d" -> {Controls.left = true}
+                "f" -> {Controls.right = true}
+                "j" -> {Controls.accelerate = true}
+                "k" -> {Controls.fire = true}
+                "space" -> {Controls.hyperspace = true}
 //                "q" -> { insertQuarter()}
             }
         }
         keyboard.keyUp.listen {
             when (it.name) {
-                "d" -> {controls_left = false}
-                "f" -> {controls_right = false}
-                "j" -> {controls_accelerate = false}
-                "k" -> {controls_fire = false}
+                "d" -> {Controls.left = false}
+                "f" -> {Controls.right = false}
+                "j" -> {Controls.accelerate = false}
+                "k" -> {Controls.fire = false}
                 "space" -> {
-                    controls_hyperspace = false
+                    Controls.hyperspace = false
                 }
             }
         }
