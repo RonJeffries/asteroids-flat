@@ -27,6 +27,12 @@ private val missilePoints =
         Vector2(1.0, -1.0), Vector2(-1.0, -1.0)
     )
 
+interface Component {
+    val entity: SpaceObject
+}
+
+data class Timer(override val entity: SpaceObject, var time: Double): Component
+
 enum class SpaceObjectType(val points: List<Vector2>) {
     ASTEROID(asteroidPoints),
     SHIP(shipPoints),
@@ -43,6 +49,15 @@ data class SpaceObject(
     var active: Boolean = true,
 ) {
     var timer: Double? = null
+    var components: MutableList<Component> = mutableListOf()
+}
+
+fun addComponent(entity: SpaceObject, component: Component){
+    entity.components.add(component)
+}
+
+fun removeComponent(entity: SpaceObject, component: Component) {
+    removed.add(component)
 }
 
 fun draw(
