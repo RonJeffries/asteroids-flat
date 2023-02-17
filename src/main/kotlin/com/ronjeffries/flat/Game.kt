@@ -86,7 +86,6 @@ fun fireMissile() {
     val velocity = Vector2(U.MissileSpeed, 0.0).rotate(Ship.angle)
     missile.dx = velocity.x + Ship.dx
     missile.dy = velocity.y + Ship.dy
-//    missile.timer = U.MissileTime
     addComponent(missile, Timer(missile, U.MissileTime))
     missile.active = true
 }
