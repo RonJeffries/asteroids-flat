@@ -27,9 +27,7 @@ private val missilePoints =
         Vector2(1.0, -1.0), Vector2(-1.0, -1.0)
     )
 
-interface Component {
-    val entity: SpaceObject
-}
+interface Component { val entity: SpaceObject }
 
 data class Timer(override val entity: SpaceObject, var time: Double): Component
 
