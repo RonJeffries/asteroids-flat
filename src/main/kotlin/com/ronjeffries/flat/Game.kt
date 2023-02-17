@@ -47,9 +47,6 @@ fun gameCycle(
         if (spaceObject.type == SpaceObjectType.SHIP) {
             applyControls(spaceObject, deltaTime)
         }
-        if (spaceObject.type == SpaceObjectType.MISSILE){
-            tickTimer(spaceObject, deltaTime)
-        }
         move(spaceObject, width, height, deltaTime)
     }
     for (spaceObject in spaceObjects) {
@@ -64,18 +61,6 @@ fun update(component: Component, deltaTime: Double) {
             if (component.time <= 0.0) {
                 component.entity.active = false
                 removeComponent(component.entity, component)
-            }
-        }
-    }
-}
-
-fun tickTimer(spaceObject: SpaceObject, deltaTime: Double) {
-    with(spaceObject) {
-        if (timer != null) {
-            timer = timer!! - deltaTime
-            if (timer!! <= 0.0) {
-                timer = null
-                active = false
             }
         }
     }

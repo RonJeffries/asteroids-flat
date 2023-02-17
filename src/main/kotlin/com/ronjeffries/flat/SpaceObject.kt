@@ -48,7 +48,6 @@ data class SpaceObject(
     var angle: Double = 0.0,
     var active: Boolean = true,
 ) {
-    var timer: Double? = null
     var components: MutableList<Component> = mutableListOf()
 }
 
