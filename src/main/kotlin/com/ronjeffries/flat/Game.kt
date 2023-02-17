@@ -92,9 +92,7 @@ fun fireMissile() {
 
 fun availableShipMissile(): SpaceObject? {
     for ( i in 2..5) {
-        if (!spaceObjects[i].active) {
-            return spaceObjects[i]
-        }
+        if (!spaceObjects[i].active) return spaceObjects[i]
     }
     return null
 }
