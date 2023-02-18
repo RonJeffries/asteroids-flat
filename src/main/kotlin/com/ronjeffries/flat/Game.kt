@@ -52,12 +52,18 @@ fun gameCycle(
 fun update(component: Component, deltaTime: Double) {
     when (component) {
         is Timer -> {
-            if ( ! component.entity.active) return
-            component.time -= deltaTime
-            if (component.time <= 0.0) {
-                component.entity.active = false
-                component.time = component.startTime
-            }
+            updateTimer(component, deltaTime)
+        }
+    }
+}
+
+private fun updateTimer(timer: Timer, deltaTime: Double) {
+    with(timer) {
+        if ( ! entity.active) return
+        time -= deltaTime
+        if (time <= 0.0) {
+            entity.active = false
+            time = timer.startTime
         }
     }
 }
