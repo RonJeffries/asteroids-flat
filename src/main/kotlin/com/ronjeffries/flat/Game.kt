@@ -28,8 +28,6 @@ object U {
 lateinit var spaceObjects: Array<SpaceObject>
 lateinit var Ship: SpaceObject
 
-var removed: MutableList<Component> = mutableListOf()
-
 fun gameCycle(
     spaceObjects: Array<SpaceObject>,
     width: Int,
@@ -38,12 +36,9 @@ fun gameCycle(
     deltaTime: Double
 ) {
     for (spaceObject in spaceObjects) {
-        removed = mutableListOf()
         for (component in spaceObject.components) {
             update(component, deltaTime)
         }
-        spaceObject.components.removeAll(removed)
-        removed.forEach { spaceObject.components.remove(it)}
         if (spaceObject.type == SpaceObjectType.SHIP) {
             applyControls(spaceObject, deltaTime)
         }
@@ -57,10 +52,11 @@ fun gameCycle(
 fun update(component: Component, deltaTime: Double) {
     when (component) {
         is Timer -> {
+            if ( ! component.entity.active) return
             component.time -= deltaTime
             if (component.time <= 0.0) {
                 component.entity.active = false
-                removeComponent(component.entity, component)
+                component.time = component.startTime
             }
         }
     }
@@ -86,7 +82,6 @@ fun fireMissile() {
     val velocity = Vector2(U.MissileSpeed, 0.0).rotate(Ship.angle)
     missile.dx = velocity.x + Ship.dx
     missile.dy = velocity.y + Ship.dy
-    addComponent(missile, Timer(missile, U.MissileTime))
     missile.active = true
 }
 
@@ -113,8 +108,10 @@ fun startGame(width: Int, height: Int) {
     Ship.y = height/2.0
 }
 
-private fun newMissile(): SpaceObject
-    = SpaceObject(SpaceObjectType.MISSILE, 0.0, 0.0, 0.0, 0.0, 0.0, false)
+private fun newMissile(): SpaceObject {
+    return SpaceObject(SpaceObjectType.MISSILE, 0.0, 0.0, 0.0, 0.0, 0.0, false)
+        .also { addComponent(it, Timer(it, 3.0)) }
+}
 
 private fun newShip(): SpaceObject
     = SpaceObject(SpaceObjectType.SHIP, 0.0, 0.0, 0.0, 0.0, 0.0, false)
