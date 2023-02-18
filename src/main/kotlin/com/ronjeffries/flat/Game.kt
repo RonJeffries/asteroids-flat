@@ -82,13 +82,19 @@ private fun applyControls(spaceObject: SpaceObject, deltaTime: Double) {
 fun fireMissile() {
     Controls.fire = false
     val missile: SpaceObject = availableShipMissile() ?: return
-    val offset = Vector2(U.MissileOffset, 0.0).rotate(Ship.angle)
+    setPosition(missile, Vector2(U.MissileOffset, 0.0).rotate(Ship.angle))
+    setVelocity(missile, Vector2(U.MissileSpeed, 0.0).rotate(Ship.angle))
+    missile.active = true
+}
+
+private fun setPosition(missile: SpaceObject, offset: Vector2) {
     missile.x = offset.x + Ship.x
     missile.y = offset.y + Ship.y
-    val velocity = Vector2(U.MissileSpeed, 0.0).rotate(Ship.angle)
+}
+
+private fun setVelocity(missile: SpaceObject, velocity: Vector2) {
     missile.dx = velocity.x + Ship.dx
     missile.dy = velocity.y + Ship.dy
-    missile.active = true
 }
 
 fun availableShipMissile(): SpaceObject? {
