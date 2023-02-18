@@ -81,10 +81,11 @@ private fun applyControls(spaceObject: SpaceObject, deltaTime: Double) {
 
 fun fireMissile() {
     Controls.fire = false
-    val missile: SpaceObject = availableShipMissile() ?: return
-    setPosition(missile, Vector2(U.MissileOffset, 0.0).rotate(Ship.angle))
-    setVelocity(missile, Vector2(U.MissileSpeed, 0.0).rotate(Ship.angle))
-    missile.active = true
+    withAvailableMissile { missile ->
+        setPosition(missile, Vector2(U.MissileOffset, 0.0).rotate(Ship.angle))
+        setVelocity(missile, Vector2(U.MissileSpeed, 0.0).rotate(Ship.angle))
+        missile.active = true
+    }
 }
 
 private fun setPosition(missile: SpaceObject, offset: Vector2) {
@@ -97,11 +98,10 @@ private fun setVelocity(missile: SpaceObject, velocity: Vector2) {
     missile.dy = velocity.y + Ship.dy
 }
 
-fun availableShipMissile(): SpaceObject? {
+fun withAvailableMissile(action: (SpaceObject) -> Unit) {
     for ( i in 2..5) {
-        if (!spaceObjects[i].active) return spaceObjects[i]
+        if (!spaceObjects[i].active) return action(spaceObjects[i])
     }
-    return null
 }
 
 fun createGame(missileCount: Int, asteroidCount: Int) {
