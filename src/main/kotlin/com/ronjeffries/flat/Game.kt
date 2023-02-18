@@ -91,14 +91,14 @@ fun fireMissile() {
     }
 }
 
-private fun setPosition(missile: SpaceObject, offset: Vector2) {
-    missile.x = offset.x + Ship.x
-    missile.y = offset.y + Ship.y
+private fun setPosition(spaceObject: SpaceObject, offset: Vector2) {
+    spaceObject.x = offset.x + Ship.x
+    spaceObject.y = offset.y + Ship.y
 }
 
-private fun setVelocity(missile: SpaceObject, velocity: Vector2) {
-    missile.dx = velocity.x + Ship.dx
-    missile.dy = velocity.y + Ship.dy
+private fun setVelocity(spaceObject: SpaceObject, velocity: Vector2) {
+    spaceObject.dx = velocity.x + Ship.dx
+    spaceObject.dy = velocity.y + Ship.dy
 }
 
 fun withAvailableMissile(action: (SpaceObject) -> Unit) {
