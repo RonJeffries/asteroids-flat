@@ -72,11 +72,14 @@ private fun applyControls(spaceObject: SpaceObject, deltaTime: Double) {
     if (Controls.left) spaceObject.angle -= 250.0 * deltaTime
     if (Controls.right) spaceObject.angle += 250.0 * deltaTime
     if (Controls.accelerate) {
-        val deltaV = Vector2(U.ShipDeltaV, 0.0).rotate(spaceObject.angle) * deltaTime
-        spaceObject.dx += deltaV.x
-        spaceObject.dy += deltaV.y
+        incrementVelocity(spaceObject, Vector2(U.ShipDeltaV, 0.0).rotate(spaceObject.angle) * deltaTime)
     }
     if (Controls.fire) fireMissile()
+}
+
+private fun incrementVelocity(spaceObject: SpaceObject, deltaV: Vector2) {
+    spaceObject.dx += deltaV.x
+    spaceObject.dy += deltaV.y
 }
 
 fun fireMissile() {
