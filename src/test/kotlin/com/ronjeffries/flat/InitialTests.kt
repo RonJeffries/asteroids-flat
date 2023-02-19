@@ -72,6 +72,18 @@ class InitialTests {
         assertThat(activeMissileCount()).describedAs("reactivating").isEqualTo(3)
     }
 
+    @Test
+    fun `can activate asteroids`() {
+        createGame(6, 6)
+        val asteroidCount = spaceObjects.count { it.type == SpaceObjectType.ASTEROID}
+        assertThat(asteroidCount).isEqualTo(6)
+        var inactiveCount = spaceObjects.count { it.type == SpaceObjectType.ASTEROID && ! it.active}
+        assertThat(inactiveCount).isEqualTo(6)
+        for ( i in 1..4) activateAsteroid()
+        inactiveCount = spaceObjects.count { it.type == SpaceObjectType.ASTEROID && ! it.active}
+        assertThat(inactiveCount).isEqualTo(2)
+    }
+
     private fun activeMissileCount(): Int {
         return spaceObjects.count { it.type == SpaceObjectType.MISSILE && it.active == true}
     }

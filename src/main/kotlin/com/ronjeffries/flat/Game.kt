@@ -2,6 +2,7 @@ package com.ronjeffries.flat
 
 import org.openrndr.draw.Drawer
 import org.openrndr.math.Vector2
+import kotlin.random.Random
 
 // Globals
 
@@ -15,6 +16,7 @@ object Controls {
 
 object U {
     const val AsteroidCount = 26
+    const val AsteroidSpeed = 100.0
     const val LightSpeed = 500.0
     const val MissileCount = 6
     const val MissileOffset = 50.0
@@ -114,6 +116,9 @@ fun createGame(missileCount: Int, asteroidCount: Int) {
     }
     Ship = newShip()
     objects.add(Ship)
+    for (i in 1..asteroidCount) {
+        objects.add(newAsteroid())
+    }
     spaceObjects = objects.toTypedArray()
 }
 
@@ -121,6 +126,33 @@ fun startGame(width: Int, height: Int) {
     Ship.active = true
     Ship.x = width/2.0
     Ship.y = height/2.0
+    activateAsteroids(4)
+}
+
+private fun activateAsteroids(asteroidCount: Int) {
+    deactivateAsteroids()
+    for (i in 1..asteroidCount) {
+        activateAsteroid()
+    }
+}
+
+private fun deactivateAsteroids() {
+    spaceObjects.filter { it.type == SpaceObjectType.ASTEROID }.forEach { it.active = false }
+}
+
+fun activateAsteroid() {
+    val asteroids = spaceObjects.filter { it.type == SpaceObjectType.ASTEROID }
+    val available = asteroids.firstOrNull { ! it.active }
+    if (available != null) {
+        available.active = true
+        available.y = Random.nextDouble(U.ScreenHeight.toDouble())
+        setVelocity(available, randomVelocity())
+    }
+}
+
+private fun randomVelocity(): Vector2 {
+    val randomAngle = Random.nextDouble(360.0)
+    return Vector2(U.AsteroidSpeed, 0.0).rotate(randomAngle)
 }
 
 private fun newMissile(): SpaceObject {
@@ -130,3 +162,6 @@ private fun newMissile(): SpaceObject {
 
 private fun newShip(): SpaceObject
     = SpaceObject(SpaceObjectType.SHIP, 0.0, 0.0, 0.0, 0.0, 0.0, false)
+
+private fun newAsteroid(): SpaceObject
+        = SpaceObject(SpaceObjectType.ASTEROID, 0.0, 0.0, 0.0, 0.0, 0.0, false)
