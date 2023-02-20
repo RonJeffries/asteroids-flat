@@ -124,8 +124,7 @@ fun createGame(missileCount: Int, asteroidCount: Int) {
 
 fun startGame(width: Int, height: Int) {
     Ship.active = true
-    Ship.x = width/2.0
-    Ship.y = height/2.0
+    setPosition(Ship, Vector2(width/2.0, height/2.0))
     activateAsteroids(4)
 }
 
