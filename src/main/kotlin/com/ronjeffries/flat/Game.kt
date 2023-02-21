@@ -94,8 +94,23 @@ private fun checkOneAsteroid(
     val killDist = 16.0 * asteroid.scale + 1
     val dist = missilePos.distanceTo(asteroidPos)
     if (dist <= killDist) {
-        deactivate(asteroid)
+        if ( asteroid.scale > 1 ) {
+            asteroid.scale /= 2
+            setVelocityRelativeToShip(asteroid, randomVelocity())
+            spawnNewAsteroid(asteroid)
+        } else deactivate(asteroid)
         deactivate(missile)
+    }
+}
+
+private fun spawnNewAsteroid(asteroid: SpaceObject) {
+    val newOne: SpaceObject? = spaceObjects.filter { it.type == SpaceObjectType.ASTEROID && ! it.active}.first()
+    if (newOne != null ) {
+        newOne.x = asteroid.x
+        newOne.y = asteroid.y
+        newOne.scale = asteroid.scale
+        newOne.active = true
+        setVelocity(newOne, randomVelocity())
     }
 }
 
@@ -136,7 +151,7 @@ fun fireMissile() {
     Controls.fire = false
     withAvailableMissile { missile ->
         setPosition(missile, Vector2(U.MissileOffset, 0.0).rotate(Ship.angle))
-        setVelocity(missile, Vector2(U.MissileSpeed, 0.0).rotate(Ship.angle))
+        setVelocityRelativeToShip(missile, Vector2(U.MissileSpeed, 0.0).rotate(Ship.angle))
         missile.active = true
     }
 }
@@ -144,6 +159,10 @@ fun fireMissile() {
 private fun setPosition(spaceObject: SpaceObject, offset: Vector2) {
     spaceObject.x = offset.x + Ship.x
     spaceObject.y = offset.y + Ship.y
+}
+
+private fun setVelocityRelativeToShip(spaceObject: SpaceObject, velocity: Vector2) {
+    setVelocity(spaceObject, velocity + Vector2(Ship.dx, Ship.dy))
 }
 
 private fun setVelocity(spaceObject: SpaceObject, velocity: Vector2) {
