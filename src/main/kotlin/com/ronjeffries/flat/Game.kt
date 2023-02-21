@@ -49,6 +49,32 @@ fun gameCycle(
     for (spaceObject in spaceObjects) {
         if (spaceObject.active) draw(spaceObject, drawer)
     }
+    checkCollisions()
+}
+
+private fun checkCollisions() {
+    val firstMissile = 0
+    val lastMissile = 5
+    val firstAsteroid = 7
+    val lastAsteroid = spaceObjects.size-1
+    for (m in firstMissile..lastMissile) {
+        val missile = spaceObjects[m]
+        if ( missile.active) {
+            val missilePos = Vector2(missile.x, missile.y)
+            for (a in firstAsteroid..lastAsteroid) {
+                val asteroid = spaceObjects[a]
+                if (asteroid.active) {
+                    val asteroidPos = Vector2(asteroid.x, asteroid.y)
+                    val killDist = 16.0*asteroid.scale + 1
+                    val dist = missilePos.distanceTo(asteroidPos)
+                    if ( dist <= killDist ) {
+                        deactivate(asteroid)
+                        deactivate(missile)
+                    }
+                }
+            }
+        }
+    }
 }
 
 fun update(component: Component, deltaTime: Double) {
@@ -64,7 +90,7 @@ private fun updateTimer(timer: Timer, deltaTime: Double) {
         if ( ! entity.active) return
         time -= deltaTime
         if (time <= 0.0) {
-            entity.active = false
+            deactivate(entity)
             time = timer.startTime
         }
     }
@@ -137,7 +163,7 @@ private fun activateAsteroids(asteroidCount: Int) {
 }
 
 private fun deactivateAsteroids() {
-    spaceObjects.filter { it.type == SpaceObjectType.ASTEROID }.forEach { it.active = false }
+    spaceObjects.filter { it.type == SpaceObjectType.ASTEROID }.forEach { deactivate(it) }
 }
 
 fun activateAsteroid() {
@@ -165,3 +191,4 @@ private fun newShip(): SpaceObject
 
 private fun newAsteroid(): SpaceObject
         = SpaceObject(SpaceObjectType.ASTEROID, 0.0, 0.0, 0.0, 0.0, 0.0, false)
+            .also { it.scale = 4.0}

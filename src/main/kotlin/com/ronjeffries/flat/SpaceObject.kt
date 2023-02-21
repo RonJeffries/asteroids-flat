@@ -42,6 +42,7 @@ data class SpaceObject(
     var angle: Double = 0.0,
     var active: Boolean = true,
 ) {
+    var scale = 1.0
     var components: MutableList<Component> = mutableListOf()
 }
 
@@ -49,15 +50,28 @@ fun addComponent(entity: SpaceObject, component: Component){
     entity.components.add(component)
 }
 
+fun deactivate(entity: SpaceObject) {
+    entity.active = false
+    for (component in entity.components) {
+        when (component) {
+            is Timer -> {
+                component.time = component.startTime
+            }
+        }
+    }
+}
+
 fun draw(
     spaceObject: SpaceObject,
     drawer: Drawer,
 ) {
     drawer.isolated {
+        val scale = 4.0 *spaceObject.scale
         drawer.translate(spaceObject.x, spaceObject.y)
-        drawer.scale(4.00, 4.0)
+        drawer.scale(scale, scale)
         drawer.rotate(spaceObject.angle)
         drawer.stroke = ColorRGBa.WHITE
+        drawer.strokeWeight = 1.0/scale
         drawer.lineStrip(spaceObject.type.points)
     }
 }
