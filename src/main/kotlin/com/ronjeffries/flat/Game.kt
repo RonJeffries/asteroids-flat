@@ -56,24 +56,46 @@ private fun checkCollisions() {
     val firstMissile = 0
     val lastMissile = 5
     val firstAsteroid = 7
-    val lastAsteroid = spaceObjects.size-1
-    for (m in firstMissile..lastMissile) {
-        val missile = spaceObjects[m]
-        if ( missile.active) {
-            val missilePos = Vector2(missile.x, missile.y)
-            for (a in firstAsteroid..lastAsteroid) {
-                val asteroid = spaceObjects[a]
-                if (asteroid.active) {
-                    val asteroidPos = Vector2(asteroid.x, asteroid.y)
-                    val killDist = 16.0*asteroid.scale + 1
-                    val dist = missilePos.distanceTo(asteroidPos)
-                    if ( dist <= killDist ) {
-                        deactivate(asteroid)
-                        deactivate(missile)
-                    }
-                }
-            }
-        }
+    val lastAsteroid = spaceObjects.size - 1
+    checkAllMissiles(firstMissile, lastMissile, firstAsteroid, lastAsteroid)
+}
+
+private fun checkAllMissiles(
+    firstMissile: Int,
+    lastMissile: Int,
+    firstAsteroid: Int,
+    lastAsteroid: Int
+) {
+    for (missile in spaceObjects.slice(firstMissile..lastMissile)
+        .filter { it.active }) {
+        val missilePos = Vector2(missile.x, missile.y)
+        checkAllAsteroids(firstAsteroid, lastAsteroid, missilePos, missile)
+    }
+}
+
+private fun checkAllAsteroids(
+    firstAsteroid: Int,
+    lastAsteroid: Int,
+    missilePos: Vector2,
+    missile: SpaceObject
+) {
+    for (asteroid in spaceObjects.slice(firstAsteroid..lastAsteroid)
+        .filter { it.active }) {
+        checkOneAsteroid(asteroid, missilePos, missile)
+    }
+}
+
+private fun checkOneAsteroid(
+    asteroid: SpaceObject,
+    missilePos: Vector2,
+    missile: SpaceObject
+) {
+    val asteroidPos = Vector2(asteroid.x, asteroid.y)
+    val killDist = 16.0 * asteroid.scale + 1
+    val dist = missilePos.distanceTo(asteroidPos)
+    if (dist <= killDist) {
+        deactivate(asteroid)
+        deactivate(missile)
     }
 }
 
