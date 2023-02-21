@@ -104,7 +104,7 @@ private fun checkOneAsteroid(
 }
 
 private fun spawnNewAsteroid(asteroid: SpaceObject) {
-    val newOne: SpaceObject? = spaceObjects.filter { it.type == SpaceObjectType.ASTEROID && ! it.active}.first()
+    val newOne: SpaceObject? = spaceObjects.filter { it.type == SpaceObjectType.ASTEROID && ! it.active}.firstOrNull()
     if (newOne != null ) {
         newOne.x = asteroid.x
         newOne.y = asteroid.y
