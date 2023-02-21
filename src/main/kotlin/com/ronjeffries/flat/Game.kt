@@ -166,8 +166,8 @@ private fun setVelocityRelativeToShip(spaceObject: SpaceObject, velocity: Vector
 }
 
 private fun setVelocity(spaceObject: SpaceObject, velocity: Vector2) {
-    spaceObject.dx = velocity.x + Ship.dx
-    spaceObject.dy = velocity.y + Ship.dy
+    spaceObject.dx = velocity.x
+    spaceObject.dy = velocity.y
 }
 
 fun withAvailableMissile(action: (SpaceObject) -> Unit) {
