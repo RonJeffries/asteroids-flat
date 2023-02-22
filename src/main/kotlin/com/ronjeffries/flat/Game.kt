@@ -20,7 +20,7 @@ object U {
     const val LightSpeed = 500.0
     const val MissileCount = 6
     const val MissileOffset = 50.0
-    const val MissileSpeed = LightSpeed/3.0
+    const val MissileSpeed = LightSpeed / 3.0
     const val MissileTime = 3.0
     const val ScreenHeight = 1024
     const val ScreenWidth = 1024
@@ -79,8 +79,7 @@ private fun checkAllAsteroids(
     missilePos: Vector2,
     missile: SpaceObject
 ) {
-    for (asteroid in spaceObjects.slice(firstAsteroid..lastAsteroid)
-        .filter { it.active }) {
+    for (asteroid in spaceObjects.slice(firstAsteroid..lastAsteroid).filter { it.active }) {
         checkOneAsteroid(asteroid, missilePos, missile)
     }
 }
@@ -94,9 +93,9 @@ private fun checkOneAsteroid(
     val killDist = 16.0 * asteroid.scale + 1
     val dist = missilePos.distanceTo(asteroidPos)
     if (dist <= killDist) {
-        if ( asteroid.scale > 1 ) {
+        if (asteroid.scale > 1) {
             asteroid.scale /= 2
-            setVelocityRelativeToShip(asteroid, randomVelocity())
+            asteroid.velocity = randomVelocity()
             spawnNewAsteroid(asteroid)
         } else deactivate(asteroid)
         deactivate(missile)
@@ -104,13 +103,13 @@ private fun checkOneAsteroid(
 }
 
 private fun spawnNewAsteroid(asteroid: SpaceObject) {
-    val newOne: SpaceObject? = spaceObjects.filter { it.type == SpaceObjectType.ASTEROID && ! it.active}.firstOrNull()
-    if (newOne != null ) {
+    val newOne: SpaceObject? = spaceObjects.firstOrNull { it.type == SpaceObjectType.ASTEROID && !it.active }
+    if (newOne != null) {
         newOne.x = asteroid.x
         newOne.y = asteroid.y
         newOne.scale = asteroid.scale
         newOne.active = true
-        setVelocity(newOne, randomVelocity())
+        newOne.velocity = randomVelocity()
     }
 }
 
@@ -124,7 +123,7 @@ fun update(component: Component, deltaTime: Double) {
 
 private fun updateTimer(timer: Timer, deltaTime: Double) {
     with(timer) {
-        if ( ! entity.active) return
+        if (!entity.active) return
         time -= deltaTime
         if (time <= 0.0) {
             deactivate(entity)
@@ -150,35 +149,25 @@ private fun incrementVelocity(spaceObject: SpaceObject, deltaV: Vector2) {
 fun fireMissile() {
     Controls.fire = false
     withAvailableMissile { missile ->
-        setPosition(missile, Vector2(U.MissileOffset, 0.0).rotate(Ship.angle))
+        missile.position = Ship.position + Vector2(U.MissileOffset, 0.0).rotate(Ship.angle)
         setVelocityRelativeToShip(missile, Vector2(U.MissileSpeed, 0.0).rotate(Ship.angle))
         missile.active = true
     }
 }
 
-private fun setPosition(spaceObject: SpaceObject, offset: Vector2) {
-    spaceObject.x = offset.x + Ship.x
-    spaceObject.y = offset.y + Ship.y
-}
-
 private fun setVelocityRelativeToShip(spaceObject: SpaceObject, velocity: Vector2) {
-    setVelocity(spaceObject, velocity + Vector2(Ship.dx, Ship.dy))
-}
-
-private fun setVelocity(spaceObject: SpaceObject, velocity: Vector2) {
-    spaceObject.dx = velocity.x
-    spaceObject.dy = velocity.y
+    spaceObject.velocity = velocity + Vector2(Ship.dx, Ship.dy)
 }
 
 fun withAvailableMissile(action: (SpaceObject) -> Unit) {
-    for ( i in 2..5) {
+    for (i in 2..5) {
         if (!spaceObjects[i].active) return action(spaceObjects[i])
     }
 }
 
 fun createGame(missileCount: Int, asteroidCount: Int) {
     val objects = mutableListOf<SpaceObject>()
-    for ( i in 1..missileCount) {
+    for (i in 1..missileCount) {
         objects.add(newMissile())
     }
     Ship = newShip()
@@ -191,8 +180,7 @@ fun createGame(missileCount: Int, asteroidCount: Int) {
 
 fun startGame(width: Int, height: Int) {
     Ship.active = true
-    Ship.x = width/2.0
-    Ship.y = height/2.0
+    Ship.position = Vector2(width/2.0, height/2.0)
     activateAsteroids(4)
 }
 
@@ -209,11 +197,11 @@ private fun deactivateAsteroids() {
 
 fun activateAsteroid() {
     val asteroids = spaceObjects.filter { it.type == SpaceObjectType.ASTEROID }
-    val available = asteroids.firstOrNull { ! it.active }
+    val available = asteroids.firstOrNull { !it.active }
     if (available != null) {
         available.active = true
-        available.y = Random.nextDouble(U.ScreenHeight.toDouble())
-        setVelocity(available, randomVelocity())
+        available.position = Vector2(0.0, Random.nextDouble(U.ScreenHeight.toDouble()))
+        available.velocity = randomVelocity()
     }
 }
 
@@ -227,9 +215,7 @@ private fun newMissile(): SpaceObject {
         .also { addComponent(it, Timer(it, 3.0)) }
 }
 
-private fun newShip(): SpaceObject
-    = SpaceObject(SpaceObjectType.SHIP, 0.0, 0.0, 0.0, 0.0, 0.0, false)
+private fun newShip(): SpaceObject = SpaceObject(SpaceObjectType.SHIP, 0.0, 0.0, 0.0, 0.0, 0.0, false)
 
-private fun newAsteroid(): SpaceObject
-        = SpaceObject(SpaceObjectType.ASTEROID, 0.0, 0.0, 0.0, 0.0, 0.0, false)
-            .also { it.scale = 4.0}
+private fun newAsteroid(): SpaceObject = SpaceObject(SpaceObjectType.ASTEROID, 0.0, 0.0, 0.0, 0.0, 0.0, false)
+    .also { it.scale = 4.0 }

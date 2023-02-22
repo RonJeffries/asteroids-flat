@@ -42,6 +42,18 @@ data class SpaceObject(
     var angle: Double = 0.0,
     var active: Boolean = true,
 ) {
+    var position: Vector2
+        get() = Vector2(x,y)
+        set(v:Vector2) {
+            x = v.x
+            y = v.y
+        }
+    var velocity: Vector2
+        get() = Vector2(dx,dy)
+        set(v:Vector2) {
+            dx = v.x
+            dy = v.y
+        }
     var scale = 1.0
     var components: MutableList<Component> = mutableListOf()
 }
