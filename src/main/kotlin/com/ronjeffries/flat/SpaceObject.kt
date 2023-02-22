@@ -58,7 +58,7 @@ data class SpaceObject(
     var components: MutableList<Component> = mutableListOf()
 }
 
-fun addComponent(entity: SpaceObject, component: Component){
+fun addComponent(entity: SpaceObject, component: Component) {
     entity.components.add(component)
 }
 
