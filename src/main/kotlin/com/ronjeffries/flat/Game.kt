@@ -105,8 +105,7 @@ private fun checkOneAsteroid(
 private fun spawnNewAsteroid(asteroid: SpaceObject) {
     val newOne: SpaceObject? = spaceObjects.firstOrNull { it.type == SpaceObjectType.ASTEROID && !it.active }
     if (newOne != null) {
-        newOne.x = asteroid.x
-        newOne.y = asteroid.y
+        newOne.position = asteroid.position
         newOne.scale = asteroid.scale
         newOne.active = true
         newOne.velocity = randomVelocity()
@@ -142,8 +141,7 @@ private fun applyControls(spaceObject: SpaceObject, deltaTime: Double) {
 }
 
 private fun incrementVelocity(spaceObject: SpaceObject, deltaV: Vector2) {
-    spaceObject.dx += deltaV.x
-    spaceObject.dy += deltaV.y
+    spaceObject.velocity = spaceObject.velocity + deltaV
 }
 
 fun fireMissile() {
@@ -167,14 +165,10 @@ fun withAvailableMissile(action: (SpaceObject) -> Unit) {
 
 fun createGame(missileCount: Int, asteroidCount: Int) {
     val objects = mutableListOf<SpaceObject>()
-    for (i in 1..missileCount) {
-        objects.add(newMissile())
-    }
+    for (i in 1..missileCount) objects.add(newMissile())
     Ship = newShip()
     objects.add(Ship)
-    for (i in 1..asteroidCount) {
-        objects.add(newAsteroid())
-    }
+    for (i in 1..asteroidCount) objects.add(newAsteroid())
     spaceObjects = objects.toTypedArray()
 }
 
@@ -186,9 +180,7 @@ fun startGame(width: Int, height: Int) {
 
 private fun activateAsteroids(asteroidCount: Int) {
     deactivateAsteroids()
-    for (i in 1..asteroidCount) {
-        activateAsteroid()
-    }
+    for (i in 1..asteroidCount) activateAsteroid()
 }
 
 private fun deactivateAsteroids() {
