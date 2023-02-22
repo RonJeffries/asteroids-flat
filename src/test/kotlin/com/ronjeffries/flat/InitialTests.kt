@@ -79,7 +79,7 @@ class InitialTests {
         assertThat(asteroidCount).isEqualTo(6)
         var inactiveCount = spaceObjects.count { it.type == SpaceObjectType.ASTEROID && ! it.active}
         assertThat(inactiveCount).isEqualTo(6)
-        for ( i in 1..4) activateAsteroid()
+        for ( i in 1..4) activateAsteroidAtEdge()
         inactiveCount = spaceObjects.count { it.type == SpaceObjectType.ASTEROID && ! it.active}
         assertThat(inactiveCount).isEqualTo(2)
     }

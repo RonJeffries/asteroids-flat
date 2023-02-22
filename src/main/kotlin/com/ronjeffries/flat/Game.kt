@@ -159,14 +159,14 @@ fun startGame(width: Int, height: Int) {
 
 private fun activateAsteroids(asteroidCount: Int) {
     deactivateAsteroids()
-    for (i in 1..asteroidCount) activateAsteroid()
+    for (i in 1..asteroidCount) activateAsteroidAtEdge()
 }
 
 private fun deactivateAsteroids() {
     spaceObjects.filter { it.type == SpaceObjectType.ASTEROID }.forEach { deactivate(it) }
 }
 
-fun activateAsteroid() {
+fun activateAsteroidAtEdge() {
     val asteroids = spaceObjects.filter { it.type == SpaceObjectType.ASTEROID }
     val available = asteroids.firstOrNull { !it.active }
     if (available != null) {
