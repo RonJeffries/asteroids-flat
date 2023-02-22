@@ -58,6 +58,10 @@ data class SpaceObject(
     var components: MutableList<Component> = mutableListOf()
 }
 
+fun activeMissiles(spaceObjects: Array<SpaceObject>): List<SpaceObject> {
+    return spaceObjects.filter {it.type == SpaceObjectType.MISSILE && it.active}
+}
+
 fun addComponent(entity: SpaceObject, component: Component) {
     entity.components.add(component)
 }

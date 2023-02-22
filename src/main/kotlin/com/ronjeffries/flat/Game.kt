@@ -49,21 +49,16 @@ fun gameCycle(
 }
 
 private fun checkCollisions() {
-    val firstMissile = 0
-    val lastMissile = 5
     val firstAsteroid = 7
     val lastAsteroid = spaceObjects.size - 1
-    checkAllMissiles(firstMissile, lastMissile, firstAsteroid, lastAsteroid)
+    checkAllMissiles(firstAsteroid, lastAsteroid)
 }
 
 private fun checkAllMissiles(
-    firstMissile: Int,
-    lastMissile: Int,
     firstAsteroid: Int,
     lastAsteroid: Int
 ) {
-    for (missile in spaceObjects.slice(firstMissile..lastMissile)
-        .filter { it.active }) {
+    for (missile in activeMissiles(spaceObjects)) {
         val missilePos = Vector2(missile.x, missile.y)
         checkAllAsteroids(firstAsteroid, lastAsteroid, missilePos, missile)
     }
