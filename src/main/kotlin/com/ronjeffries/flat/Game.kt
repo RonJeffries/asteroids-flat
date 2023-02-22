@@ -60,17 +60,15 @@ private fun checkAllMissiles(
 ) {
     for (missile in activeMissiles(spaceObjects)) {
         val missilePos = Vector2(missile.x, missile.y)
-        checkAllAsteroids(firstAsteroid, lastAsteroid, missilePos, missile)
+        checkAllAsteroids(missilePos, missile)
     }
 }
 
 private fun checkAllAsteroids(
-    firstAsteroid: Int,
-    lastAsteroid: Int,
     missilePos: Vector2,
     missile: SpaceObject
 ) {
-    for (asteroid in spaceObjects.slice(firstAsteroid..lastAsteroid).filter { it.active }) {
+    for (asteroid in activeAsteroids(spaceObjects)) {
         checkOneAsteroid(asteroid, missilePos, missile)
     }
 }
