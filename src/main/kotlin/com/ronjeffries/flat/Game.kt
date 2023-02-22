@@ -86,7 +86,7 @@ private fun spawnNewAsteroid(asteroid: SpaceObject) {
         newOne.position = asteroid.position
         newOne.scale = asteroid.scale
         newOne.active = true
-        val angle = Random.nextDouble(45.0, 135.0)
+        val angle = Random.nextDouble(90.0, 270.0)
         newOne.velocity = asteroid.velocity.rotate(angle)
     }
 }
