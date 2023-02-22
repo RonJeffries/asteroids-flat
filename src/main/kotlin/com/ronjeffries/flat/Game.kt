@@ -49,38 +49,27 @@ fun gameCycle(
 }
 
 private fun checkCollisions() {
-    val firstAsteroid = 7
-    val lastAsteroid = spaceObjects.size - 1
-    checkAllMissiles(firstAsteroid, lastAsteroid)
+    checkAllMissiles()
 }
 
-private fun checkAllMissiles(
-    firstAsteroid: Int,
-    lastAsteroid: Int
-) {
+private fun checkAllMissiles() {
     for (missile in activeMissiles(spaceObjects)) {
-        val missilePos = Vector2(missile.x, missile.y)
-        checkAllAsteroids(missilePos, missile)
+        checkAllAsteroids(missile)
     }
 }
 
-private fun checkAllAsteroids(
-    missilePos: Vector2,
-    missile: SpaceObject
-) {
+private fun checkAllAsteroids(missile: SpaceObject) {
     for (asteroid in activeAsteroids(spaceObjects)) {
-        checkOneAsteroid(asteroid, missilePos, missile)
+        checkOneAsteroid(asteroid, missile)
     }
 }
 
 private fun checkOneAsteroid(
     asteroid: SpaceObject,
-    missilePos: Vector2,
     missile: SpaceObject
 ) {
-    val asteroidPos = Vector2(asteroid.x, asteroid.y)
     val killDist = 16.0 * asteroid.scale + 1
-    val dist = missilePos.distanceTo(asteroidPos)
+    val dist = missile.position.distanceTo(asteroid.position)
     if (dist <= killDist) {
         if (asteroid.scale > 1) {
             asteroid.scale /= 2
