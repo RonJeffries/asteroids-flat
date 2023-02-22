@@ -38,12 +38,8 @@ fun gameCycle(
     deltaTime: Double
 ) {
     for (spaceObject in spaceObjects) {
-        for (component in spaceObject.components) {
-            update(component, deltaTime)
-        }
-        if (spaceObject.type == SpaceObjectType.SHIP) {
-            applyControls(spaceObject, deltaTime)
-        }
+        for (component in spaceObject.components) update(component, deltaTime)
+        if (spaceObject.type == SpaceObjectType.SHIP) applyControls(spaceObject, deltaTime)
         move(spaceObject, width, height, deltaTime)
     }
     for (spaceObject in spaceObjects) {
