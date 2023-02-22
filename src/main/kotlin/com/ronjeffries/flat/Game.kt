@@ -81,7 +81,7 @@ private fun checkOneAsteroid(
 }
 
 private fun spawnNewAsteroid(asteroid: SpaceObject) {
-    val newOne: SpaceObject? = spaceObjects.firstOrNull { it.type == SpaceObjectType.ASTEROID && !it.active }
+    val newOne: SpaceObject? = spaceObjects.firstOrNull { it.type == SpaceObjectType.ASTEROID && ! it.active }
     if (newOne != null) {
         newOne.position = asteroid.position
         newOne.scale = asteroid.scale
