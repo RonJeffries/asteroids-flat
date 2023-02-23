@@ -68,7 +68,7 @@ fun checkOneAsteroid(
     asteroid: SpaceObject,
     missile: SpaceObject
 ) {
-    if (colliding(missile, asteroid)) {
+    if (colliding(asteroid, missile)) {
         if (asteroid.scale > 1) {
             asteroid.scale /= 2
             asteroid.velocity = randomVelocity()
@@ -78,7 +78,7 @@ fun checkOneAsteroid(
     }
 }
 
-fun colliding(missile: SpaceObject, asteroid: SpaceObject) =
+fun colliding(asteroid: SpaceObject, missile: SpaceObject) =
     missile.position.distanceTo(asteroid.position) <= 16.0 * asteroid.scale + 1
 
 private fun spawnNewAsteroid(asteroid: SpaceObject) {
