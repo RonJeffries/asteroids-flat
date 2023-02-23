@@ -83,5 +83,20 @@ class CollisionTests {
 
     @Test
     fun `new asteroids get new velocity`() {
+        val asteroid = newAsteroid()
+        asteroid.position = Vector2(100.0, 100.0)
+        asteroid.active = true
+        asteroid.scale = 2.0
+        val availableAsteroid = newAsteroid()
+        availableAsteroid.scale = 4.0
+        spaceObjects = arrayOf(asteroid,availableAsteroid)
+        val missile :SpaceObject = newMissile()
+        missile.position = Vector2(110.0,100.0)
+        missile.active = true
+        val asteroidVelocity = asteroid.velocity
+        val availableAsteroidVelocity = availableAsteroid.velocity
+        checkOneAsteroid(asteroid,missile)
+        assertThat(availableAsteroid.velocity).isNotEqualTo(availableAsteroidVelocity)
+        assertThat(asteroid.velocity).isNotEqualTo(asteroidVelocity)
     }
 }
