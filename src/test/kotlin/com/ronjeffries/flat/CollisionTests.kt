@@ -26,18 +26,27 @@ class CollisionTests {
 
     @Test
     fun `when asteroid and missile collide, missile goes inactive`() {
+        val asteroid = newAsteroid()
+        asteroid.position = Vector2(100.0, 100.0)
+        asteroid.active = true
+        asteroid.scale = 1.0
+        val missile :SpaceObject = newMissile()
+        missile.position = Vector2(110.0,100.0)
+        missile.active = true
+        checkOneAsteroid(missile,asteroid)
+        assertThat(missile.active).isEqualTo(false)
     }
 
     @Test
-    fun `when colliding asteroid size is 1, it goes inactive`() {
+    fun `when colliding asteroid scale is 1, it goes inactive`() {
     }
 
     @Test
-    fun `when colliding asteroid size exceeds 1, it gets smaller`() {
+    fun `when colliding asteroid scale exceeds 1, it gets smaller`() {
     }
 
     @Test
-    fun `when colliding asteroid size exceeds 1, a new asteroid appears`() {
+    fun `when colliding asteroid scale exceeds 1, a new asteroid appears`() {
     }
 
     @Test

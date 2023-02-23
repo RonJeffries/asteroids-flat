@@ -64,7 +64,7 @@ private fun checkAllAsteroids(missile: SpaceObject) {
     }
 }
 
-private fun checkOneAsteroid(
+fun checkOneAsteroid(
     asteroid: SpaceObject,
     missile: SpaceObject
 ) {
