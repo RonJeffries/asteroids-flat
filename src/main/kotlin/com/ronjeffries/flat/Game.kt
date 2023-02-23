@@ -68,9 +68,7 @@ private fun checkOneAsteroid(
     asteroid: SpaceObject,
     missile: SpaceObject
 ) {
-    val killDist = 16.0 * asteroid.scale + 1
-    val dist = missile.position.distanceTo(asteroid.position)
-    if (dist <= killDist) {
+    if (colliding(missile, asteroid)) {
         if (asteroid.scale > 1) {
             asteroid.scale /= 2
             asteroid.velocity = randomVelocity()
@@ -79,6 +77,9 @@ private fun checkOneAsteroid(
         deactivate(missile)
     }
 }
+
+fun colliding(missile: SpaceObject, asteroid: SpaceObject) =
+    missile.position.distanceTo(asteroid.position) <= 16.0 * asteroid.scale + 1
 
 private fun spawnNewAsteroid(asteroid: SpaceObject) {
     val newOne: SpaceObject? = spaceObjects.firstOrNull { it.type == SpaceObjectType.ASTEROID && ! it.active }
@@ -181,12 +182,12 @@ private fun randomVelocity(): Vector2 {
     return Vector2(U.AsteroidSpeed, 0.0).rotate(randomAngle)
 }
 
-private fun newMissile(): SpaceObject {
+fun newMissile(): SpaceObject {
     return SpaceObject(SpaceObjectType.MISSILE, 0.0, 0.0, 0.0, 0.0, 0.0, false)
         .also { addComponent(it, Timer(it, 3.0)) }
 }
 
 private fun newShip(): SpaceObject = SpaceObject(SpaceObjectType.SHIP, 0.0, 0.0, 0.0, 0.0, 0.0, false)
 
-private fun newAsteroid(): SpaceObject = SpaceObject(SpaceObjectType.ASTEROID, 0.0, 0.0, 0.0, 0.0, 0.0, false)
+fun newAsteroid(): SpaceObject = SpaceObject(SpaceObjectType.ASTEROID, 0.0, 0.0, 0.0, 0.0, 0.0, false)
     .also { it.scale = 4.0 }
