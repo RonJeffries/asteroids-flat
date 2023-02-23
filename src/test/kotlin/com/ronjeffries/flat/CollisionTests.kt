@@ -66,6 +66,19 @@ class CollisionTests {
 
     @Test
     fun `when colliding asteroid scale exceeds 1, a new asteroid appears`() {
+        val asteroid = newAsteroid()
+        asteroid.position = Vector2(100.0, 100.0)
+        asteroid.active = true
+        asteroid.scale = 2.0
+        val availableAsteroid = newAsteroid()
+        availableAsteroid.scale = 4.0
+        spaceObjects = arrayOf(asteroid,availableAsteroid)
+        val missile :SpaceObject = newMissile()
+        missile.position = Vector2(110.0,100.0)
+        missile.active = true
+        checkOneAsteroid(asteroid,missile)
+        assertThat(availableAsteroid.scale).isEqualTo(1.0)
+        assertThat(availableAsteroid.active).isEqualTo(true)
     }
 
     @Test
