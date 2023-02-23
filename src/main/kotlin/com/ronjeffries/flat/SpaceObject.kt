@@ -4,6 +4,7 @@ import org.openrndr.color.ColorRGBa
 import org.openrndr.draw.Drawer
 import org.openrndr.draw.isolated
 import org.openrndr.math.Vector2
+import kotlin.random.Random
 
 private val shipPoints = listOf(
     Vector2(-3.0, -2.0), Vector2(-3.0, 2.0), Vector2(-5.0, 4.0),
@@ -92,7 +93,16 @@ fun draw(
         drawer.rotate(spaceObject.angle)
         drawer.stroke = ColorRGBa.WHITE
         drawer.strokeWeight = 1.0/scale
+        possiblyDrawFlare(spaceObject, drawer)
         drawer.lineStrip(spaceObject.type.points)
+    }
+}
+
+private fun possiblyDrawFlare(spaceObject: SpaceObject, drawer: Drawer) {
+    if (spaceObject.type == SpaceObjectType.SHIP) {
+        if (Controls.accelerate && Random.nextInt(1, 3) == 1) {
+            drawer.lineStrip(shipFlare)
+        }
     }
 }
 
