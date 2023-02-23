@@ -17,6 +17,11 @@ class CollisionTests {
 
     @Test
     fun `asteroid and missile close enough do collide`() {
+        val asteroid = newAsteroid()
+        asteroid.position = Vector2(100.0, 100.0)
+        val missile :SpaceObject = newMissile()
+        missile.position = Vector2(110.0,100.0)
+        assertThat(colliding(missile, asteroid)).isEqualTo(true)
     }
 
     @Test
