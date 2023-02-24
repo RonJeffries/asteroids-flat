@@ -70,13 +70,22 @@ fun checkOneAsteroid(
     missile: SpaceObject
 ) {
     if (colliding(asteroid, missile)) {
-        Score += 20
+        Score += getScore(asteroid)
         if (asteroid.scale > 1) {
             asteroid.scale /= 2
             asteroid.velocity = randomVelocity()
             spawnNewAsteroid(asteroid)
         } else deactivate(asteroid)
         deactivate(missile)
+    }
+}
+
+private fun getScore(asteroid: SpaceObject): Int {
+    return when (asteroid.scale) {
+        4.0 -> 20
+        2.0 -> 50
+        1.0 -> 100
+        else -> 0
     }
 }
 
