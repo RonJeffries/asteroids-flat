@@ -56,7 +56,7 @@ class CollisionTests {
         asteroid.active = true
         asteroid.scale = 2.0
         val availableAsteroid = newAsteroid()
-        spaceObjects = arrayOf(asteroid,availableAsteroid)
+        SpaceObjects = arrayOf(asteroid,availableAsteroid)
         val missile :SpaceObject = newMissile()
         missile.position = Vector2(110.0,100.0)
         missile.active = true
@@ -72,7 +72,7 @@ class CollisionTests {
         asteroid.scale = 2.0
         val availableAsteroid = newAsteroid()
         availableAsteroid.scale = 4.0
-        spaceObjects = arrayOf(asteroid,availableAsteroid)
+        SpaceObjects = arrayOf(asteroid,availableAsteroid)
         val missile :SpaceObject = newMissile()
         missile.position = Vector2(110.0,100.0)
         missile.active = true
@@ -89,7 +89,7 @@ class CollisionTests {
         asteroid.scale = 2.0
         val availableAsteroid = newAsteroid()
         availableAsteroid.scale = 4.0
-        spaceObjects = arrayOf(asteroid,availableAsteroid)
+        SpaceObjects = arrayOf(asteroid,availableAsteroid)
         val missile :SpaceObject = newMissile()
         missile.position = Vector2(110.0,100.0)
         missile.active = true

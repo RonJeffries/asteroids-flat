@@ -27,7 +27,8 @@ object U {
     const val ShipDeltaV = 120.0
 }
 
-lateinit var spaceObjects: Array<SpaceObject>
+var Score: Int = 0
+lateinit var SpaceObjects: Array<SpaceObject>
 lateinit var Ship: SpaceObject
 
 fun gameCycle(
@@ -53,13 +54,13 @@ private fun checkCollisions() {
 }
 
 private fun checkAllMissiles() {
-    for (missile in activeMissiles(spaceObjects)) {
+    for (missile in activeMissiles(SpaceObjects)) {
         checkAllAsteroids(missile)
     }
 }
 
 private fun checkAllAsteroids(missile: SpaceObject) {
-    for (asteroid in activeAsteroids(spaceObjects)) {
+    for (asteroid in activeAsteroids(SpaceObjects)) {
         checkOneAsteroid(asteroid, missile)
     }
 }
@@ -69,6 +70,7 @@ fun checkOneAsteroid(
     missile: SpaceObject
 ) {
     if (colliding(asteroid, missile)) {
+        Score += 20
         if (asteroid.scale > 1) {
             asteroid.scale /= 2
             asteroid.velocity = randomVelocity()
@@ -82,7 +84,7 @@ fun colliding(asteroid: SpaceObject, missile: SpaceObject) =
     missile.position.distanceTo(asteroid.position) <= 16.0 * asteroid.scale + 1
 
 private fun spawnNewAsteroid(asteroid: SpaceObject) {
-    val newOne: SpaceObject? = spaceObjects.firstOrNull { it.type == SpaceObjectType.ASTEROID && ! it.active }
+    val newOne: SpaceObject? = SpaceObjects.firstOrNull { it.type == SpaceObjectType.ASTEROID && ! it.active }
     if (newOne != null) {
         newOne.position = asteroid.position
         newOne.scale = asteroid.scale
@@ -139,7 +141,7 @@ private fun setVelocityRelativeToShip(spaceObject: SpaceObject, velocity: Vector
 
 fun withAvailableMissile(action: (SpaceObject) -> Unit) {
     for (i in 2..5) {
-        if (!spaceObjects[i].active) return action(spaceObjects[i])
+        if (!SpaceObjects[i].active) return action(SpaceObjects[i])
     }
 }
 
@@ -149,7 +151,7 @@ fun createGame(missileCount: Int, asteroidCount: Int) {
     Ship = newShip()
     objects.add(Ship)
     for (i in 1..asteroidCount) objects.add(newAsteroid())
-    spaceObjects = objects.toTypedArray()
+    SpaceObjects = objects.toTypedArray()
 }
 
 fun startGame(width: Int, height: Int) {
@@ -164,11 +166,11 @@ private fun activateAsteroids(asteroidCount: Int) {
 }
 
 private fun deactivateAsteroids() {
-    spaceObjects.filter { it.type == SpaceObjectType.ASTEROID }.forEach { deactivate(it) }
+    SpaceObjects.filter { it.type == SpaceObjectType.ASTEROID }.forEach { deactivate(it) }
 }
 
 fun activateAsteroidAtEdge() {
-    val asteroids = spaceObjects.filter { it.type == SpaceObjectType.ASTEROID }
+    val asteroids = SpaceObjects.filter { it.type == SpaceObjectType.ASTEROID }
     val available = asteroids.firstOrNull { !it.active }
     if (available != null) {
         available.active = true

@@ -45,7 +45,7 @@ fun main() = application {
             drawer.stroke = ColorRGBa.RED
             deltaTime = seconds - lastTime
             lastTime = seconds
-            gameCycle(spaceObjects,width,height,drawer, deltaTime)
+            gameCycle(SpaceObjects,width,height,drawer, deltaTime)
         }
     }
 }

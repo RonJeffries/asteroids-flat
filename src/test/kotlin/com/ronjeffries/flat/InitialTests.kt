@@ -37,10 +37,10 @@ class InitialTests {
     @Test
     fun `initial array creation`() {
         createGame(6, 26) // number of missiles, number of asteroids
-        val mCount = spaceObjects.count { it.type == SpaceObjectType.MISSILE}
+        val mCount = SpaceObjects.count { it.type == SpaceObjectType.MISSILE}
         assertThat(mCount).isEqualTo(6)
         assertThat(Ship.type).isEqualTo(SpaceObjectType.SHIP)
-        assertThat(Ship).isEqualTo(spaceObjects[6])
+        assertThat(Ship).isEqualTo(SpaceObjects[6])
     }
 
     @Test
@@ -67,7 +67,7 @@ class InitialTests {
         assertThat(activeMissileCount()).isEqualTo(4)
         fireMissile()
         assertThat(activeMissileCount()).isEqualTo(4)
-        val missile = spaceObjects.find { it.type == SpaceObjectType.MISSILE && it.active == true}
+        val missile = SpaceObjects.find { it.type == SpaceObjectType.MISSILE && it.active == true}
         missile!!.components.forEach {update(it, 3.1)}
         assertThat(activeMissileCount()).describedAs("reactivating").isEqualTo(3)
     }
@@ -75,16 +75,16 @@ class InitialTests {
     @Test
     fun `can activate asteroids`() {
         createGame(6, 6)
-        val asteroidCount = spaceObjects.count { it.type == SpaceObjectType.ASTEROID}
+        val asteroidCount = SpaceObjects.count { it.type == SpaceObjectType.ASTEROID}
         assertThat(asteroidCount).isEqualTo(6)
-        var inactiveCount = spaceObjects.count { it.type == SpaceObjectType.ASTEROID && ! it.active}
+        var inactiveCount = SpaceObjects.count { it.type == SpaceObjectType.ASTEROID && ! it.active}
         assertThat(inactiveCount).isEqualTo(6)
         for ( i in 1..4) activateAsteroidAtEdge()
-        inactiveCount = spaceObjects.count { it.type == SpaceObjectType.ASTEROID && ! it.active}
+        inactiveCount = SpaceObjects.count { it.type == SpaceObjectType.ASTEROID && ! it.active}
         assertThat(inactiveCount).isEqualTo(2)
     }
 
     private fun activeMissileCount(): Int {
-        return spaceObjects.count { it.type == SpaceObjectType.MISSILE && it.active == true}
+        return SpaceObjects.count { it.type == SpaceObjectType.MISSILE && it.active == true}
     }
 }
