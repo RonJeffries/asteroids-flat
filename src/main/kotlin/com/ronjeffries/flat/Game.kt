@@ -86,6 +86,7 @@ private fun checkCollisions() {
     if ( Ship.active ) checkShipVsAsteroids(Ship)
 }
 
+// possibility for refactoring by making this more like the other?
 private fun checkShipVsAsteroids(ship: SpaceObject) {
     for (asteroid in activeAsteroids(SpaceObjects)) {
         if (collidingShip(asteroid, ship)) {
