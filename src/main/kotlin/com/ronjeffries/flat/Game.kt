@@ -50,6 +50,21 @@ fun gameCycle(
     }
     checkCollisions()
     drawScore(drawer)
+    checkIfShipNeeded(deltaTime)
+}
+
+var ShipGoneFor = 0.0
+
+fun checkIfShipNeeded(deltaTime: Double) {
+    if ( ! Ship.active ) {
+        ShipGoneFor += deltaTime
+        if (ShipGoneFor > 4.0) {
+            Ship.position = Vector2(U.ScreenWidth/2.0, U.ScreenHeight/2.0)
+            Ship.velocity = Vector2(0.0,0.0)
+            Ship.active = true
+            ShipGoneFor = 0.0
+        }
+    }
 }
 
 private fun drawScore(drawer: Drawer) {
@@ -68,6 +83,26 @@ fun formatted(): String = ("00000" + Score.toShort()).takeLast(5)
 
 private fun checkCollisions() {
     checkAllMissilesVsAsteroids()
+    if ( Ship.active ) checkShipVsAsteroids(Ship)
+}
+
+private fun checkShipVsAsteroids(ship: SpaceObject) {
+    for (asteroid in activeAsteroids(SpaceObjects)) {
+        if (collidingShip(asteroid, ship)) {
+            if (asteroid.scale > 1) {
+                asteroid.scale /= 2
+                asteroid.velocity = randomVelocity()
+                spawnNewAsteroid(asteroid)
+            } else deactivate(asteroid)
+            deactivate(ship)
+        }
+    }
+}
+
+private fun collidingShip(asteroid: SpaceObject, ship: SpaceObject): Boolean {
+    val asteroidSize = 16.0*asteroid.scale
+    val shipSize = 12.0
+    return asteroid.position.distanceTo(ship.position) < asteroidSize+shipSize
 }
 
 private fun checkAllMissilesVsAsteroids() {
