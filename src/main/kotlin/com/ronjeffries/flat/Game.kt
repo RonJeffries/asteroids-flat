@@ -67,10 +67,10 @@ private fun drawScore(drawer: Drawer) {
 fun formatted(): String = ("00000" + Score.toShort()).takeLast(5)
 
 private fun checkCollisions() {
-    checkAllMissiles()
+    checkAllMissilesVsAsteroids()
 }
 
-private fun checkAllMissiles() {
+private fun checkAllMissilesVsAsteroids() {
     for (missile in activeMissiles(SpaceObjects)) {
         checkAllAsteroids(missile)
     }
