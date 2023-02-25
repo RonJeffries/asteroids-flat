@@ -1,6 +1,8 @@
 package com.ronjeffries.flat
 
+import org.openrndr.color.ColorRGBa
 import org.openrndr.draw.Drawer
+import org.openrndr.draw.isolated
 import org.openrndr.math.Vector2
 import kotlin.random.Random
 
@@ -47,7 +49,22 @@ fun gameCycle(
         if (spaceObject.active) draw(spaceObject, drawer)
     }
     checkCollisions()
+    drawScore(drawer)
 }
+
+private fun drawScore(drawer: Drawer) {
+    val charSpace = 30.0
+    val lineSpace = 64.0
+    drawer.isolated {
+        translate(charSpace/2, lineSpace)
+        scale(4.0, 4.0)
+        stroke = ColorRGBa.GREEN
+        fill = ColorRGBa.GREEN
+        text(formatted(), Vector2(0.0, 0.0))
+    }
+}
+
+fun formatted(): String = ("00000" + Score.toShort()).takeLast(5)
 
 private fun checkCollisions() {
     checkAllMissiles()
