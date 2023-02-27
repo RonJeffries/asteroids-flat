@@ -45,6 +45,16 @@ class GameTests {
         }
     }
 
+    @Test
+    fun `ship refresh`() {
+        createGame(U.MissileCount, U.AsteroidCount)
+        startGame(U.ScreenWidth, U.ScreenHeight)
+        Ship.active = false
+        checkIfShipNeeded(0.1)
+        checkIfShipNeeded(U.ShipDelay + 0.1)
+        assertThat(Ship.active).isEqualTo(true)
+    }
+
     private fun clearAsteroids() {
         activeAsteroids(SpaceObjects).forEach {
             it.active = false

@@ -30,6 +30,7 @@ object U {
     const val MissileTime = 3.0
     const val ScreenHeight = 1024
     const val ScreenWidth = 1024
+    const val ShipDelay = 4.0
     const val ShipKillRadius = 24.0
     const val ShipDeltaV = 120.0
 }
@@ -77,7 +78,7 @@ var ShipGoneFor = 0.0
 fun checkIfShipNeeded(deltaTime: Double) {
     if ( ! Ship.active ) {
         ShipGoneFor += deltaTime
-        if (ShipGoneFor > 4.0) {
+        if (ShipGoneFor > U.ShipDelay) {
             Ship.position = Vector2(U.ScreenWidth/2.0, U.ScreenHeight/2.0)
             Ship.velocity = Vector2(0.0,0.0)
             Ship.angle = 0.0
