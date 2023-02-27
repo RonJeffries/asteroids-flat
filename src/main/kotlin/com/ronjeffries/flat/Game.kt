@@ -19,15 +19,18 @@ object Controls {
 
 object U {
     const val AsteroidCount = 26
+    const val AsteroidKillRadius = 16.0
     const val AsteroidSpeed = 100.0
     const val AsteroidWaveDelay = 4.0
     const val LightSpeed = 500.0
     const val MissileCount = 6
+    const val MissileKillRadius = 1.0
     const val MissileOffset = 50.0
     const val MissileSpeed = LightSpeed / 3.0
     const val MissileTime = 3.0
     const val ScreenHeight = 1024
     const val ScreenWidth = 1024
+    const val ShipKillRadius = 24.0
     const val ShipDeltaV = 120.0
 }
 
@@ -118,8 +121,8 @@ private fun checkShipVsAsteroids(ship: SpaceObject) {
 }
 
 private fun collidingShip(asteroid: SpaceObject, ship: SpaceObject): Boolean {
-    val asteroidSize = 16.0*asteroid.scale
-    val shipSize = 12.0
+    val asteroidSize = U.AsteroidKillRadius*asteroid.scale
+    val shipSize = U.ShipKillRadius
     return asteroid.position.distanceTo(ship.position) < asteroidSize+shipSize
 }
 
@@ -160,7 +163,7 @@ private fun getScore(asteroid: SpaceObject): Int {
 }
 
 fun colliding(asteroid: SpaceObject, missile: SpaceObject) =
-    missile.position.distanceTo(asteroid.position) <= 16.0 * asteroid.scale + 1
+    missile.position.distanceTo(asteroid.position) <= U.AsteroidKillRadius * asteroid.scale + U.MissileKillRadius
 
 private fun spawnNewAsteroid(asteroid: SpaceObject) {
     val newOne: SpaceObject? = SpaceObjects.firstOrNull { it.type == SpaceObjectType.ASTEROID && ! it.active }

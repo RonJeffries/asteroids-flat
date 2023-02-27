@@ -4,6 +4,7 @@ import org.openrndr.color.ColorRGBa
 import org.openrndr.draw.Drawer
 import org.openrndr.draw.isolated
 import org.openrndr.math.Vector2
+import java.lang.NullPointerException
 import kotlin.random.Random
 
 private val shipPoints = listOf(
