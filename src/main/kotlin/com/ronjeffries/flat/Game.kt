@@ -4,7 +4,9 @@ import org.openrndr.color.ColorRGBa
 import org.openrndr.draw.Drawer
 import org.openrndr.draw.isolated
 import org.openrndr.math.Vector2
+import java.lang.Integer.max
 import java.lang.Integer.min
+import kotlin.math.max
 import kotlin.random.Random
 
 // Globals
@@ -31,6 +33,7 @@ object U {
     const val ScreenHeight = 1024
     const val ScreenWidth = 1024
     const val ShipDelay = 4.0
+    const val ShipDropInScale = 3.0
     const val ShipKillRadius = 24.0
     const val ShipDeltaV = 120.0
 }
@@ -46,18 +49,31 @@ fun gameCycle(
     drawer: Drawer,
     deltaTime: Double
 ) {
+    updateEverything(spaceObjects, deltaTime, width, height)
+    drawEverything(spaceObjects, drawer)
+    checkCollisions()
+    drawScore(drawer)
+    checkIfShipNeeded(deltaTime)
+    checkIfAsteroidsNeeded(deltaTime)
+}
+
+private fun updateEverything(
+    spaceObjects: Array<SpaceObject>,
+    deltaTime: Double,
+    width: Int,
+    height: Int
+) {
     for (spaceObject in spaceObjects) {
         for (component in spaceObject.components) update(component, deltaTime)
         if (spaceObject.type == SpaceObjectType.SHIP) applyControls(spaceObject, deltaTime)
         move(spaceObject, width, height, deltaTime)
     }
+}
+
+private fun drawEverything(spaceObjects: Array<SpaceObject>, drawer: Drawer) {
     for (spaceObject in spaceObjects) {
         if (spaceObject.active) draw(spaceObject, drawer)
     }
-    checkCollisions()
-    drawScore(drawer)
-    checkIfShipNeeded(deltaTime)
-    checkIfAsteroidsNeeded(deltaTime)
 }
 
 var AsteroidsGoneFor = 0.0
@@ -66,25 +82,29 @@ fun checkIfAsteroidsNeeded(deltaTime: Double) {
         AsteroidsGoneFor += deltaTime
         if (AsteroidsGoneFor > U.AsteroidWaveDelay) {
             AsteroidsGoneFor = 0.0
-            activateAsteroids(nextWaveSize(CurrentWaveSize))
+            activateAsteroids(nextWaveSize(currentWaveSize))
         }
     }
 }
 
-var CurrentWaveSize = 0
+private var currentWaveSize = 0
 fun nextWaveSize(previousSize: Int): Int = min(previousSize +2,11)
 
-var ShipGoneFor = 0.0
+var dropScale = U.ShipDropInScale
+private var shipGoneFor = 0.0
 fun checkIfShipNeeded(deltaTime: Double) {
     if ( ! Ship.active ) {
-        ShipGoneFor += deltaTime
-        if (ShipGoneFor > U.ShipDelay) {
+        shipGoneFor += deltaTime
+        if (shipGoneFor > U.ShipDelay) {
+            dropScale = U.ShipDropInScale
             Ship.position = Vector2(U.ScreenWidth/2.0, U.ScreenHeight/2.0)
             Ship.velocity = Vector2(0.0,0.0)
             Ship.angle = 0.0
             Ship.active = true
-            ShipGoneFor = 0.0
+            shipGoneFor = 0.0
         }
+    } else {
+        dropScale = max(dropScale - U.ShipDropInScale/60.0, 1.0)
     }
 }
 
@@ -246,7 +266,7 @@ fun startGame(width: Int, height: Int) {
 
 private fun activateAsteroids(asteroidCount: Int) {
     deactivateAsteroids()
-    CurrentWaveSize = asteroidCount
+    currentWaveSize = asteroidCount
     for (i in 1..asteroidCount) activateAsteroidAtEdge()
 }
 
