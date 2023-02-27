@@ -104,7 +104,7 @@ fun checkIfShipNeeded(deltaTime: Double) {
             shipGoneFor = 0.0
         }
     } else {
-        dropScale = max(dropScale - U.ShipDropInScale/60.0, 1.0)
+        dropScale = max(dropScale - U.ShipDropInScale*deltaTime, 1.0)
     }
 }
 

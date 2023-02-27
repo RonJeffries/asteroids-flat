@@ -53,6 +53,9 @@ class GameTests {
         checkIfShipNeeded(0.1)
         checkIfShipNeeded(U.ShipDelay + 0.1)
         assertThat(Ship.active).isEqualTo(true)
+        assertThat(dropScale).isEqualTo(U.ShipDropInScale)
+        checkIfShipNeeded(1.1)
+        assertThat(dropScale).isEqualTo(1.0)
     }
 
     @Test
