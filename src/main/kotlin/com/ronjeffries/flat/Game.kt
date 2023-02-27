@@ -4,6 +4,7 @@ import org.openrndr.color.ColorRGBa
 import org.openrndr.draw.Drawer
 import org.openrndr.draw.isolated
 import org.openrndr.math.Vector2
+import java.lang.Integer.min
 import kotlin.random.Random
 
 // Globals
@@ -19,6 +20,7 @@ object Controls {
 object U {
     const val AsteroidCount = 26
     const val AsteroidSpeed = 100.0
+    const val AsteroidWaveDelay = 4.0
     const val LightSpeed = 500.0
     const val MissileCount = 6
     const val MissileOffset = 50.0
@@ -51,16 +53,31 @@ fun gameCycle(
     checkCollisions()
     drawScore(drawer)
     checkIfShipNeeded(deltaTime)
+    checkIfAsteroidsNeeded(deltaTime)
 }
 
-var ShipGoneFor = 0.0
+var AsteroidsGoneFor = 0.0
+fun checkIfAsteroidsNeeded(deltaTime: Double) {
+    if (activeAsteroids(SpaceObjects).isEmpty()) {
+        AsteroidsGoneFor += deltaTime
+        if (AsteroidsGoneFor > U.AsteroidWaveDelay) {
+            AsteroidsGoneFor = 0.0
+            activateAsteroids(nextWaveSize(CurrentWaveSize))
+        }
+    }
+}
 
+var CurrentWaveSize = 0
+fun nextWaveSize(previousSize: Int): Int = min(previousSize +2,11)
+
+var ShipGoneFor = 0.0
 fun checkIfShipNeeded(deltaTime: Double) {
     if ( ! Ship.active ) {
         ShipGoneFor += deltaTime
         if (ShipGoneFor > 4.0) {
             Ship.position = Vector2(U.ScreenWidth/2.0, U.ScreenHeight/2.0)
             Ship.velocity = Vector2(0.0,0.0)
+            Ship.angle = 0.0
             Ship.active = true
             ShipGoneFor = 0.0
         }
@@ -225,6 +242,7 @@ fun startGame(width: Int, height: Int) {
 
 private fun activateAsteroids(asteroidCount: Int) {
     deactivateAsteroids()
+    CurrentWaveSize = asteroidCount
     for (i in 1..asteroidCount) activateAsteroidAtEdge()
 }
 
@@ -236,6 +254,7 @@ fun activateAsteroidAtEdge() {
     val asteroids = SpaceObjects.filter { it.type == SpaceObjectType.ASTEROID }
     val available = asteroids.firstOrNull { !it.active }
     if (available != null) {
+        available.scale = 4.0
         available.active = true
         available.position = Vector2(0.0, Random.nextDouble(U.ScreenHeight.toDouble()))
         available.velocity = randomVelocity()
