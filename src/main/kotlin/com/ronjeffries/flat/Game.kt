@@ -4,7 +4,6 @@ import org.openrndr.color.ColorRGBa
 import org.openrndr.draw.Drawer
 import org.openrndr.draw.isolated
 import org.openrndr.math.Vector2
-import java.lang.Integer.max
 import java.lang.Integer.min
 import kotlin.math.max
 import kotlin.random.Random
@@ -33,6 +32,7 @@ object U {
     const val ScreenHeight = 1024
     const val ScreenWidth = 1024
     const val ShipDelay = 4.0
+    const val ShipDecelerationFactor = 0.5
     const val ShipDropInScale = 3.0
     const val ShipKillRadius = 24.0
     const val ShipDeltaV = 120.0
@@ -216,11 +216,19 @@ private fun updateTimer(timer: Timer, deltaTime: Double) {
     }
 }
 
-private fun applyControls(spaceObject: SpaceObject, deltaTime: Double) {
+private fun spaceFrictionPerSecond(vNew: Vector2, vCurrent: Vector2): Vector2 {
+    return vNew - vCurrent
+}
+
+fun applyControls(spaceObject: SpaceObject, deltaTime: Double) {
     if (Controls.left) spaceObject.angle -= 250.0 * deltaTime
     if (Controls.right) spaceObject.angle += 250.0 * deltaTime
     if (Controls.accelerate) {
         incrementVelocity(spaceObject, Vector2(U.ShipDeltaV, 0.0).rotate(spaceObject.angle) * deltaTime)
+    } else {
+        val deceleration
+            = spaceFrictionPerSecond(spaceObject.velocity*U.ShipDecelerationFactor, spaceObject.velocity)*deltaTime
+        Ship.velocity += deceleration
     }
     if (Controls.fire) fireMissile()
 }

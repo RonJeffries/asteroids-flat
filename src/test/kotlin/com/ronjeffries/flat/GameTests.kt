@@ -1,6 +1,6 @@
 package com.ronjeffries.flat
 
-import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.openrndr.math.Vector2
 
@@ -53,6 +53,14 @@ class GameTests {
         checkIfShipNeeded(0.1)
         checkIfShipNeeded(U.ShipDelay + 0.1)
         assertThat(Ship.active).isEqualTo(true)
+    }
+
+    @Test
+    fun `ship friction`() {
+        createGame(0,0)
+        Ship.velocity = Vector2(2.0, 0.0)
+        applyControls(Ship, 1.0)
+        assertThat(Ship.dx).isEqualTo(1.0, within(0.1))
     }
 
     private fun clearAsteroids() {
