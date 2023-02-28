@@ -71,6 +71,14 @@ class GameTests {
         createGame(U.MissileCount, U.AsteroidCount)
         startGame(U.ScreenWidth, U.ScreenHeight)
         assertThat(Saucer.active).isEqualTo(false)
+        checkIfSaucerNeeded(0.1)
+        assertThat(Saucer.active).isEqualTo(false)
+        checkIfSaucerNeeded(U.SaucerDelay + 0.1)
+        assertThat(Saucer.active).isEqualTo(true)
+        checkIfSaucerNeeded(U.SaucerDelay + 0.1)
+        assertThat(Saucer.active).isEqualTo(false)
+        checkIfSaucerNeeded( 0.1)
+        assertThat(Saucer.active).describedAs("stays gone").isEqualTo(false)
     }
 
     private fun clearAsteroids() {

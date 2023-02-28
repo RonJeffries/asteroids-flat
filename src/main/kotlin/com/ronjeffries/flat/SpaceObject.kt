@@ -29,11 +29,11 @@ private val missilePoints =
     )
 
 private val saucerPoints = listOf(
-    Vector2(-2.0, 1.0), Vector2(2.0, 1.0), Vector2(5.0, -1.0),
-    Vector2(-5.0, -1.0), Vector2(-2.0, -3.0), Vector2(2.0, -3.0),
-    Vector2(5.0, -1.0), Vector2(2.0, 1.0), Vector2(1.0, 3.0),
-    Vector2(-1.0, 3.0), Vector2(-2.0, 1.0), Vector2(-5.0, -1.0),
-    Vector2(-2.0, 1.0)
+    Vector2(-2.0, -1.0), Vector2(2.0, -1.0), Vector2(5.0, 1.0),
+    Vector2(-5.0, 1.0), Vector2(-2.0, 3.0), Vector2(2.0, 3.0),
+    Vector2(5.0, 1.0), Vector2(2.0, -1.0), Vector2(1.0, -3.0),
+    Vector2(-1.0, -3.0), Vector2(-2.0, -1.0), Vector2(-5.0, 1.0),
+    Vector2(-2.0, -1.0)
 )
 
 enum class SpaceObjectType(val points: List<Vector2>) {

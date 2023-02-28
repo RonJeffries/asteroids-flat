@@ -29,6 +29,8 @@ object U {
     const val MissileOffset = 50.0
     const val MissileSpeed = LightSpeed / 3.0
     const val MissileTime = 3.0
+    const val SaucerDelay = 7.0
+    const val SaucerSpeed = 150.0
     const val ScreenHeight = 1024
     const val ScreenWidth = 1024
     const val ShipDelay = 4.0
@@ -55,6 +57,7 @@ fun gameCycle(
     checkCollisions()
     drawScore(drawer)
     checkIfShipNeeded(deltaTime)
+    checkIfSaucerNeeded(deltaTime)
     checkIfAsteroidsNeeded(deltaTime)
 }
 
@@ -106,6 +109,21 @@ fun checkIfShipNeeded(deltaTime: Double) {
         }
     } else {
         dropScale = max(dropScale - U.ShipDropInScale*deltaTime, 1.0)
+    }
+}
+
+private var saucerGoneFor = 0.0
+fun checkIfSaucerNeeded(deltaTime: Double) {
+    saucerGoneFor += deltaTime
+    if (saucerGoneFor > U.SaucerDelay) {
+        saucerGoneFor = 0.0
+        if (!Saucer.active) {
+            Saucer.active = true
+            Saucer.position = Vector2(0.0, Random.nextDouble(U.ScreenHeight.toDouble()))
+            Saucer.velocity = Vector2(U.SaucerSpeed, 0.0)
+        } else {
+            Saucer.active = false
+        }
     }
 }
 
