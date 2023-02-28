@@ -11,7 +11,7 @@ class CollisionTests {
         asteroid.position = Vector2(100.0, 100.0)
         val missile :SpaceObject = newMissile()
         missile.position = Vector2(200.0,200.0)
-        assertThat(colliding(asteroid, missile)).isEqualTo(false)
+        assertThat(colliding(asteroid, missile,U.MissileKillRadius)).isEqualTo(false)
     }
 
     @Test
@@ -20,7 +20,7 @@ class CollisionTests {
         asteroid.position = Vector2(100.0, 100.0)
         val missile :SpaceObject = newMissile()
         missile.position = Vector2(110.0,100.0)
-        assertThat(colliding(asteroid, missile)).isEqualTo(true)
+        assertThat(colliding(asteroid, missile,U.MissileKillRadius)).isEqualTo(true)
     }
 
     @Test

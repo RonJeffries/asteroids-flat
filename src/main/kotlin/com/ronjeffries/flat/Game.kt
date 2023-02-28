@@ -141,12 +141,6 @@ private fun checkShipVsAsteroids(ship: SpaceObject) {
     }
 }
 
-private fun collidingShip(asteroid: SpaceObject, ship: SpaceObject): Boolean {
-    val asteroidSize = U.AsteroidKillRadius*asteroid.scale
-    val shipSize = U.ShipKillRadius
-    return asteroid.position.distanceTo(ship.position) < asteroidSize+shipSize
-}
-
 private fun checkAllMissilesVsAsteroids() {
     for (missile in activeMissiles(SpaceObjects)) {
         checkAllAsteroids(missile)
@@ -163,7 +157,7 @@ fun checkOneAsteroid(
     asteroid: SpaceObject,
     missile: SpaceObject
 ) {
-    if (colliding(asteroid, missile)) {
+    if (colliding(asteroid, missile,U.MissileKillRadius)) {
         Score += getScore(asteroid)
         if (asteroid.scale > 1) {
             asteroid.scale /= 2
@@ -183,8 +177,16 @@ private fun getScore(asteroid: SpaceObject): Int {
     }
 }
 
-fun colliding(asteroid: SpaceObject, missile: SpaceObject) =
-    missile.position.distanceTo(asteroid.position) <= U.AsteroidKillRadius * asteroid.scale + U.MissileKillRadius
+fun colliding(asteroid: SpaceObject, collider: SpaceObject, colliderSize: Double): Boolean {
+    val asteroidSize = U.AsteroidKillRadius * asteroid.scale
+    return collider.position.distanceTo(asteroid.position) <= asteroidSize + colliderSize
+}
+
+private fun collidingShip(asteroid: SpaceObject, collider: SpaceObject): Boolean {
+    val asteroidSize = U.AsteroidKillRadius*asteroid.scale
+    val colliderSize = U.ShipKillRadius
+    return asteroid.position.distanceTo(collider.position) <= asteroidSize+colliderSize
+}
 
 private fun spawnNewAsteroid(asteroid: SpaceObject) {
     val newOne: SpaceObject? = SpaceObjects.firstOrNull { it.type == SpaceObjectType.ASTEROID && ! it.active }
