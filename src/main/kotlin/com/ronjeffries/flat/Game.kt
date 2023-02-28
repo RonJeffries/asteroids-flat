@@ -126,24 +126,22 @@ private fun checkCollisions() {
     checkAllMissilesVsAsteroids()
     if ( Ship.active ) checkShipVsAsteroids(Ship)
 }
+
 private fun checkAllMissilesVsAsteroids() {
     for (missile in activeMissiles(SpaceObjects)) {
-        checkAllAsteroids(missile)
+        checkMissileVsAsteroids(missile)
     }
 }
 
-private fun checkAllAsteroids(missile: SpaceObject) {
+private fun checkMissileVsAsteroids(missile: SpaceObject) {
     for (asteroid in activeAsteroids(SpaceObjects)) {
         checkOneAsteroid(asteroid, missile)
     }
 }
 
-fun checkOneAsteroid(
-    asteroid: SpaceObject,
-    missile: SpaceObject
-) {
+fun checkOneAsteroid(asteroid: SpaceObject, missile: SpaceObject) {
     if (colliding(asteroid, missile,U.MissileKillRadius)) {
-        Score += getScore(asteroid)
+        Score += getScore(asteroid,missile)
         splitOrKillAsteroid(asteroid)
         deactivate(missile)
     }
@@ -152,10 +150,15 @@ fun checkOneAsteroid(
 // possibility for refactoring by making this more like the other?
 private fun checkShipVsAsteroids(ship: SpaceObject) {
     for (asteroid in activeAsteroids(SpaceObjects)) {
-        if (colliding(asteroid, ship, U.ShipKillRadius)) {
-            splitOrKillAsteroid(asteroid)
-            deactivate(ship)
-        }
+        checkOneAsteroidVsShip(asteroid, ship)
+    }
+}
+
+private fun checkOneAsteroidVsShip(asteroid: SpaceObject, ship: SpaceObject) {
+    if (colliding(asteroid, ship, U.ShipKillRadius)) {
+        Score += getScore(asteroid,ship)
+        splitOrKillAsteroid(asteroid)
+        deactivate(ship)
     }
 }
 
@@ -172,7 +175,8 @@ fun colliding(asteroid: SpaceObject, collider: SpaceObject, colliderSize: Double
     return collider.position.distanceTo(asteroid.position) <= asteroidSize + colliderSize
 }
 
-private fun getScore(asteroid: SpaceObject): Int {
+private fun getScore(asteroid: SpaceObject, collider: SpaceObject): Int {
+    if (collider.type != SpaceObjectType.MISSILE) return 0
     return when (asteroid.scale) {
         4.0 -> 20
         2.0 -> 50
