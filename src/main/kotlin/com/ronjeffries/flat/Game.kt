@@ -130,7 +130,7 @@ private fun checkCollisions() {
 // possibility for refactoring by making this more like the other?
 private fun checkShipVsAsteroids(ship: SpaceObject) {
     for (asteroid in activeAsteroids(SpaceObjects)) {
-        if (collidingShip(asteroid, ship)) {
+        if (colliding(asteroid, ship, U.ShipKillRadius)) {
             if (asteroid.scale > 1) {
                 asteroid.scale /= 2
                 asteroid.velocity = randomVelocity()
@@ -180,12 +180,6 @@ private fun getScore(asteroid: SpaceObject): Int {
 fun colliding(asteroid: SpaceObject, collider: SpaceObject, colliderSize: Double): Boolean {
     val asteroidSize = U.AsteroidKillRadius * asteroid.scale
     return collider.position.distanceTo(asteroid.position) <= asteroidSize + colliderSize
-}
-
-private fun collidingShip(asteroid: SpaceObject, collider: SpaceObject): Boolean {
-    val asteroidSize = U.AsteroidKillRadius*asteroid.scale
-    val colliderSize = U.ShipKillRadius
-    return asteroid.position.distanceTo(collider.position) <= asteroidSize+colliderSize
 }
 
 private fun spawnNewAsteroid(asteroid: SpaceObject) {
