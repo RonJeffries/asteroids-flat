@@ -66,6 +66,13 @@ class GameTests {
         assertThat(Ship.dx).isEqualTo(1.0, within(0.1))
     }
 
+    @Test
+    fun `start saucer after seven seconds`() {
+        createGame(U.MissileCount, U.AsteroidCount)
+        startGame(U.ScreenWidth, U.ScreenHeight)
+        assertThat(Saucer.active).isEqualTo(false)
+    }
+
     private fun clearAsteroids() {
         activeAsteroids(SpaceObjects).forEach {
             it.active = false

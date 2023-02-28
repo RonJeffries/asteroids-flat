@@ -41,6 +41,7 @@ object U {
 var Score: Int = 0
 lateinit var SpaceObjects: Array<SpaceObject>
 lateinit var Ship: SpaceObject
+lateinit var Saucer: SpaceObject
 
 fun gameCycle(
     spaceObjects: Array<SpaceObject>,
@@ -139,6 +140,12 @@ private fun checkMissileVsAsteroids(missile: SpaceObject) {
     }
 }
 
+private fun checkShipVsAsteroids(ship: SpaceObject) {
+    for (asteroid in activeAsteroids(SpaceObjects)) {
+        checkOneAsteroid(asteroid, ship, U.ShipKillRadius)
+    }
+}
+
 fun checkOneAsteroid(asteroid: SpaceObject, collider: SpaceObject, colliderKillRadius: Double) {
     if (colliding(asteroid, collider,colliderKillRadius)) {
         Score += getScore(asteroid,collider)
@@ -147,10 +154,9 @@ fun checkOneAsteroid(asteroid: SpaceObject, collider: SpaceObject, colliderKillR
     }
 }
 
-private fun checkShipVsAsteroids(ship: SpaceObject) {
-    for (asteroid in activeAsteroids(SpaceObjects)) {
-        checkOneAsteroid(asteroid, ship, U.ShipKillRadius)
-    }
+fun colliding(asteroid: SpaceObject, collider: SpaceObject, colliderSize: Double): Boolean {
+    val asteroidSize = U.AsteroidKillRadius * asteroid.scale
+    return collider.position.distanceTo(asteroid.position) <= asteroidSize + colliderSize
 }
 
 private fun splitOrKillAsteroid(asteroid: SpaceObject) {
@@ -159,11 +165,6 @@ private fun splitOrKillAsteroid(asteroid: SpaceObject) {
         asteroid.velocity = randomVelocity()
         spawnNewAsteroid(asteroid)
     } else deactivate(asteroid)
-}
-
-fun colliding(asteroid: SpaceObject, collider: SpaceObject, colliderSize: Double): Boolean {
-    val asteroidSize = U.AsteroidKillRadius * asteroid.scale
-    return collider.position.distanceTo(asteroid.position) <= asteroidSize + colliderSize
 }
 
 private fun getScore(asteroid: SpaceObject, collider: SpaceObject): Int {
@@ -252,6 +253,8 @@ fun createGame(missileCount: Int, asteroidCount: Int) {
     for (i in 1..missileCount) objects.add(newMissile())
     Ship = newShip()
     objects.add(Ship)
+    Saucer = newSaucer()
+    objects.add(Saucer)
     for (i in 1..asteroidCount) objects.add(newAsteroid())
     SpaceObjects = objects.toTypedArray()
 }
@@ -292,6 +295,8 @@ fun newMissile(): SpaceObject {
     return SpaceObject(SpaceObjectType.MISSILE, 0.0, 0.0, 0.0, 0.0, 0.0, false)
         .also { addComponent(it, Timer(it, 3.0)) }
 }
+
+private fun newSaucer(): SpaceObject = SpaceObject(SpaceObjectType.SAUCER, 0.0, 0.0, 0.0, 0.0, 0.0, false)
 
 private fun newShip(): SpaceObject = SpaceObject(SpaceObjectType.SHIP, 0.0, 0.0, 0.0, 0.0, 0.0, false)
 
