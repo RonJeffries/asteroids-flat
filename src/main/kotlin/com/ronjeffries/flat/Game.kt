@@ -112,6 +112,7 @@ fun checkIfShipNeeded(deltaTime: Double) {
     }
 }
 
+private var saucerSpeed = U.SaucerSpeed
 private var saucerGoneFor = 0.0
 fun checkIfSaucerNeeded(deltaTime: Double) {
     saucerGoneFor += deltaTime
@@ -120,7 +121,8 @@ fun checkIfSaucerNeeded(deltaTime: Double) {
         if (!Saucer.active) {
             Saucer.active = true
             Saucer.position = Vector2(0.0, Random.nextDouble(U.ScreenHeight.toDouble()))
-            Saucer.velocity = Vector2(U.SaucerSpeed, 0.0)
+            Saucer.velocity = Vector2(saucerSpeed, 0.0)
+            saucerSpeed *= -1.0
         } else {
             Saucer.active = false
         }

@@ -81,6 +81,20 @@ class GameTests {
         assertThat(Saucer.active).describedAs("stays gone").isEqualTo(false)
     }
 
+    @Test
+    fun `saucer switches direction`() {
+        createGame(U.MissileCount, U.AsteroidCount)
+        startGame(U.ScreenWidth, U.ScreenHeight)
+        checkIfSaucerNeeded(U.SaucerDelay + 0.1)
+        assertThat(Saucer.active).isEqualTo(true)
+        assertThat(Saucer.dx).isGreaterThan(0.0)
+        checkIfSaucerNeeded(U.SaucerDelay + 0.1)
+        assertThat(Saucer.active).isEqualTo(false)
+        checkIfSaucerNeeded(U.SaucerDelay + 0.1)
+        assertThat(Saucer.active).isEqualTo(true)
+        assertThat(Saucer.dx).describedAs("reverse").isLessThan(0.0)
+    }
+
     private fun clearAsteroids() {
         activeAsteroids(SpaceObjects).forEach {
             it.active = false
