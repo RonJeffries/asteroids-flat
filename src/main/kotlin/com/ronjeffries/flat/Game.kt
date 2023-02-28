@@ -135,30 +135,21 @@ private fun checkAllMissilesVsAsteroids() {
 
 private fun checkMissileVsAsteroids(missile: SpaceObject) {
     for (asteroid in activeAsteroids(SpaceObjects)) {
-        checkOneAsteroid(asteroid, missile)
+        checkOneAsteroid(asteroid, missile, U.MissileKillRadius)
     }
 }
 
-fun checkOneAsteroid(asteroid: SpaceObject, missile: SpaceObject) {
-    if (colliding(asteroid, missile,U.MissileKillRadius)) {
-        Score += getScore(asteroid,missile)
+fun checkOneAsteroid(asteroid: SpaceObject, collider: SpaceObject, colliderKillRadius: Double) {
+    if (colliding(asteroid, collider,colliderKillRadius)) {
+        Score += getScore(asteroid,collider)
         splitOrKillAsteroid(asteroid)
-        deactivate(missile)
+        deactivate(collider)
     }
 }
 
-// possibility for refactoring by making this more like the other?
 private fun checkShipVsAsteroids(ship: SpaceObject) {
     for (asteroid in activeAsteroids(SpaceObjects)) {
-        checkOneAsteroidVsShip(asteroid, ship)
-    }
-}
-
-private fun checkOneAsteroidVsShip(asteroid: SpaceObject, ship: SpaceObject) {
-    if (colliding(asteroid, ship, U.ShipKillRadius)) {
-        Score += getScore(asteroid,ship)
-        splitOrKillAsteroid(asteroid)
-        deactivate(ship)
+        checkOneAsteroid(asteroid, ship, U.ShipKillRadius)
     }
 }
 
