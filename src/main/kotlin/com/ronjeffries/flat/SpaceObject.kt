@@ -50,7 +50,7 @@ data class SpaceObject(
     var dx: Double,
     var dy: Double,
     var angle: Double = 0.0,
-    var active: Boolean = true,
+    var active: Boolean = false,
 ) {
     var position: Vector2
         get() = Vector2(x,y)

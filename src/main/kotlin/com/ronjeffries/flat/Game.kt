@@ -4,7 +4,9 @@ import org.openrndr.color.ColorRGBa
 import org.openrndr.draw.Drawer
 import org.openrndr.draw.isolated
 import org.openrndr.math.Vector2
+import org.openrndr.math.asDegrees
 import java.lang.Integer.min
+import kotlin.math.atan2
 import kotlin.math.max
 import kotlin.random.Random
 
@@ -181,8 +183,7 @@ fun colliding(asteroid: SpaceObject, collider: SpaceObject, colliderSize: Double
 
 private fun splitOrKillAsteroid(asteroid: SpaceObject) {
     if (asteroid.scale > 1) {
-        asteroid.scale /= 2
-        asteroid.velocity = randomVelocity()
+        activateAsteroid(asteroid, asteroid.scale / 2, asteroid.position, randomVelocity())
         spawnNewAsteroid(asteroid)
     } else deactivate(asteroid)
 }
@@ -200,11 +201,8 @@ private fun getScore(asteroid: SpaceObject, collider: SpaceObject): Int {
 private fun spawnNewAsteroid(asteroid: SpaceObject) {
     val newOne: SpaceObject? = SpaceObjects.firstOrNull { it.type == SpaceObjectType.ASTEROID && ! it.active }
     if (newOne != null) {
-        newOne.position = asteroid.position
-        newOne.scale = asteroid.scale
-        newOne.active = true
-        val angle = Random.nextDouble(90.0, 270.0)
-        newOne.velocity = asteroid.velocity.rotate(angle)
+        val newVelocity = asteroid.velocity.rotate(Random.nextDouble(90.0,270.0))
+        activateAsteroid(newOne, asteroid.scale, asteroid.position, newVelocity)
     }
 }
 
@@ -299,17 +297,24 @@ fun activateAsteroidAtEdge() {
     val asteroids = SpaceObjects.filter { it.type == SpaceObjectType.ASTEROID }
     val available = asteroids.firstOrNull { !it.active }
     if (available != null) {
-        available.scale = 4.0
-        available.active = true
-        available.position = Vector2(0.0, Random.nextDouble(U.ScreenHeight.toDouble()))
-        available.velocity = randomVelocity()
+        val edgePosition = Vector2(0.0, Random.nextDouble(U.ScreenHeight.toDouble()))
+        activateAsteroid(available, 4.0, edgePosition, randomVelocity())
     }
 }
 
-private fun randomVelocity(): Vector2 {
-    val randomAngle = Random.nextDouble(360.0)
-    return Vector2(U.AsteroidSpeed, 0.0).rotate(randomAngle)
+private fun activateAsteroid(asteroid: SpaceObject, scale: Double, position: Vector2, velocity: Vector2) {
+    asteroid.position = position
+    asteroid.scale = scale
+    asteroid.velocity = velocity
+    asteroid.angle = randomAngle()
+    asteroid.active = true
 }
+
+private fun randomVelocity(): Vector2 {
+    return Vector2(U.AsteroidSpeed, 0.0).rotate(randomAngle())
+}
+
+private fun randomAngle() = Random.nextDouble(360.0)
 
 fun newMissile(): SpaceObject {
     return SpaceObject(SpaceObjectType.MISSILE, 0.0, 0.0, 0.0, 0.0, 0.0, false)
