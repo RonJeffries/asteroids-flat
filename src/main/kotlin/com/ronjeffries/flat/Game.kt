@@ -30,7 +30,8 @@ object U {
     const val MissileSpeed = LightSpeed / 3.0
     const val MissileTime = 3.0
     const val SaucerDelay = 7.0
-    const val SaucerKilLRadius = 24.0
+    const val SaucerKilLRadius = 20.0
+    const val SaucerScore = 200
     const val SaucerSpeed = 150.0
     const val ScreenHeight = 1024
     const val ScreenWidth = 1024
@@ -147,6 +148,17 @@ fun formatted(): String = ("00000" + Score.toShort()).takeLast(5)
 private fun checkCollisions() {
     checkAllMissilesVsAsteroids()
     if ( Ship.active ) checkShipVsAsteroids(Ship)
+    if ( Saucer.active ) checkAllMissilesVsSaucer(Saucer)
+}
+
+private fun checkAllMissilesVsSaucer(saucer: SpaceObject) {
+    for (missile: SpaceObject in activeMissiles(SpaceObjects)) {
+        if (colliding(saucer, missile)) {
+            Score += U.SaucerScore
+            deactivate(Saucer)
+            deactivate(missile)
+        }
+    }
 }
 
 private fun checkAllMissilesVsAsteroids() {
