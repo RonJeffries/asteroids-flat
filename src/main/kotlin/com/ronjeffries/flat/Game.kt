@@ -4,9 +4,7 @@ import org.openrndr.color.ColorRGBa
 import org.openrndr.draw.Drawer
 import org.openrndr.draw.isolated
 import org.openrndr.math.Vector2
-import org.openrndr.math.asDegrees
 import java.lang.Integer.min
-import kotlin.math.atan2
 import kotlin.math.max
 import kotlin.random.Random
 
@@ -32,6 +30,7 @@ object U {
     const val MissileSpeed = LightSpeed / 3.0
     const val MissileTime = 3.0
     const val SaucerDelay = 7.0
+    const val SaucerKilLRadius = 24.0
     const val SaucerSpeed = 150.0
     const val ScreenHeight = 1024
     const val ScreenWidth = 1024
@@ -169,16 +168,15 @@ private fun checkShipVsAsteroids(ship: SpaceObject) {
 }
 
 fun checkOneAsteroid(asteroid: SpaceObject, collider: SpaceObject, colliderKillRadius: Double) {
-    if (colliding(asteroid, collider,colliderKillRadius)) {
+    if (colliding(asteroid, collider)) {
         Score += getScore(asteroid,collider)
         splitOrKillAsteroid(asteroid)
         deactivate(collider)
     }
 }
 
-fun colliding(asteroid: SpaceObject, collider: SpaceObject, colliderSize: Double): Boolean {
-    val asteroidSize = U.AsteroidKillRadius * asteroid.scale
-    return collider.position.distanceTo(asteroid.position) <= asteroidSize + colliderSize
+fun colliding(target: SpaceObject, collider: SpaceObject): Boolean {
+    return collider.position.distanceTo(target.position) <= killRadius((target)) + killRadius(collider)
 }
 
 private fun splitOrKillAsteroid(asteroid: SpaceObject) {
@@ -321,9 +319,9 @@ fun newMissile(): SpaceObject {
         .also { addComponent(it, Timer(it, 3.0)) }
 }
 
-private fun newSaucer(): SpaceObject = SpaceObject(SpaceObjectType.SAUCER, 0.0, 0.0, 0.0, 0.0, 0.0, false)
+fun newSaucer(): SpaceObject = SpaceObject(SpaceObjectType.SAUCER, 0.0, 0.0, 0.0, 0.0, 0.0, false)
 
-private fun newShip(): SpaceObject = SpaceObject(SpaceObjectType.SHIP, 0.0, 0.0, 0.0, 0.0, 0.0, false)
+fun newShip(): SpaceObject = SpaceObject(SpaceObjectType.SHIP, 0.0, 0.0, 0.0, 0.0, 0.0, false)
 
 fun newAsteroid(): SpaceObject = SpaceObject(SpaceObjectType.ASTEROID, 0.0, 0.0, 0.0, 0.0, 0.0, false)
     .also { it.scale = 4.0 }

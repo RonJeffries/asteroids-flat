@@ -36,11 +36,18 @@ private val saucerPoints = listOf(
     Vector2(-2.0, -1.0)
 )
 
-enum class SpaceObjectType(val points: List<Vector2>) {
-    ASTEROID(asteroidPoints),
-    SHIP(shipPoints),
-    SAUCER(saucerPoints),
-    MISSILE(missilePoints)
+val asteroidRadius = { asteroid: SpaceObject -> U.AsteroidKillRadius* asteroid.scale}
+val missileRadius = { _: SpaceObject -> U.MissileKillRadius }
+val saucerRadius = { _: SpaceObject -> U.SaucerKilLRadius }
+val shipRadius = { _: SpaceObject -> U.ShipKillRadius }
+
+fun killRadius(spaceObject: SpaceObject) = spaceObject.type.killRadius(spaceObject)
+
+enum class SpaceObjectType(val points: List<Vector2>, val killRadius: (SpaceObject)->Double) {
+    ASTEROID(asteroidPoints, asteroidRadius),
+    SHIP(shipPoints, shipRadius),
+    SAUCER(saucerPoints, saucerRadius),
+    MISSILE(missilePoints, missileRadius)
 }
 
 data class SpaceObject(

@@ -47,7 +47,34 @@ class ScoreTests {
         val oldScore = Score
         checkOneAsteroid(asteroid, missile,U.MissileKillRadius)
         assertThat(asteroid.active).isEqualTo(false)
-        assertThat(Score- oldScore).isEqualTo(100)
+        assertThat(Score - oldScore).isEqualTo(100)
+    }
+
+    @Test
+    fun `kill radius tests`() {
+        val missile = newMissile()
+        val missileRad = killRadius(missile)
+        assertThat(missileRad).isEqualTo(U.MissileKillRadius)
+    }
+
+    @Test
+    fun `asteroid radii`() {
+        val asteroid = newAsteroid()
+        assertThat(killRadius(asteroid)).isEqualTo(U.AsteroidKillRadius*4.0)
+        asteroid.scale = 1.0
+        assertThat(killRadius(asteroid)).isEqualTo(U.AsteroidKillRadius)
+    }
+
+    @Test
+    fun `ship radius`() {
+        val ship = newShip()
+        assertThat(killRadius(ship)).isEqualTo(U.ShipKillRadius)
+    }
+
+    @Test
+    fun `saucer radius`() {
+        val saucer = newSaucer()
+        assertThat(killRadius(saucer)).isEqualTo(U.SaucerKilLRadius)
     }
 
 }
