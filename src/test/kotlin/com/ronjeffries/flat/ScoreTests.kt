@@ -51,6 +51,21 @@ class ScoreTests {
     }
 
     @Test
+    fun `saucer increases score by 200`() {
+        val saucer = newSaucer()
+        saucer.position = Vector2(100.0, 100.0)
+        saucer.active = true
+        saucer.scale = 1.0
+        val missile :SpaceObject = newMissile()
+        missile.position = Vector2(110.0,100.0)
+        missile.active = true
+        val oldScore = Score
+        checkSaucerVsMissile(saucer, missile)
+        assertThat(Score - oldScore).isEqualTo(200)
+        assertThat(saucer.active).isEqualTo(false)
+    }
+
+    @Test
     fun `kill radius tests`() {
         val missile = newMissile()
         val missileRad = killRadius(missile)

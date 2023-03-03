@@ -153,11 +153,15 @@ private fun checkCollisions() {
 
 private fun checkAllMissilesVsSaucer(saucer: SpaceObject) {
     for (missile: SpaceObject in activeMissiles(SpaceObjects)) {
-        if (colliding(saucer, missile)) {
-            Score += U.SaucerScore
-            deactivate(Saucer)
-            deactivate(missile)
-        }
+        checkSaucerVsMissile(saucer, missile)
+    }
+}
+
+fun checkSaucerVsMissile(saucer: SpaceObject, missile: SpaceObject) {
+    if (colliding(saucer, missile)) {
+        Score += U.SaucerScore
+        deactivate(saucer)
+        deactivate(missile)
     }
 }
 
