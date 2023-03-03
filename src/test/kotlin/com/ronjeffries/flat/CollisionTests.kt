@@ -32,7 +32,7 @@ class CollisionTests {
         val missile :SpaceObject = newMissile()
         missile.position = Vector2(110.0,100.0)
         missile.active = true
-        checkOneAsteroid(asteroid, missile, U.MissileKillRadius)
+        checkOneAsteroid(asteroid, missile)
         assertThat(missile.active).isEqualTo(false)
     }
 
@@ -45,7 +45,7 @@ class CollisionTests {
         val missile :SpaceObject = newMissile()
         missile.position = Vector2(110.0,100.0)
         missile.active = true
-        checkOneAsteroid(asteroid, missile,U.MissileKillRadius)
+        checkOneAsteroid(asteroid, missile)
         assertThat(asteroid.active).isEqualTo(false)
     }
 
@@ -60,7 +60,7 @@ class CollisionTests {
         val missile :SpaceObject = newMissile()
         missile.position = Vector2(110.0,100.0)
         missile.active = true
-        checkOneAsteroid(asteroid, missile,U.MissileKillRadius)
+        checkOneAsteroid(asteroid, missile)
         assertThat(asteroid.scale).isEqualTo(1.0)
     }
 
@@ -76,7 +76,7 @@ class CollisionTests {
         val missile :SpaceObject = newMissile()
         missile.position = Vector2(110.0,100.0)
         missile.active = true
-        checkOneAsteroid(asteroid, missile,U.MissileKillRadius)
+        checkOneAsteroid(asteroid, missile)
         assertThat(availableAsteroid.scale).isEqualTo(1.0)
         assertThat(availableAsteroid.active).isEqualTo(true)
     }
@@ -95,7 +95,7 @@ class CollisionTests {
         missile.active = true
         val asteroidVelocity = asteroid.velocity
         val availableAsteroidVelocity = availableAsteroid.velocity
-        checkOneAsteroid(asteroid, missile,U.MissileKillRadius)
+        checkOneAsteroid(asteroid, missile)
         assertThat(availableAsteroid.velocity).isNotEqualTo(availableAsteroidVelocity)
         assertThat(asteroid.velocity).isNotEqualTo(asteroidVelocity)
     }

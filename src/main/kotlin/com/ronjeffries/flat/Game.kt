@@ -169,17 +169,17 @@ private fun checkAllMissilesVsAsteroids() {
 
 private fun checkMissileVsAsteroids(missile: SpaceObject) {
     for (asteroid in activeAsteroids(SpaceObjects)) {
-        checkOneAsteroid(asteroid, missile, U.MissileKillRadius)
+        checkOneAsteroid(asteroid, missile)
     }
 }
 
 private fun checkShipVsAsteroids(ship: SpaceObject) {
     for (asteroid in activeAsteroids(SpaceObjects)) {
-        checkOneAsteroid(asteroid, ship, U.ShipKillRadius)
+        checkOneAsteroid(asteroid, ship)
     }
 }
 
-fun checkOneAsteroid(asteroid: SpaceObject, collider: SpaceObject, colliderKillRadius: Double) {
+fun checkOneAsteroid(asteroid: SpaceObject, collider: SpaceObject) {
     if (colliding(asteroid, collider)) {
         Score += getScore(asteroid,collider)
         splitOrKillAsteroid(asteroid)
@@ -328,7 +328,7 @@ private fun randomAngle() = Random.nextDouble(360.0)
 
 fun newMissile(): SpaceObject {
     return SpaceObject(SpaceObjectType.MISSILE, 0.0, 0.0, 0.0, 0.0, 0.0, false)
-        .also { addComponent(it, Timer(it, 3.0)) }
+        .also { addComponent(it, Timer(it, U.MissileTime)) }
 }
 
 fun newSaucer(): SpaceObject = SpaceObject(SpaceObjectType.SAUCER, 0.0, 0.0, 0.0, 0.0, 0.0, false)

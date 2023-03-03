@@ -15,7 +15,7 @@ class ScoreTests {
         missile.position = Vector2(100.0,100.0)
         missile.active = true
         val oldScore = Score
-        checkOneAsteroid(asteroid, missile,U.MissileKillRadius)
+        checkOneAsteroid(asteroid, missile)
         assertThat(asteroid.scale).isEqualTo(2.0)
         assertThat(Score-oldScore).isEqualTo(20)
     }
@@ -30,7 +30,7 @@ class ScoreTests {
         missile.position = Vector2(100.0,100.0)
         missile.active = true
         val oldScore = Score
-        checkOneAsteroid(asteroid, missile,U.MissileKillRadius)
+        checkOneAsteroid(asteroid, missile)
         assertThat(asteroid.scale).isEqualTo(1.0)
         assertThat(Score-oldScore).isEqualTo(50)
     }
@@ -45,7 +45,7 @@ class ScoreTests {
         missile.position = Vector2(100.0,100.0)
         missile.active = true
         val oldScore = Score
-        checkOneAsteroid(asteroid, missile,U.MissileKillRadius)
+        checkOneAsteroid(asteroid, missile)
         assertThat(asteroid.active).isEqualTo(false)
         assertThat(Score - oldScore).isEqualTo(100)
     }
