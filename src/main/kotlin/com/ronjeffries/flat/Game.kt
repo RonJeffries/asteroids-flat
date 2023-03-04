@@ -228,6 +228,23 @@ fun update(component: Component, deltaTime: Double) {
     }
 }
 
+fun updateSaucerTimer(timer: SaucerTimer, deltaTime: Double) {
+    with(timer) {
+        time -= deltaTime
+        if (time <= 0.0) {
+            time = U.SaucerDelay
+            if (entity.active) {
+                entity.active = false
+            } else {
+                entity.active = true
+                entity.position = Vector2(0.0, Random.nextDouble(U.ScreenHeight.toDouble()))
+                entity.velocity = Vector2(saucerSpeed, 0.0)
+                saucerSpeed *= -1.0
+            }
+        }
+    }
+}
+
 private fun updateTimer(timer: Timer, deltaTime: Double) {
     with(timer) {
         if (!entity.active) return
