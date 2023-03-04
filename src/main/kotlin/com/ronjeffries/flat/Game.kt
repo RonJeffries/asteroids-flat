@@ -97,7 +97,7 @@ private var currentWaveSize = 0
 fun nextWaveSize(previousSize: Int): Int = min(previousSize +2,11)
 
 var dropScale = U.ShipDropInScale
-private var shipGoneFor = 0.0
+var shipGoneFor = 0.0
 fun checkIfShipNeeded(deltaTime: Double) {
     if ( ! Ship.active ) {
         shipGoneFor += deltaTime
@@ -115,7 +115,7 @@ fun checkIfShipNeeded(deltaTime: Double) {
 }
 
 private var saucerSpeed = U.SaucerSpeed
-private var saucerGoneFor = 0.0
+var saucerGoneFor = 0.0
 fun checkIfSaucerNeeded(deltaTime: Double) {
     saucerGoneFor += deltaTime
     if (saucerGoneFor > U.SaucerDelay) {

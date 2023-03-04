@@ -100,6 +100,8 @@ fun deactivate(entity: SpaceObject) {
             }
         }
     }
+    if (entity.type == SpaceObjectType.SHIP) shipGoneFor = 0.0
+    if (entity.type == SpaceObjectType.SAUCER) saucerGoneFor = 0.0
 }
 
 fun draw(

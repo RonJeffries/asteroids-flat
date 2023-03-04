@@ -101,11 +101,16 @@ class GameTests {
         startGame(U.ScreenWidth, U.ScreenHeight)
         checkIfSaucerNeeded(U.SaucerDelay + 0.1)
         assertThat(Saucer.active).isEqualTo(true)
+        checkIfSaucerNeeded(U.SaucerDelay - 1.0)
         val missile = missiles(SpaceObjects).first()!!
         missile.active = true
         missile.position = Saucer.position
         checkSaucerVsMissile(Saucer, missile)
         assertThat(Saucer.active).isEqualTo(false)
+        checkIfSaucerNeeded(3.0)
+        assertThat(Saucer.active).describedAs("too soon").isEqualTo(false)
+        checkIfSaucerNeeded(U.SaucerDelay)
+        assertThat(Saucer.active).isEqualTo(true)
     }
 
     private fun clearAsteroids() {
