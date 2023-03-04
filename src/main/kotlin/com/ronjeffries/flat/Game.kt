@@ -59,7 +59,7 @@ fun gameCycle(
     checkCollisions()
     drawScore(drawer)
     checkIfShipNeeded(deltaTime)
-    checkIfSaucerNeeded(deltaTime)
+//    checkIfSaucerNeeded(deltaTime)
     checkIfAsteroidsNeeded(deltaTime)
 }
 
@@ -225,6 +225,9 @@ fun update(component: Component, deltaTime: Double) {
         is Timer -> {
             updateTimer(component, deltaTime)
         }
+        is SaucerTimer -> {
+            updateSaucerTimer(component, deltaTime)
+        }
     }
 }
 
@@ -356,7 +359,15 @@ fun newMissile(): SpaceObject {
         .also { addComponent(it, Timer(it, U.MissileTime)) }
 }
 
-fun newSaucer(): SpaceObject = SpaceObject(SpaceObjectType.SAUCER, 0.0, 0.0, 0.0, 0.0, 0.0, false)
+fun newSaucer(): SpaceObject = SpaceObject(
+    SpaceObjectType.SAUCER,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    false
+).also { addComponent(it, SaucerTimer(it))}
 
 fun newShip(): SpaceObject = SpaceObject(SpaceObjectType.SHIP, 0.0, 0.0, 0.0, 0.0, 0.0, false)
 

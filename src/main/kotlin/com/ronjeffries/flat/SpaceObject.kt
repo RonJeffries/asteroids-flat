@@ -98,10 +98,12 @@ fun deactivate(entity: SpaceObject) {
             is Timer -> {
                 component.time = component.startTime
             }
+            is SaucerTimer -> {
+                component.time = U.SaucerDelay
+            }
         }
     }
     if (entity.type == SpaceObjectType.SHIP) shipGoneFor = 0.0
-    if (entity.type == SpaceObjectType.SAUCER) saucerGoneFor = 0.0
 }
 
 fun draw(
