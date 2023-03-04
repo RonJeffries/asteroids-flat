@@ -80,7 +80,11 @@ fun activeAsteroids(spaceObjects: Array<SpaceObject>): List<SpaceObject> {
 }
 
 fun activeMissiles(spaceObjects: Array<SpaceObject>): List<SpaceObject> {
-    return spaceObjects.filter {it.type == SpaceObjectType.MISSILE && it.active}
+    return missiles(spaceObjects).filter { it.active}
+}
+
+fun missiles(spaceObjects: Array<SpaceObject>): List<SpaceObject> {
+    return spaceObjects.filter {it.type == SpaceObjectType.MISSILE}
 }
 
 fun addComponent(entity: SpaceObject, component: Component) {

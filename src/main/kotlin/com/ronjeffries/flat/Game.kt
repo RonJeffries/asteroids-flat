@@ -292,8 +292,12 @@ fun createGame(missileCount: Int, asteroidCount: Int) {
 }
 
 fun startGame(width: Int, height: Int) {
+    saucerGoneFor = 0.0
+    saucerSpeed = U.SaucerSpeed
+    shipGoneFor = 0.0
     Ship.active = true
     Ship.position = Vector2(width/2.0, height/2.0)
+    Saucer.active = false
     activateAsteroids(4)
 }
 

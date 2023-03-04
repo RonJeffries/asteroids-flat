@@ -95,6 +95,19 @@ class GameTests {
         assertThat(Saucer.dx).describedAs("reverse").isLessThan(0.0)
     }
 
+    @Test
+    fun `saucer clock resets on death`() {
+        createGame(U.MissileCount, U.AsteroidCount)
+        startGame(U.ScreenWidth, U.ScreenHeight)
+        checkIfSaucerNeeded(U.SaucerDelay + 0.1)
+        assertThat(Saucer.active).isEqualTo(true)
+        val missile = missiles(SpaceObjects).first()!!
+        missile.active = true
+        missile.position = Saucer.position
+        checkSaucerVsMissile(Saucer, missile)
+        assertThat(Saucer.active).isEqualTo(false)
+    }
+
     private fun clearAsteroids() {
         activeAsteroids(SpaceObjects).forEach {
             it.active = false
