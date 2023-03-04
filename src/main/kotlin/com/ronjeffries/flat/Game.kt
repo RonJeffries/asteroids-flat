@@ -114,7 +114,7 @@ fun checkIfShipNeeded(deltaTime: Double) {
     }
 }
 
-private var saucerSpeed = U.SaucerSpeed
+var saucerSpeed = U.SaucerSpeed
 var saucerGoneFor = 0.0
 fun checkIfSaucerNeeded(deltaTime: Double) {
     saucerGoneFor += deltaTime
