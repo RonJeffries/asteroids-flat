@@ -61,10 +61,7 @@ class ComponentTests {
     @Test
     fun `action timer does not tick on inactive entity`() {
         val entity = newAsteroid()
-        assertThat(entity.active)
-            .describedAs("initialized to false")
-            .isEqualTo(false)
-        executed = false
+        entity.active = false
         val timerTime = 1.0
         val timer = ActionTimer(entity, timerTime) { executed = true}
         timer.update(0.5)
@@ -77,7 +74,6 @@ class ComponentTests {
     fun `action timer ticks on active entity`() {
         val entity = newAsteroid()
         entity.active = true
-        executed = false
         val timerTime = 1.0
         val timer = ActionTimer(entity, timerTime) { executed = true}
         timer.update(0.5)
@@ -103,7 +99,6 @@ class ComponentTests {
     fun `action timer resets time on time elapsed`() {
         val entity = newAsteroid()
         entity.active = true
-        executed = false
         val timerTime = 1.0
         val timer = ActionTimer(entity, timerTime) { executed = true}
         timer.update(0.5)
@@ -174,6 +169,38 @@ class ComponentTests {
         assertThat(executed)
             .describedAs("action should be taken")
             .isEqualTo(true)
+    }
+
+    @Test
+    fun `idle timer triggers and resets on time going negative`() {
+        val entity = newAsteroid()
+        entity.active = false
+        executed = false
+        val timerTime = 1.0
+        val timer = IdleTimer(entity, timerTime) { executed = true}
+        timer.update(1.1)
+        assertThat(executed)
+            .describedAs("action should be taken")
+            .isEqualTo(true)
+        assertThat(timer.time)
+            .describedAs("should be reset")
+            .isEqualTo(timerTime)
+    }
+
+    @Test
+    fun `action timer triggers and resets on time going negative`() {
+        val entity = newAsteroid()
+        entity.active = true
+        executed = false
+        val timerTime = 1.0
+        val timer = ActionTimer(entity, timerTime) { executed = true}
+        timer.update(1.1)
+        assertThat(executed)
+            .describedAs("action should be taken")
+            .isEqualTo(true)
+        assertThat(timer.time)
+            .describedAs("should be reset")
+            .isEqualTo(timerTime)
     }
 
 }
