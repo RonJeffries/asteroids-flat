@@ -163,4 +163,17 @@ class ComponentTests {
             .isEqualTo(timerTime)
     }
 
+    @Test
+    fun `idle timer takes action on inactive entity when time elapsed`() {
+        val entity = newAsteroid()
+        entity.active = false
+        executed = false
+        val timerTime = 1.0
+        val timer = IdleTimer(entity, timerTime) { executed = true}
+        timer.update(1.0)
+        assertThat(executed)
+            .describedAs("action should be taken")
+            .isEqualTo(true)
+    }
+
 }

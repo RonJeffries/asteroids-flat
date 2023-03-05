@@ -52,6 +52,7 @@ class IdleTimer(
         if (entity.active) return
         time -= deltaTime
         if (time <= 0.0) {
+            action(this)
             time = delayTime
         }
     }
