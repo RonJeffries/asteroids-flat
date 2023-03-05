@@ -1,6 +1,7 @@
 package com.ronjeffries.flat
 
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.within
 import org.junit.jupiter.api.Test
 import org.openrndr.math.Vector2
 
@@ -67,8 +68,21 @@ class ComponentTests {
         val timerTime = 1.0
         val timer = ActionTimer(entity, timerTime) { executed = true}
         timer.update(0.5)
-        assertThat(timer.time).isEqualTo(timerTime)
+        assertThat(timer.time)
             .describedAs("should be unchanged")
             .isEqualTo(timerTime)
+    }
+
+    @Test
+    fun `action timer ticks on active entity`() {
+        val entity = newAsteroid()
+        entity.active = true
+        executed = false
+        val timerTime = 1.0
+        val timer = ActionTimer(entity, timerTime) { executed = true}
+        timer.update(0.5)
+        assertThat(timer.time)
+            .describedAs("should be changed")
+            .isEqualTo(timerTime-0.5, within(0.01))
     }
 }
