@@ -41,8 +41,14 @@ class ActionTimer(
     }
 }
 
-    class IdleTimer(
-        override val entity: SpaceObject,
-        val delayTime: Double,
-        val action: (IdleTimer) -> Unit
-    ): Component {}
+class IdleTimer(
+    override val entity: SpaceObject,
+    val delayTime: Double,
+    val action: (IdleTimer) -> Unit
+) : Component {
+    var time = delayTime
+
+    fun update(deltaTime: Double) {
+        if (entity.active) return
+    }
+}
