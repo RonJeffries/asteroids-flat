@@ -85,4 +85,17 @@ class ComponentTests {
             .describedAs("should be changed")
             .isEqualTo(timerTime-0.5, within(0.01))
     }
+
+    @Test
+    fun `action timer acts on active entity time elapsed`() {
+        val entity = newAsteroid()
+        entity.active = true
+        executed = false
+        val timerTime = 1.0
+        val timer = ActionTimer(entity, timerTime) { executed = true}
+        timer.update(1.0)
+        assertThat(executed)
+            .isEqualTo(true)
+            .describedAs("action should be taken")
+    }
 }
