@@ -115,4 +115,11 @@ class ComponentTests {
             .describedAs("should be reset")
             .isEqualTo(timerTime)
     }
+
+    @Test
+    fun `idle timer can be created`() {
+        val entity = newAsteroid()
+        val timer = IdleTimer(entity, 1.0) {}
+        assertThat(timer).isNotEqualTo(null)
+    }
 }
