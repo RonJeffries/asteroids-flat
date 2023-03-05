@@ -124,7 +124,7 @@ class ComponentTests {
     }
 
     @Test
-    fun `idle timer does not tick on inactive entity`() {
+    fun `idle timer does not tick on active entity`() {
         val entity = newAsteroid()
         entity.active = true
         val timerTime = 1.0
@@ -133,5 +133,17 @@ class ComponentTests {
         assertThat(timer.time)
             .describedAs("should be unchanged")
             .isEqualTo(timerTime)
+    }
+
+    @Test
+    fun `idle timer does tick on inactive entity`() {
+        val entity = newAsteroid()
+        entity.active = false
+        val timerTime = 1.0
+        val timer = IdleTimer(entity, timerTime) { }
+        timer.update(0.5)
+        assertThat(timer.time)
+            .describedAs("should be changed")
+            .isEqualTo(timerTime-0.5, within(0.01))
     }
 }
