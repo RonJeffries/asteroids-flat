@@ -51,5 +51,8 @@ class IdleTimer(
     fun update(deltaTime: Double) {
         if (entity.active) return
         time -= deltaTime
+        if (time <= 0.0) {
+            time = delayTime
+        }
     }
 }

@@ -146,4 +146,21 @@ class ComponentTests {
             .describedAs("should be changed")
             .isEqualTo(timerTime-0.5, within(0.01))
     }
+
+    @Test
+    fun `idle timer resets time when time elapsed`() {
+        val entity = newAsteroid()
+        entity.active = false
+        val timerTime = 1.0
+        val timer = IdleTimer(entity, timerTime) { }
+        timer.update(0.5)
+        assertThat(timer.time)
+            .describedAs("should be changed")
+            .isEqualTo(timerTime-0.5, within(0.01))
+        timer.update(0.5)
+        assertThat(timer.time)
+            .describedAs("should be reset")
+            .isEqualTo(timerTime)
+    }
+
 }
