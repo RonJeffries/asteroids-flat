@@ -66,53 +66,6 @@ class GameTests {
         assertThat(Ship.dx).isEqualTo(1.0, within(0.1))
     }
 
-    @Test
-    fun `start saucer after seven seconds`() {
-        createGame(U.MissileCount, U.AsteroidCount)
-        startGame(U.ScreenWidth, U.ScreenHeight)
-        assertThat(Saucer.active).isEqualTo(false)
-        checkIfSaucerNeeded(0.1)
-        assertThat(Saucer.active).isEqualTo(false)
-        checkIfSaucerNeeded(U.SaucerDelay + 0.1)
-        assertThat(Saucer.active).isEqualTo(true)
-        checkIfSaucerNeeded(U.SaucerDelay + 0.1)
-        assertThat(Saucer.active).isEqualTo(false)
-        checkIfSaucerNeeded( 0.1)
-        assertThat(Saucer.active).describedAs("stays gone").isEqualTo(false)
-    }
-
-    @Test
-    fun `saucer switches direction`() {
-        createGame(U.MissileCount, U.AsteroidCount)
-        startGame(U.ScreenWidth, U.ScreenHeight)
-        checkIfSaucerNeeded(U.SaucerDelay + 0.1)
-        assertThat(Saucer.active).isEqualTo(true)
-        assertThat(Saucer.dx).isGreaterThan(0.0)
-        checkIfSaucerNeeded(U.SaucerDelay + 0.1)
-        assertThat(Saucer.active).isEqualTo(false)
-        checkIfSaucerNeeded(U.SaucerDelay + 0.1)
-        assertThat(Saucer.active).isEqualTo(true)
-        assertThat(Saucer.dx).describedAs("reverse").isLessThan(0.0)
-    }
-
-    @Test
-    fun `saucer clock resets on death`() {
-        createGame(U.MissileCount, U.AsteroidCount)
-        startGame(U.ScreenWidth, U.ScreenHeight)
-        checkIfSaucerNeeded(U.SaucerDelay + 0.1)
-        assertThat(Saucer.active).isEqualTo(true)
-        checkIfSaucerNeeded(U.SaucerDelay - 1.0)
-        val missile = missiles(SpaceObjects).first()!!
-        missile.active = true
-        missile.position = Saucer.position
-        checkSaucerVsMissile(Saucer, missile)
-        assertThat(Saucer.active).isEqualTo(false)
-        checkIfSaucerNeeded(3.0)
-        assertThat(Saucer.active).describedAs("too soon").isEqualTo(false)
-        checkIfSaucerNeeded(U.SaucerDelay)
-        assertThat(Saucer.active).isEqualTo(true)
-    }
-
     private fun clearAsteroids() {
         activeAsteroids(SpaceObjects).forEach {
             it.active = false

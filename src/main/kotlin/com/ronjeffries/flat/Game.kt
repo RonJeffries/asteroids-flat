@@ -114,23 +114,6 @@ fun checkIfShipNeeded(deltaTime: Double) {
     }
 }
 
-var saucerSpeed = U.SaucerSpeed
-var saucerGoneFor = 0.0
-fun checkIfSaucerNeeded(deltaTime: Double) {
-    saucerGoneFor += deltaTime
-    if (saucerGoneFor > U.SaucerDelay) {
-        saucerGoneFor = 0.0
-        if (!Saucer.active) {
-            Saucer.active = true
-            Saucer.position = Vector2(0.0, Random.nextDouble(U.ScreenHeight.toDouble()))
-            Saucer.velocity = Vector2(saucerSpeed, 0.0)
-            saucerSpeed *= -1.0
-        } else {
-            Saucer.active = false
-        }
-    }
-}
-
 private fun drawScore(drawer: Drawer) {
     val charSpace = 30.0
     val lineSpace = 64.0
@@ -239,13 +222,18 @@ fun updateSaucerTimer(timer: SaucerTimer, deltaTime: Double) {
             if (entity.active) {
                 entity.active = false
             } else {
-                entity.active = true
-                entity.position = Vector2(0.0, Random.nextDouble(U.ScreenHeight.toDouble()))
-                entity.velocity = Vector2(saucerSpeed, 0.0)
-                saucerSpeed *= -1.0
+                activateSaucer(entity)
             }
         }
     }
+}
+
+var saucerSpeed = U.SaucerSpeed
+fun activateSaucer(entity: SpaceObject) {
+    entity.active = true
+    entity.position = Vector2(0.0, Random.nextDouble(U.ScreenHeight.toDouble()))
+    entity.velocity = Vector2(saucerSpeed, 0.0)
+    saucerSpeed *= -1.0
 }
 
 private fun updateTimer(timer: Timer, deltaTime: Double) {
@@ -312,7 +300,6 @@ fun createGame(missileCount: Int, asteroidCount: Int) {
 }
 
 fun startGame(width: Int, height: Int) {
-    saucerGoneFor = 0.0
     saucerSpeed = U.SaucerSpeed
     shipGoneFor = 0.0
     Ship.active = true
