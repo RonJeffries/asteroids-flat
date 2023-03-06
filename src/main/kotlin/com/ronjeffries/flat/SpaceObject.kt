@@ -88,21 +88,21 @@ fun missiles(spaceObjects: Array<SpaceObject>): List<SpaceObject> {
 }
 
 fun addComponent(entity: SpaceObject, component: Component) {
-    entity.components.add(component)
     if (component is Timer ) TimerTable += component
+    else entity.components.add(component)
 }
 
 fun deactivate(entity: SpaceObject) {
     entity.active = false
     for (component in entity.components) {
         when (component) {
-            is Timer -> {
-                component.time = component.delayTime
-            }
             is SaucerTimer -> {
                 component.time = U.SaucerDelay
             }
         }
+    }
+    for (timer in TimerTable) {
+        if (timer.entity == entity ) timer.time = timer.delayTime
     }
     if (entity.type == SpaceObjectType.SHIP) shipGoneFor = 0.0
 }
