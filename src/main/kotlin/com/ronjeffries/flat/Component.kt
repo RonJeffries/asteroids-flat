@@ -13,14 +13,5 @@ class Timer(
     val action: (Timer) -> Unit
 ): Component {
     var time = delayTime
-    fun update(deltaTime: Double) {
-        if ( entity.active == processWhenActive ) {
-            time -= deltaTime
-            if (time <= 0.0) {
-                action(this)
-                time = delayTime
-            }
-        }
-    }
 }
 

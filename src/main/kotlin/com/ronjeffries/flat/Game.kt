@@ -209,7 +209,15 @@ fun update(component: Component, deltaTime: Double) {
             updateSaucerTimer(component, deltaTime)
         }
         is Timer -> {
-            component.update(deltaTime)
+            with(component) {
+                if (entity.active == processWhenActive) {
+                    time -= deltaTime
+                    if (time <= 0.0) {
+                        action(this)
+                        time = delayTime
+                    }
+                }
+            }
         }
     }
 }
