@@ -186,4 +186,16 @@ class ComponentTests {
             .isEqualTo(timerTime)
     }
 
+    @Test
+    fun `timer resets on deactivate`() {
+        val missile = newMissile()
+        missile.active = true
+        val timer = missile.components.find { it is Timer }!! as Timer
+        val originalTime = timer.time
+        update(timer, 0.5)
+        assertThat(timer.time).describedAs("didn't tick down").isEqualTo(originalTime - 0.5, within(0.01))
+        deactivate(missile)
+        assertThat(timer.time).describedAs("didn't reset").isEqualTo(originalTime)
+    }
+
 }
