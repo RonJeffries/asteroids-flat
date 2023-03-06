@@ -89,6 +89,7 @@ fun missiles(spaceObjects: Array<SpaceObject>): List<SpaceObject> {
 
 fun addComponent(entity: SpaceObject, component: Component) {
     entity.components.add(component)
+    if (component is Timer ) TimerTable += component
 }
 
 fun deactivate(entity: SpaceObject) {

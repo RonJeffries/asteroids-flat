@@ -46,6 +46,7 @@ var Score: Int = 0
 lateinit var SpaceObjects: Array<SpaceObject>
 lateinit var Ship: SpaceObject
 lateinit var Saucer: SpaceObject
+var TimerTable: List<Timer> = mutableListOf<Timer>()
 
 fun gameCycle(
     spaceObjects: Array<SpaceObject>,
@@ -69,10 +70,25 @@ private fun updateEverything(
     width: Int,
     height: Int
 ) {
+    for (timer in TimerTable) {
+        updateTimer(timer, deltaTime)
+    }
     for (spaceObject in spaceObjects) {
         for (component in spaceObject.components) update(component, deltaTime)
         if (spaceObject.type == SpaceObjectType.SHIP) applyControls(spaceObject, deltaTime)
         move(spaceObject, width, height, deltaTime)
+    }
+}
+
+fun updateTimer(timer: Timer, deltaTime: Double) {
+    with(timer) {
+        if (entity.active == processWhenActive) {
+            time -= deltaTime
+            if (time <= 0.0) {
+                action(this)
+                time = delayTime
+            }
+        }
     }
 }
 
@@ -207,17 +223,6 @@ fun update(component: Component, deltaTime: Double) {
     when (component) {
         is SaucerTimer -> {
             updateSaucerTimer(component, deltaTime)
-        }
-        is Timer -> {
-            with(component) {
-                if (entity.active == processWhenActive) {
-                    time -= deltaTime
-                    if (time <= 0.0) {
-                        action(this)
-                        time = delayTime
-                    }
-                }
-            }
         }
     }
 }

@@ -59,7 +59,7 @@ class ComponentTests {
         entity.active = true
         val timerTime = 1.0
         val timer = Timer(entity, timerTime, true) { executed = true}
-        update(timer,0.5)
+        updateTimer(timer,0.5)
         assertThat(timer.time)
             .describedAs("should be changed")
             .isEqualTo(timerTime-0.5, within(0.01))
@@ -72,7 +72,7 @@ class ComponentTests {
         executed = false
         val timerTime = 1.0
         val timer = Timer(entity, timerTime, true) { executed = true}
-        update(timer,1.0)
+        updateTimer(timer,1.0)
         assertThat(executed)
             .isEqualTo(true)
             .describedAs("action should be taken")
@@ -84,11 +84,11 @@ class ComponentTests {
         entity.active = true
         val timerTime = 1.0
         val timer = Timer(entity, timerTime, true) { executed = true}
-        update(timer,0.5)
+        updateTimer(timer,0.5)
         assertThat(timer.time)
             .describedAs("should be changed")
             .isEqualTo(timerTime-0.5, within(0.01))
-        update(timer,0.5)
+        updateTimer(timer,0.5)
         assertThat(timer.time)
             .describedAs("should be reset")
             .isEqualTo(timerTime)
@@ -107,7 +107,7 @@ class ComponentTests {
         entity.active = true
         val timerTime = 1.0
         val timer = Timer(entity, timerTime, false) { }
-        update(timer,0.5)
+        updateTimer(timer,0.5)
         assertThat(timer.time)
             .describedAs("should be unchanged")
             .isEqualTo(timerTime)
@@ -119,7 +119,7 @@ class ComponentTests {
         entity.active = false
         val timerTime = 1.0
         val timer = Timer(entity, timerTime, false) { }
-        update(timer,0.5)
+        updateTimer(timer,0.5)
         assertThat(timer.time)
             .describedAs("should be changed")
             .isEqualTo(timerTime-0.5, within(0.01))
@@ -131,11 +131,11 @@ class ComponentTests {
         entity.active = false
         val timerTime = 1.0
         val timer = Timer(entity, timerTime, false) { }
-        update(timer,0.5)
+        updateTimer(timer,0.5)
         assertThat(timer.time)
             .describedAs("should be changed")
             .isEqualTo(timerTime-0.5, within(0.01))
-        update(timer,0.5)
+        updateTimer(timer,0.5)
         assertThat(timer.time)
             .describedAs("should be reset")
             .isEqualTo(timerTime)
@@ -148,7 +148,7 @@ class ComponentTests {
         executed = false
         val timerTime = 1.0
         val timer = Timer(entity, timerTime, false) { executed = true}
-        update(timer,1.1)
+        updateTimer(timer,1.1)
         assertThat(executed)
             .describedAs("action should be taken")
             .isEqualTo(true)
@@ -161,7 +161,7 @@ class ComponentTests {
         executed = false
         val timerTime = 1.0
         val timer = Timer(entity, timerTime, false) { executed = true}
-        update(timer,1.1)
+        updateTimer(timer,1.1)
         assertThat(executed)
             .describedAs("action should be taken")
             .isEqualTo(true)
@@ -177,7 +177,7 @@ class ComponentTests {
         executed = false
         val timerTime = 1.0
         val timer = Timer(entity, timerTime, true) { executed = true}
-        update(timer,1.1)
+        updateTimer(timer,1.1)
         assertThat(executed)
             .describedAs("action should be taken")
             .isEqualTo(true)
@@ -192,7 +192,7 @@ class ComponentTests {
         missile.active = true
         val timer = missile.components.find { it is Timer }!! as Timer
         val originalTime = timer.time
-        update(timer, 0.5)
+        updateTimer(timer, 0.5)
         assertThat(timer.time).describedAs("didn't tick down").isEqualTo(originalTime - 0.5, within(0.01))
         deactivate(missile)
         assertThat(timer.time).describedAs("didn't reset").isEqualTo(originalTime)

@@ -68,8 +68,8 @@ class InitialTests {
         fireMissile()
         assertThat(activeMissileCount()).isEqualTo(4)
         val missile = SpaceObjects.find { it.type == SpaceObjectType.MISSILE && it.active == true}
-        missile!!.components.forEach {update(it, 3.1)}
-        assertThat(activeMissileCount()).describedAs("reactivating").isEqualTo(3)
+        TimerTable.forEach {updateTimer(it, 3.1)}
+        assertThat(activeMissileCount()).describedAs("reactivating").isEqualTo(0)
     }
 
     @Test
