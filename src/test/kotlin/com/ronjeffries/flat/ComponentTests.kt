@@ -40,30 +40,13 @@ class ComponentTests {
     }
 
     var executed = false
-    @Test
-    fun `pluggable timer triggers`() {
-        val entity = newAsteroid()
-        val timer = PluggableTimer(entity, 5.0) {timer: PluggableTimer -> executed = true}
-        executed = false
-        timer.update(4.0)
-        assertThat(executed)
-            .describedAs("not time yet")
-            .isEqualTo(false)
-        timer.update(1.0)
-        assertThat(executed)
-            .describedAs("should have triggered")
-            .isEqualTo(true)
-        assertThat(timer.time)
-            .describedAs("should reset timer")
-            .isEqualTo(5.0)
-    }
 
     @Test
     fun `action timer does not tick on inactive entity`() {
         val entity = newAsteroid()
         entity.active = false
         val timerTime = 1.0
-        val timer = ActionTimer(entity, timerTime) { executed = true}
+        val timer = Timer(entity, timerTime, true) { executed = true}
         timer.update(0.5)
         assertThat(timer.time)
             .describedAs("should be unchanged")
@@ -75,7 +58,7 @@ class ComponentTests {
         val entity = newAsteroid()
         entity.active = true
         val timerTime = 1.0
-        val timer = ActionTimer(entity, timerTime) { executed = true}
+        val timer = Timer(entity, timerTime, true) { executed = true}
         timer.update(0.5)
         assertThat(timer.time)
             .describedAs("should be changed")
@@ -88,7 +71,7 @@ class ComponentTests {
         entity.active = true
         executed = false
         val timerTime = 1.0
-        val timer = ActionTimer(entity, timerTime) { executed = true}
+        val timer = Timer(entity, timerTime, true) { executed = true}
         timer.update(1.0)
         assertThat(executed)
             .isEqualTo(true)
@@ -100,7 +83,7 @@ class ComponentTests {
         val entity = newAsteroid()
         entity.active = true
         val timerTime = 1.0
-        val timer = ActionTimer(entity, timerTime) { executed = true}
+        val timer = Timer(entity, timerTime, true) { executed = true}
         timer.update(0.5)
         assertThat(timer.time)
             .describedAs("should be changed")
@@ -114,7 +97,7 @@ class ComponentTests {
     @Test
     fun `idle timer can be created`() {
         val entity = newAsteroid()
-        val timer = IdleTimer(entity, 1.0) {}
+        val timer = Timer(entity, 1.0, false) {}
         assertThat(timer).isNotEqualTo(null)
     }
 
@@ -123,7 +106,7 @@ class ComponentTests {
         val entity = newAsteroid()
         entity.active = true
         val timerTime = 1.0
-        val timer = IdleTimer(entity, timerTime) { }
+        val timer = Timer(entity, timerTime, false) { }
         timer.update(0.5)
         assertThat(timer.time)
             .describedAs("should be unchanged")
@@ -135,7 +118,7 @@ class ComponentTests {
         val entity = newAsteroid()
         entity.active = false
         val timerTime = 1.0
-        val timer = IdleTimer(entity, timerTime) { }
+        val timer = Timer(entity, timerTime, false) { }
         timer.update(0.5)
         assertThat(timer.time)
             .describedAs("should be changed")
@@ -147,7 +130,7 @@ class ComponentTests {
         val entity = newAsteroid()
         entity.active = false
         val timerTime = 1.0
-        val timer = IdleTimer(entity, timerTime) { }
+        val timer = Timer(entity, timerTime, false) { }
         timer.update(0.5)
         assertThat(timer.time)
             .describedAs("should be changed")
@@ -164,7 +147,7 @@ class ComponentTests {
         entity.active = false
         executed = false
         val timerTime = 1.0
-        val timer = IdleTimer(entity, timerTime) { executed = true}
+        val timer = Timer(entity, timerTime, false) { executed = true}
         timer.update(1.0)
         assertThat(executed)
             .describedAs("action should be taken")
@@ -177,7 +160,7 @@ class ComponentTests {
         entity.active = false
         executed = false
         val timerTime = 1.0
-        val timer = IdleTimer(entity, timerTime) { executed = true}
+        val timer = Timer(entity, timerTime, false) { executed = true}
         timer.update(1.1)
         assertThat(executed)
             .describedAs("action should be taken")
@@ -193,7 +176,7 @@ class ComponentTests {
         entity.active = true
         executed = false
         val timerTime = 1.0
-        val timer = ActionTimer(entity, timerTime) { executed = true}
+        val timer = Timer(entity, timerTime, true) { executed = true}
         timer.update(1.1)
         assertThat(executed)
             .describedAs("action should be taken")

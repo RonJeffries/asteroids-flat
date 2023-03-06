@@ -2,7 +2,7 @@ package com.ronjeffries.flat
 
 interface Component { val entity: SpaceObject }
 
-data class Timer(override val entity: SpaceObject, val startTime: Double): Component {
+data class OldTimer(override val entity: SpaceObject, val startTime: Double): Component {
     var time = startTime
 }
 
@@ -10,50 +10,21 @@ data class SaucerTimer(override val entity: SpaceObject): Component {
     var time = U.SaucerDelay
 }
 
-class PluggableTimer(
-    override val entity: SpaceObject,
-    private val startTime: Double,
-    val action: (PluggableTimer) -> Unit
-): Component {
-    var time = startTime
-    fun update(deltaTime: Double) {
-        time -= deltaTime
-        if (time <= 0.0 ) {
-            action(this)
-            time = startTime
-        }
-    }
-}
-
-class ActionTimer(
+class Timer(
     override val entity: SpaceObject,
     val delayTime: Double,
-    val action: (ActionTimer) -> Unit
+    val processWhenActive: Boolean = true,
+    val action: (Timer) -> Unit
 ): Component {
     var time = delayTime
     fun update(deltaTime: Double) {
-        if ( ! entity.active ) return
-        time -= deltaTime
-        if ( time <= 0.0) {
-            action(this)
-            time = delayTime
+        if ( entity.active == processWhenActive ) {
+            time -= deltaTime
+            if (time <= 0.0) {
+                action(this)
+                time = delayTime
+            }
         }
     }
 }
 
-class IdleTimer(
-    override val entity: SpaceObject,
-    val delayTime: Double,
-    val action: (IdleTimer) -> Unit
-) : Component {
-    var time = delayTime
-
-    fun update(deltaTime: Double) {
-        if (entity.active) return
-        time -= deltaTime
-        if (time <= 0.0) {
-            action(this)
-            time = delayTime
-        }
-    }
-}
