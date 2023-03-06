@@ -95,8 +95,8 @@ fun deactivate(entity: SpaceObject) {
     entity.active = false
     for (component in entity.components) {
         when (component) {
-            is OldTimer -> {
-                component.time = component.startTime
+            is Timer -> {
+                component.time = component.delayTime
             }
             is SaucerTimer -> {
                 component.time = U.SaucerDelay

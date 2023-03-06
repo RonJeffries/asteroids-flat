@@ -205,9 +205,6 @@ private fun spawnNewAsteroid(asteroid: SpaceObject) {
 
 fun update(component: Component, deltaTime: Double) {
     when (component) {
-        is OldTimer -> {
-            updateOldTimer(component, deltaTime)
-        }
         is SaucerTimer -> {
             updateSaucerTimer(component, deltaTime)
         }
@@ -237,17 +234,6 @@ fun activateSaucer(entity: SpaceObject) {
     entity.position = Vector2(0.0, Random.nextDouble(U.ScreenHeight.toDouble()))
     entity.velocity = Vector2(saucerSpeed, 0.0)
     saucerSpeed *= -1.0
-}
-
-private fun updateOldTimer(timer: OldTimer, deltaTime: Double) {
-    with(timer) {
-        if (!entity.active) return
-        time -= deltaTime
-        if (time <= 0.0) {
-            deactivate(entity)
-            time = timer.startTime
-        }
-    }
 }
 
 private fun spaceFrictionPerSecond(vNew: Vector2, vCurrent: Vector2): Vector2 {
