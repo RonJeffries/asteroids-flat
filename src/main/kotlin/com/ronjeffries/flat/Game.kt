@@ -206,10 +206,13 @@ private fun spawnNewAsteroid(asteroid: SpaceObject) {
 fun update(component: Component, deltaTime: Double) {
     when (component) {
         is OldTimer -> {
-            updateTimer(component, deltaTime)
+            updateOldTimer(component, deltaTime)
         }
         is SaucerTimer -> {
             updateSaucerTimer(component, deltaTime)
+        }
+        is Timer -> {
+            component.update(deltaTime)
         }
     }
 }
@@ -236,7 +239,7 @@ fun activateSaucer(entity: SpaceObject) {
     saucerSpeed *= -1.0
 }
 
-private fun updateTimer(timer: OldTimer, deltaTime: Double) {
+private fun updateOldTimer(timer: OldTimer, deltaTime: Double) {
     with(timer) {
         if (!entity.active) return
         time -= deltaTime
@@ -343,7 +346,10 @@ private fun randomAngle() = Random.nextDouble(360.0)
 
 fun newMissile(): SpaceObject {
     return SpaceObject(SpaceObjectType.MISSILE, 0.0, 0.0, 0.0, 0.0, 0.0, false)
-        .also { addComponent(it, OldTimer(it, U.MissileTime)) }
+        .also { spaceObject ->
+            val missileTimer = Timer(spaceObject, U.MissileTime, true) { timer-> deactivate(timer.entity)}
+            addComponent(spaceObject, missileTimer)
+        }
 }
 
 fun newSaucer(): SpaceObject = SpaceObject(
