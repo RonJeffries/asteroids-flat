@@ -56,11 +56,9 @@ fun gameCycle(
     deltaTime: Double
 ) {
     updateEverything(spaceObjects, deltaTime, width, height)
-    drawEverything(spaceObjects, drawer)
+    drawEverything(spaceObjects, drawer, deltaTime)
     checkCollisions()
     drawScore(drawer)
-    checkIfShipNeeded(deltaTime)
-//    checkIfSaucerNeeded(deltaTime)
     checkIfAsteroidsNeeded(deltaTime)
 }
 
@@ -70,13 +68,17 @@ private fun updateEverything(
     width: Int,
     height: Int
 ) {
-    for (timer in TimerTable) {
-        updateTimer(timer, deltaTime)
-    }
+    updateTimers(deltaTime)
     for (spaceObject in spaceObjects) {
         for (component in spaceObject.components) update(component, deltaTime)
         if (spaceObject.type == SpaceObjectType.SHIP) applyControls(spaceObject, deltaTime)
         move(spaceObject, width, height, deltaTime)
+    }
+}
+
+fun updateTimers(deltaTime: Double) {
+    for (timer in TimerTable) {
+        updateTimer(timer, deltaTime)
     }
 }
 
@@ -92,9 +94,9 @@ fun updateTimer(timer: Timer, deltaTime: Double) {
     }
 }
 
-private fun drawEverything(spaceObjects: Array<SpaceObject>, drawer: Drawer) {
+private fun drawEverything(spaceObjects: Array<SpaceObject>, drawer: Drawer, deltaTime: Double) {
     for (spaceObject in spaceObjects) {
-        if (spaceObject.active) draw(spaceObject, drawer)
+        if (spaceObject.active) draw(spaceObject, drawer, deltaTime)
     }
 }
 
@@ -113,21 +115,13 @@ private var currentWaveSize = 0
 fun nextWaveSize(previousSize: Int): Int = min(previousSize +2,11)
 
 var dropScale = U.ShipDropInScale
-var shipGoneFor = 0.0
-fun checkIfShipNeeded(deltaTime: Double) {
-    if ( ! Ship.active ) {
-        shipGoneFor += deltaTime
-        if (shipGoneFor > U.ShipDelay) {
-            dropScale = U.ShipDropInScale
-            Ship.position = Vector2(U.ScreenWidth/2.0, U.ScreenHeight/2.0)
-            Ship.velocity = Vector2(0.0,0.0)
-            Ship.angle = 0.0
-            Ship.active = true
-            shipGoneFor = 0.0
-        }
-    } else {
-        dropScale = max(dropScale - U.ShipDropInScale*deltaTime, 1.0)
-    }
+
+fun activateShip() {
+    dropScale = U.ShipDropInScale
+    Ship.position = Vector2(U.ScreenWidth / 2.0, U.ScreenHeight / 2.0)
+    Ship.velocity = Vector2(0.0, 0.0)
+    Ship.angle = 0.0
+    Ship.active = true
 }
 
 private fun drawScore(drawer: Drawer) {
@@ -303,7 +297,6 @@ fun createGame(missileCount: Int, asteroidCount: Int) {
 
 fun startGame(width: Int, height: Int) {
     saucerSpeed = U.SaucerSpeed
-    shipGoneFor = 0.0
     Ship.active = true
     Ship.position = Vector2(width/2.0, height/2.0)
     Saucer.active = false
@@ -362,6 +355,10 @@ fun newSaucer(): SpaceObject = SpaceObject(
 ).also { addComponent(it, SaucerTimer(it))}
 
 fun newShip(): SpaceObject = SpaceObject(SpaceObjectType.SHIP, 0.0, 0.0, 0.0, 0.0, 0.0, false)
+    .also { spaceObject ->
+        val shipTimer = Timer(spaceObject, U.ShipDelay, false) { activateShip() }
+        addComponent(spaceObject, shipTimer)
+    }
 
 fun newAsteroid(): SpaceObject = SpaceObject(SpaceObjectType.ASTEROID, 0.0, 0.0, 0.0, 0.0, 0.0, false)
     .also { it.scale = 4.0 }
