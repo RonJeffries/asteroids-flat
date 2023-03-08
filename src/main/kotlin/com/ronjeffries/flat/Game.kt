@@ -35,6 +35,8 @@ object U {
     const val SaucerSpeed = 150.0
     const val ScreenHeight = 1024
     const val ScreenWidth = 1024
+          val CenterOfUniverse = Vector2(ScreenWidth/2.0, ScreenHeight/2.0)
+    const val SafeShipDistance = U.ScreenHeight/10.0
     const val ShipDelay = 4.0
     const val ShipDecelerationFactor = 0.5
     const val ShipDropInScale = 3.0
@@ -303,7 +305,7 @@ fun startGame(width: Int, height: Int) {
     activateAsteroids(4)
 }
 
-private fun activateAsteroids(asteroidCount: Int) {
+fun activateAsteroids(asteroidCount: Int) {
     deactivateAsteroids()
     currentWaveSize = asteroidCount
     for (i in 1..asteroidCount) activateAsteroidAtEdge()
@@ -368,6 +370,9 @@ fun newShip(): SpaceObject = SpaceObject(SpaceObjectType.SHIP, 0.0, 0.0, 0.0, 0.
 fun safeToEmerge(timer: Timer): Boolean {
     if ( Saucer.active) return false
     if (activeMissiles(SpaceObjects).isNotEmpty()) return false
+    for (asteroid in activeAsteroids(SpaceObjects)) {
+        if ( asteroid.position.distanceTo(U.CenterOfUniverse) < U.SafeShipDistance ) return false
+    }
     return true
 }
 
