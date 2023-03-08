@@ -367,6 +367,7 @@ fun newShip(): SpaceObject = SpaceObject(SpaceObjectType.SHIP, 0.0, 0.0, 0.0, 0.
 
 fun safeToEmerge(timer: Timer): Boolean {
     if ( Saucer.active) return false
+    if (activeMissiles(SpaceObjects).isNotEmpty()) return false
     return true
 }
 
