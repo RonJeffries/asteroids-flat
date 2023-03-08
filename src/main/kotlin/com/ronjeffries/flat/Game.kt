@@ -366,7 +366,7 @@ fun newShip(): SpaceObject = SpaceObject(SpaceObjectType.SHIP, 0.0, 0.0, 0.0, 0.
     }
 
 fun safeToEmerge(timer: Timer): Boolean {
-    println("safe for now")
+    if ( Saucer.active) return false
     return true
 }
 

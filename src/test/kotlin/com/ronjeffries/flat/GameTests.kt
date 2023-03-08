@@ -64,6 +64,15 @@ class GameTests {
         assertThat(Ship.dx).isEqualTo(1.0, within(0.1))
     }
 
+    @Test
+    fun `safeToEmerge detects saucer`() {
+        createGame(4,4)
+        val timer = Timer(Ship, U.ShipDelay) {}
+        assertThat(safeToEmerge(timer)).isEqualTo(true)
+        Saucer.active = true
+        assertThat(safeToEmerge(timer)).isEqualTo(false)
+    }
+
     private fun clearAsteroids() {
         activeAsteroids(SpaceObjects).forEach {
             it.active = false

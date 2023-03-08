@@ -198,5 +198,4 @@ class ComponentTests {
         deactivate(missile)
         assertThat(timer.time).describedAs("didn't reset").isEqualTo(originalTime)
     }
-
 }
