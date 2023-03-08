@@ -9,9 +9,22 @@ data class SaucerTimer(override val entity: SpaceObject): Component {
 class Timer(
     override val entity: SpaceObject,
     val delayTime: Double,
-    val processWhenActive: Boolean = true,
+    val processWhenActive: Boolean,
+    var extra: (Timer) -> Boolean,
     val action: (Timer) -> Unit
 ): Component {
+    constructor(
+        entity: SpaceObject,
+        delayTime: Double,
+        action: (Timer) -> Unit
+    ): this(entity, delayTime, true, { true }, action)
+    constructor(
+        entity: SpaceObject,
+        delayTime: Double,
+        processWhenActive: Boolean,
+        action: (Timer) -> Unit
+    ): this(entity, delayTime, processWhenActive, {true}, action)
+
     var time = delayTime
 }
 

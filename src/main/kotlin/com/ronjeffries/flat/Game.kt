@@ -86,7 +86,7 @@ fun updateTimer(timer: Timer, deltaTime: Double) {
     with(timer) {
         if (entity.active == processWhenActive) {
             time -= deltaTime
-            if (time <= 0.0) {
+            if (time <= 0.0 && extra(this)) {
                 action(this)
                 time = delayTime
             }
@@ -356,9 +356,19 @@ fun newSaucer(): SpaceObject = SpaceObject(
 
 fun newShip(): SpaceObject = SpaceObject(SpaceObjectType.SHIP, 0.0, 0.0, 0.0, 0.0, 0.0, false)
     .also { spaceObject ->
-        val shipTimer = Timer(spaceObject, U.ShipDelay, false) { activateShip() }
+        val shipTimer = Timer(
+            spaceObject,
+            U.ShipDelay,
+            false,
+            { timer:Timer -> safeToEmerge(timer)}
+        ) { activateShip() }
         addComponent(spaceObject, shipTimer)
     }
+
+fun safeToEmerge(timer: Timer): Boolean {
+    println("safe for now")
+    return true
+}
 
 fun newAsteroid(): SpaceObject = SpaceObject(SpaceObjectType.ASTEROID, 0.0, 0.0, 0.0, 0.0, 0.0, false)
     .also { it.scale = 4.0 }
