@@ -44,9 +44,13 @@ object U {
 }
 
 var Score: Int = 0
-lateinit var SpaceObjects: Array<SpaceObject>
-lateinit var Ship: SpaceObject
+var AsteroidsGoneFor = 0.0
+private var currentWaveSize = 0
+var dropScale = U.ShipDropInScale
 lateinit var Saucer: SpaceObject
+var saucerSpeed = U.SaucerSpeed
+lateinit var Ship: SpaceObject
+lateinit var SpaceObjects: Array<SpaceObject>
 var TimerTable: List<Timer> = mutableListOf<Timer>()
 
 fun gameCycle(
@@ -101,7 +105,6 @@ private fun drawEverything(spaceObjects: Array<SpaceObject>, drawer: Drawer, del
     }
 }
 
-var AsteroidsGoneFor = 0.0
 fun checkIfAsteroidsNeeded(deltaTime: Double) {
     if (activeAsteroids(SpaceObjects).isEmpty()) {
         AsteroidsGoneFor += deltaTime
@@ -112,10 +115,7 @@ fun checkIfAsteroidsNeeded(deltaTime: Double) {
     }
 }
 
-private var currentWaveSize = 0
 fun nextWaveSize(previousSize: Int): Int = min(previousSize +2,11)
-
-var dropScale = U.ShipDropInScale
 
 fun activateShip() {
     dropScale = U.ShipDropInScale
@@ -236,7 +236,6 @@ fun updateSaucerTimer(timer: SaucerTimer, deltaTime: Double) {
     }
 }
 
-var saucerSpeed = U.SaucerSpeed
 fun activateSaucer(entity: SpaceObject) {
     entity.active = true
     entity.position = Vector2(0.0, Random.nextDouble(U.ScreenHeight.toDouble()))
