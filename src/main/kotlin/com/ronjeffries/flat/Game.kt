@@ -25,8 +25,8 @@ object U {
     const val LightSpeed = 500.0
     const val MissileCount = 6
     const val MissileKillRadius = 1.0
-    const val MissileOffset = 50.0
-    const val MissileSpeed = LightSpeed / 3.0
+    val MissileOffsetFromShip = Vector2(50.0, 0.0)
+    val MissileVelocity = Vector2(LightSpeed / 3.0, 0.0)
     const val MissileTime = 3.0
     const val SaucerDelay = 7.0
     const val SaucerKilLRadius = 20.0
@@ -267,8 +267,8 @@ private fun incrementVelocity(spaceObject: SpaceObject, deltaV: Vector2) {
 fun fireMissile() {
     Controls.fire = false
     withAvailableMissile { missile ->
-        missile.position = Ship.position + Vector2(U.MissileOffset, 0.0).rotate(Ship.angle)
-        missile.velocity = Ship.velocity + Vector2(U.MissileSpeed, 0.0).rotate(Ship.angle)
+        missile.position = Ship.position + U.MissileOffsetFromShip.rotate(Ship.angle)
+        missile.velocity = Ship.velocity + U.MissileVelocity.rotate(Ship.angle)
         missile.active = true
     }
 }
