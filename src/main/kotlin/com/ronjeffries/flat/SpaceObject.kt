@@ -71,12 +71,12 @@ fun missiles(spaceObjects: Array<SpaceObject>): List<SpaceObject> {
 
 fun move(spaceObject: SpaceObject, width: Double, height: Double, deltaTime: Double) {
     with (spaceObject) {
-        x = limit(x+dx*deltaTime, width)
-        y = limit(y+dy*deltaTime, height)
+        x = wrap(x+dx*deltaTime, width)
+        y = wrap(y+dy*deltaTime, height)
     }
 }
 
-private fun limit(value: Double, max: Double): Double {
+private fun wrap(value: Double, max: Double): Double {
     var result = value
     while (result < 0) result += max
     while (result > max) result -= max
