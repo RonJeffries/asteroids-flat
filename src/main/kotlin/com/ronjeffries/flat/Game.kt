@@ -268,13 +268,9 @@ fun fireMissile() {
     Controls.fire = false
     withAvailableMissile { missile ->
         missile.position = Ship.position + Vector2(U.MissileOffset, 0.0).rotate(Ship.angle)
-        setVelocityRelativeToShip(missile, Vector2(U.MissileSpeed, 0.0).rotate(Ship.angle))
+        missile.velocity = Ship.velocity + Vector2(U.MissileSpeed, 0.0).rotate(Ship.angle)
         missile.active = true
     }
-}
-
-private fun setVelocityRelativeToShip(spaceObject: SpaceObject, velocity: Vector2) {
-    spaceObject.velocity = velocity + Vector2(Ship.dx, Ship.dy)
 }
 
 fun withAvailableMissile(action: (SpaceObject) -> Unit) {
