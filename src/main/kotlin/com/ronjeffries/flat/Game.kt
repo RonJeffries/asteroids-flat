@@ -5,7 +5,6 @@ import org.openrndr.draw.Drawer
 import org.openrndr.draw.isolated
 import org.openrndr.math.Vector2
 import java.lang.Integer.min
-import kotlin.math.max
 import kotlin.random.Random
 
 // Globals
@@ -36,7 +35,7 @@ object U {
     const val ScreenHeight = 1024
     const val ScreenWidth = 1024
           val CenterOfUniverse = Vector2(ScreenWidth/2.0, ScreenHeight/2.0)
-    const val SafeShipDistance = U.ScreenHeight/10.0
+    const val SafeShipDistance = ScreenHeight/10.0
     const val ShipDelay = 4.0
     const val ShipDecelerationFactor = 0.5
     const val ShipDropInScale = 3.0
@@ -74,7 +73,7 @@ private fun updateEverything(
     for (spaceObject in spaceObjects) {
         for (component in spaceObject.components) update(component, deltaTime)
         if (spaceObject.type == SpaceObjectType.SHIP) applyControls(spaceObject, deltaTime)
-        move(spaceObject, width, height, deltaTime)
+        move(spaceObject, width.toDouble(), height.toDouble(), deltaTime)
     }
 }
 

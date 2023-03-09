@@ -62,13 +62,13 @@ data class SpaceObject(
 ) {
     var position: Vector2
         get() = Vector2(x,y)
-        set(v:Vector2) {
+        set(v) {
             x = v.x
             y = v.y
         }
     var velocity: Vector2
         get() = Vector2(dx,dy)
-        set(v:Vector2) {
+        set(v) {
             dx = v.x
             dy = v.y
         }
@@ -132,10 +132,6 @@ private fun shipSpecialHandling(spaceObject: SpaceObject, drawer: Drawer, deltaT
             drawer.lineStrip(shipFlare)
         }
     }
-}
-
-fun move(spaceObject: SpaceObject, width: Int, height: Int, deltaTime: Double) {
-    move(spaceObject, width.toDouble(), height.toDouble(), deltaTime)
 }
 
 fun move(spaceObject: SpaceObject, width: Double, height: Double, deltaTime: Double) {
