@@ -7,15 +7,15 @@ import org.openrndr.draw.loadFont
 fun main() = application {
     configure {
         title = "Asteroids"
-        width = U.ScreenWidth.toInt()
-        height = U.ScreenHeight.toInt()
+        width = U.ScreenWidth
+        height = U.ScreenHeight
     }
 
     program {
 //        val image = loadImage("data/images/pm5544.png")
         val font = loadFont("data/fonts/default.otf", 64.0)
         createGame(U.MissileCount,U.AsteroidCount)
-        startGame()
+        startGame(width, height)
         var lastTime = 0.0
         var deltaTime = 0.0
         keyboard.keyDown.listen {

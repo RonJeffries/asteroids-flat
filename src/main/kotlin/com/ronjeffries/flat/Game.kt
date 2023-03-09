@@ -5,6 +5,7 @@ import org.openrndr.draw.Drawer
 import org.openrndr.draw.isolated
 import org.openrndr.math.Vector2
 import java.lang.Integer.min
+import kotlin.math.max
 import kotlin.random.Random
 
 // Globals
@@ -32,8 +33,8 @@ object U {
     const val SaucerKilLRadius = 20.0
     const val SaucerScore = 200
     const val SaucerSpeed = 150.0
-    const val ScreenHeight = 1024.0
-    const val ScreenWidth = 1024.0
+    const val ScreenHeight = 1024
+    const val ScreenWidth = 1024
           val CenterOfUniverse = Vector2(ScreenWidth/2.0, ScreenHeight/2.0)
     const val SafeShipDistance = U.ScreenHeight/10.0
     const val ShipDelay = 4.0
@@ -239,7 +240,7 @@ fun updateSaucerTimer(timer: SaucerTimer, deltaTime: Double) {
 var saucerSpeed = U.SaucerSpeed
 fun activateSaucer(entity: SpaceObject) {
     entity.active = true
-    entity.position = Vector2(0.0, Random.nextDouble(U.ScreenHeight))
+    entity.position = Vector2(0.0, Random.nextDouble(U.ScreenHeight.toDouble()))
     entity.velocity = Vector2(saucerSpeed, 0.0)
     saucerSpeed *= -1.0
 }
@@ -296,10 +297,10 @@ fun createGame(missileCount: Int, asteroidCount: Int) {
     SpaceObjects = objects.toTypedArray()
 }
 
-fun startGame() {
+fun startGame(width: Int, height: Int) {
     saucerSpeed = U.SaucerSpeed
     Ship.active = true
-    Ship.position = Vector2(U.ScreenWidth/2.0, U.ScreenHeight/2.0)
+    Ship.position = Vector2(width/2.0, height/2.0)
     Saucer.active = false
     activateAsteroids(4)
 }
@@ -318,7 +319,7 @@ fun activateAsteroidAtEdge() {
     val asteroids = SpaceObjects.filter { it.type == SpaceObjectType.ASTEROID }
     val available = asteroids.firstOrNull { !it.active }
     if (available != null) {
-        val edgePosition = Vector2(0.0, Random.nextDouble(U.ScreenHeight))
+        val edgePosition = Vector2(0.0, Random.nextDouble(U.ScreenHeight.toDouble()))
         activateAsteroid(available, 4.0, edgePosition, randomVelocity())
     }
 }
