@@ -47,10 +47,8 @@ class InitialTests {
     fun `start game makes ship active`() {
         createGame(6, 26)
         assertThat(Ship.active).isEqualTo(false)
-        startGame(500, 600)
+        startGame()
         assertThat(Ship.active).isEqualTo(true)
-        assertThat(Ship.x).isEqualTo(250.0)
-        assertThat(Ship.y).isEqualTo(300.0)
     }
 
     @Test
