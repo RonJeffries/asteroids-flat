@@ -293,9 +293,7 @@ fun activateAsteroids(asteroidCount: Int) {
     for (i in 1..asteroidCount) activateAsteroidAtEdge()
 }
 
-private fun deactivateAsteroids() {
-    SpaceObjects.filter { it.type == SpaceObjectType.ASTEROID }.forEach { deactivate(it) }
-}
+private fun deactivateAsteroids() = activeAsteroids(SpaceObjects).forEach { deactivate(it) }
 
 fun activateAsteroidAtEdge() {
     val asteroids = SpaceObjects.filter { it.type == SpaceObjectType.ASTEROID }
