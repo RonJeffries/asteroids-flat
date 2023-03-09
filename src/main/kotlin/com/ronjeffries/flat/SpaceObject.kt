@@ -48,11 +48,6 @@ fun activeAsteroids(spaceObjects: Array<SpaceObject>): List<SpaceObject> {
 fun activeMissiles(spaceObjects: Array<SpaceObject>): List<SpaceObject> {
     return missiles(spaceObjects).filter { it.active}
 }
-
-fun missiles(spaceObjects: Array<SpaceObject>): List<SpaceObject> {
-    return spaceObjects.filter {it.type == SpaceObjectType.MISSILE}
-}
-
 fun addComponent(entity: SpaceObject, component: Component) {
     if (component is Timer ) TimerTable += component
     else entity.components.add(component)
@@ -62,9 +57,7 @@ fun deactivate(entity: SpaceObject) {
     entity.active = false
     for (component in entity.components) {
         when (component) {
-            is SaucerTimer -> {
-                component.time = U.SaucerDelay
-            }
+            is SaucerTimer -> component.time = U.SaucerDelay
         }
     }
     for (timer in TimerTable) {
@@ -72,6 +65,9 @@ fun deactivate(entity: SpaceObject) {
     }
 }
 
+fun missiles(spaceObjects: Array<SpaceObject>): List<SpaceObject> {
+    return spaceObjects.filter {it.type == SpaceObjectType.MISSILE}
+}
 
 fun move(spaceObject: SpaceObject, width: Double, height: Double, deltaTime: Double) {
     with (spaceObject) {
