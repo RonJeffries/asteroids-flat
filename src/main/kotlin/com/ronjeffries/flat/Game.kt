@@ -296,8 +296,7 @@ fun activateAsteroids(asteroidCount: Int) {
 private fun deactivateAsteroids() = activeAsteroids(SpaceObjects).forEach { deactivate(it) }
 
 fun activateAsteroidAtEdge() {
-    val asteroids = SpaceObjects.filter { it.type == SpaceObjectType.ASTEROID }
-    val available = asteroids.firstOrNull { !it.active }
+    val available = inactiveAsteroids((SpaceObjects)).firstOrNull { !it.active }
     if (available != null) {
         val edgePosition = Vector2(0.0, Random.nextDouble(U.ScreenHeight.toDouble()))
         activateAsteroid(available, 4.0, edgePosition, randomVelocity())

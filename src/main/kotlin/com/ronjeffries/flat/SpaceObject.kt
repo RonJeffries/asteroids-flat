@@ -41,9 +41,11 @@ data class SpaceObject(
     var components: MutableList<Component> = mutableListOf()
 }
 
-fun activeAsteroids(spaceObjects: Array<SpaceObject>): List<SpaceObject> {
-    return spaceObjects.filter {it.type == SpaceObjectType.ASTEROID && it.active}
-}
+fun asteroids() = SpaceObjects.filter { it.type == SpaceObjectType.ASTEROID }
+
+fun activeAsteroids(spaceObjects: Array<SpaceObject>): List<SpaceObject> = asteroids().filter {it.active}
+
+fun inactiveAsteroids(spaceObjects: Array<SpaceObject>): List<SpaceObject> = asteroids().filter { ! it.active}
 
 fun activeMissiles(spaceObjects: Array<SpaceObject>): List<SpaceObject> =
     missiles(spaceObjects).filter { it.active}
