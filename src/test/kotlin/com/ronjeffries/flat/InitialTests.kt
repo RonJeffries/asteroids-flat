@@ -74,6 +74,39 @@ class InitialTests {
     }
 
     @Test
+    fun `saucer can fire two missiles`() {
+        createGame(2,4, 4)
+        assertThat(activeSaucerMissileCount())
+            .describedAs("initialized inactive").isEqualTo(0)
+        fireSaucerMissile()
+        assertThat(activeSaucerMissileCount())
+            .describedAs("first missile free").isEqualTo(1)
+        fireSaucerMissile()
+        assertThat(activeSaucerMissileCount())
+            .describedAs("second missile free").isEqualTo(2)
+        fireSaucerMissile()
+        assertThat(activeSaucerMissileCount())
+            .describedAs("no third missile").isEqualTo(2)
+    }
+
+    @Test
+    fun `saucer auto-fires two missiles`() {
+        createGame(2,4, 4)
+        Saucer.active = true
+        assertThat(activeSaucerMissileCount())
+            .describedAs("initialized inactive").isEqualTo(0)
+        updateTimers(0.51)
+        assertThat(activeSaucerMissileCount())
+            .describedAs("first missile free").isEqualTo(1)
+        updateTimers(0.51)
+        assertThat(activeSaucerMissileCount())
+            .describedAs("second missile free").isEqualTo(2)
+        updateTimers(0.51)
+        assertThat(activeSaucerMissileCount())
+            .describedAs("no third missile").isEqualTo(2)
+    }
+
+    @Test
     fun `can activate asteroids`() {
         createGame(6, 6)
         val asteroidCount = SpaceObjects.count { it.type == SpaceObjectType.ASTEROID}
@@ -86,6 +119,10 @@ class InitialTests {
     }
 
     private fun activeMissileCount(): Int {
-        return SpaceObjects.count { it.type == SpaceObjectType.MISSILE && it.active == true}
+        return SpaceObjects.count { it.type == SpaceObjectType.MISSILE && it.active }
+    }
+
+    private fun activeSaucerMissileCount(): Int {
+        return SpaceObjects.count { it.type == SpaceObjectType.SAUCER_MISSILE && it.active }
     }
 }

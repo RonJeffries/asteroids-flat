@@ -273,6 +273,20 @@ fun fireMissile() {
     }
 }
 
+fun fireSaucerMissile() {
+    withAvailableSaucerMissile { missile: SpaceObject ->
+        missile.position = Saucer.position
+        missile.active = true
+    }
+}
+
+fun withAvailableSaucerMissile(action: (SpaceObject) -> Unit) {
+    SpaceObjects.filter { it.type == SpaceObjectType.SAUCER_MISSILE}
+        .forEach {
+            if ( ! it.active ) return action(it)
+        }
+}
+
 fun withAvailableMissile(action: (SpaceObject) -> Unit) {
     for (i in 2..5) {
         if (!SpaceObjects[i].active) return action(SpaceObjects[i])

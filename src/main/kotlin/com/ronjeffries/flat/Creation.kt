@@ -52,7 +52,11 @@ fun newSaucer(): SpaceObject = SpaceObject(
     0.0,
     0.0,
     false
-).also { addComponent(it, SaucerTimer(it)) }
+).also {
+    val firingTimer = Timer(it, 0.5, true, {true}) { println("actually firing"); fireSaucerMissile() }
+    addComponent(it, firingTimer)
+    addComponent(it, SaucerTimer(it))
+}
 
 fun newShip(): SpaceObject = SpaceObject(SpaceObjectType.SHIP, 0.0, 0.0, 0.0, 0.0, 0.0, false)
     .also { spaceObject ->
