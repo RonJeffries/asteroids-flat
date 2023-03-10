@@ -55,6 +55,8 @@ fun newSaucer(): SpaceObject = SpaceObject(
 ).also {
     val firingTimer = Timer(it, 0.5, true, {true}) { fireSaucerMissile() }
     addComponent(it, firingTimer)
+    val zigZagTimer = Timer(it, 1.1, true, {true}) { zigZag() }
+    addComponent(it, zigZagTimer)
     addComponent(it, SaucerTimer(it))
 }
 

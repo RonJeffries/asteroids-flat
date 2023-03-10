@@ -5,6 +5,7 @@ import org.openrndr.draw.Drawer
 import org.openrndr.draw.isolated
 import org.openrndr.math.Vector2
 import java.lang.Integer.min
+import java.lang.Integer.max
 import kotlin.random.Random
 
 // Globals
@@ -354,4 +355,14 @@ fun safeToEmerge(timer: Timer): Boolean {
     }
     return true
 }
+
+fun zigZag() {
+    Saucer.velocity = newDirection(Random.nextInt(4)) * saucerSpeed
+}
+
+fun newDirection(direction: Int): Vector2 = saucerDireections[min(max(0, direction), 3)]
+
+val saucerDireections = listOf(
+    Vector2(-1.0, 0.0), Vector2(-1.0, 0.0),
+    Vector2(-0.7071, -0.7071), Vector2(-0.7071, 0.7071))
 

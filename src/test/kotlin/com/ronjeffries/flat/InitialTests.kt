@@ -107,6 +107,30 @@ class InitialTests {
     }
 
     @Test
+    fun `saucer directions are all in same general direction`() {
+        for (direction in saucerDireections) {
+            assertThat(direction.x).isLessThan(0.0)
+        }
+    }
+
+    @Test
+    fun `saucer zigZag continues in same general direction`() {
+        val saucer = newSaucer()
+        activateSaucer(saucer)
+        assertThat(saucer.velocity.x)
+            .describedAs("starts left to right").isGreaterThan(0.0)
+        zigZag()
+        assertThat(saucer.velocity.x)
+            .describedAs("continues left to right").isGreaterThan(0.0)
+        activateSaucer(saucer)
+        assertThat(saucer.velocity.x)
+            .describedAs("switches to right to left").isLessThan(0.0)
+        zigZag()
+        assertThat(saucer.velocity.x)
+            .describedAs("continues right to left").isLessThan(0.0)
+    }
+
+    @Test
     fun `can activate asteroids`() {
         createGame(6, 6)
         val asteroidCount = SpaceObjects.count { it.type == SpaceObjectType.ASTEROID}
