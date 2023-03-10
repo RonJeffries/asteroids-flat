@@ -1,9 +1,14 @@
 package com.ronjeffries.flat
 
 fun createGame(missileCount: Int, asteroidCount: Int) {
+    createGame(2, missileCount-2, asteroidCount)
+}
+
+fun createGame(saucerMissileCount: Int, shipMissileCount: Int, asteroidCount: Int) {
     Score = 0
     val objects = mutableListOf<SpaceObject>()
-    for (i in 1..missileCount) objects.add(newMissile())
+    for (i in 1..saucerMissileCount) objects.add(newSaucerMissile())
+    for (i in 1..shipMissileCount) objects.add(newMissile())
     Ship = newShip()
     objects.add(Ship)
     Saucer = newSaucer()
@@ -12,7 +17,15 @@ fun createGame(missileCount: Int, asteroidCount: Int) {
     SpaceObjects = objects.toTypedArray()
 }
 
-fun newAsteroid(): SpaceObject = SpaceObject(SpaceObjectType.ASTEROID, 0.0, 0.0, 0.0, 0.0, 0.0, false)
+fun newAsteroid(): SpaceObject = SpaceObject(
+    SpaceObjectType.ASTEROID,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    false
+)
     .also { it.scale = 4.0 }
 
 fun newMissile(): SpaceObject {
@@ -23,7 +36,23 @@ fun newMissile(): SpaceObject {
         }
 }
 
-fun newSaucer(): SpaceObject = SpaceObject(SpaceObjectType.SAUCER, 0.0, 0.0, 0.0, 0.0, 0.0, false).also { addComponent(it, SaucerTimer(it)) }
+fun newSaucerMissile(): SpaceObject {
+    return SpaceObject(SpaceObjectType.SAUCER_MISSILE, 0.0, 0.0, 0.0, 0.0, 0.0, false)
+        .also { spaceObject ->
+            val missileTimer = Timer(spaceObject, U.MissileTime, true) { timer -> deactivate(timer.entity) }
+            addComponent(spaceObject, missileTimer)
+        }
+}
+
+fun newSaucer(): SpaceObject = SpaceObject(
+    SpaceObjectType.SAUCER,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    false
+).also { addComponent(it, SaucerTimer(it)) }
 
 fun newShip(): SpaceObject = SpaceObject(SpaceObjectType.SHIP, 0.0, 0.0, 0.0, 0.0, 0.0, false)
     .also { spaceObject ->

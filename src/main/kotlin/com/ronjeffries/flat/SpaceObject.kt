@@ -13,7 +13,8 @@ enum class SpaceObjectType(val points: List<Vector2>, val killRadius: (SpaceObje
     ASTEROID(asteroidPoints, asteroidRadius),
     SHIP(shipPoints, shipRadius),
     SAUCER(saucerPoints, saucerRadius),
-    MISSILE(missilePoints, missileRadius)
+    MISSILE(missilePoints, missileRadius),
+    SAUCER_MISSILE(missilePoints, missileRadius)
 }
 
 data class SpaceObject(

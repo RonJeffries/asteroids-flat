@@ -37,8 +37,10 @@ class InitialTests {
     @Test
     fun `initial array creation`() {
         createGame(6, 26) // number of missiles, number of asteroids
+        val sCount = SpaceObjects.count { it.type == SpaceObjectType.SAUCER_MISSILE}
+        assertThat(sCount).isEqualTo(2)
         val mCount = SpaceObjects.count { it.type == SpaceObjectType.MISSILE}
-        assertThat(mCount).isEqualTo(6)
+        assertThat(mCount).isEqualTo(4)
         assertThat(Ship.type).isEqualTo(SpaceObjectType.SHIP)
         assertThat(Ship).isEqualTo(SpaceObjects[6])
     }
