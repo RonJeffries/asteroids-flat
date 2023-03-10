@@ -14,7 +14,7 @@ fun main() = application {
     program {
 //        val image = loadImage("data/images/pm5544.png")
         val font = loadFont("data/fonts/default.otf", 64.0)
-        createGame(U.MissileCount,U.AsteroidCount)
+        createGame(4, U.MissileCount,U.AsteroidCount)
         startGame(width, height)
         var lastTime = 0.0
         var deltaTime = 0.0

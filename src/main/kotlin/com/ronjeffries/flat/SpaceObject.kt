@@ -51,6 +51,12 @@ fun inactiveAsteroids(spaceObjects: Array<SpaceObject>): List<SpaceObject> = ast
 fun activeMissiles(spaceObjects: Array<SpaceObject>): List<SpaceObject> =
     missiles(spaceObjects).filter { it.active}
 
+fun activeSaucerMissiles(spaceObjects: Array<SpaceObject>): List<SpaceObject> =
+    saucerMissiles(spaceObjects).filter { it.active }
+
+fun saucerMissiles(spaceObjects: Array<SpaceObject>): List<SpaceObject> =
+    spaceObjects.filter { it.type == SpaceObjectType.SAUCER_MISSILE }
+
 fun addComponent(entity: SpaceObject, component: Component) {
     if (component is Timer ) TimerTable += component
     else entity.components.add(component)

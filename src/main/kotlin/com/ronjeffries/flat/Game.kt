@@ -141,8 +141,22 @@ fun formatted(): String = ("00000" + Score.toShort()).takeLast(5)
 
 private fun checkCollisions() {
     checkAllMissilesVsAsteroids()
+    checkSaucerMissilesVsShip()
     if ( Ship.active ) checkShipVsAsteroids(Ship)
     if ( Saucer.active ) checkAllMissilesVsSaucer(Saucer)
+}
+
+private fun checkSaucerMissilesVsShip() {
+    for (missile in activeSaucerMissiles(SpaceObjects)) {
+        checkShipVsMissile(Ship,missile)
+    }
+}
+
+private fun checkShipVsMissile(ship: SpaceObject, missile: SpaceObject){
+    if ( colliding(ship,missile)) {
+        deactivate(ship)
+        deactivate(missile)
+    }
 }
 
 private fun checkAllMissilesVsSaucer(saucer: SpaceObject) {
@@ -275,6 +289,7 @@ fun fireMissile() {
 
 fun fireSaucerMissile() {
     withAvailableSaucerMissile { missile: SpaceObject ->
+        missile.velocity = Saucer.velocity + U.MissileVelocity.rotate(Random.nextDouble(360.0))
         missile.position = Saucer.position
         missile.active = true
     }
@@ -288,8 +303,8 @@ fun withAvailableSaucerMissile(action: (SpaceObject) -> Unit) {
 }
 
 fun withAvailableMissile(action: (SpaceObject) -> Unit) {
-    for (i in 2..5) {
-        if (!SpaceObjects[i].active) return action(SpaceObjects[i])
+    for (missile in missiles(SpaceObjects)) {
+        if (! missile.active) return action(missile)
     }
 }
 
