@@ -83,6 +83,15 @@ class GameTests {
     }
 
     @Test
+    fun `safeToEmerge detects saucer missiles`() {
+        createGame(4,4,4)
+        val timer = Timer(Ship, U.ShipDelay) {}
+        assertThat(safeToEmerge(timer)).isEqualTo(true)
+        withAvailableSaucerMissile { missile-> missile.active = true }
+        assertThat(safeToEmerge(timer)).isEqualTo(false)
+    }
+
+    @Test
     fun `safeToEmerge detects close asteroids`() {
         createGame(4,4)
         val timer = Timer(Ship, U.ShipDelay) {}

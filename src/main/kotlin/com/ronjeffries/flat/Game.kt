@@ -348,6 +348,7 @@ private fun randomAngle() = Random.nextDouble(360.0)
 fun safeToEmerge(timer: Timer): Boolean {
     if ( Saucer.active) return false
     if (activeMissiles(SpaceObjects).isNotEmpty()) return false
+    if (activeSaucerMissiles(SpaceObjects).isNotEmpty()) return false
     for (asteroid in activeAsteroids(SpaceObjects)) {
         if ( asteroid.position.distanceTo(U.CenterOfUniverse) < U.SafeShipDistance ) return false
     }
