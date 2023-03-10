@@ -296,10 +296,9 @@ fun fireSaucerMissile() {
 }
 
 fun withAvailableSaucerMissile(action: (SpaceObject) -> Unit) {
-    SpaceObjects.filter { it.type == SpaceObjectType.SAUCER_MISSILE}
-        .forEach {
-            if ( ! it.active ) return action(it)
-        }
+    for ( saucerMissile in saucerMissiles(SpaceObjects)) {
+        if (! saucerMissile.active) return action(saucerMissile)
+    }
 }
 
 fun withAvailableMissile(action: (SpaceObject) -> Unit) {
