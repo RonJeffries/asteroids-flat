@@ -194,11 +194,7 @@ private fun checkShipVsAsteroids(ship: SpaceObject) {
 }
 
 fun checkOneAsteroid(asteroid: SpaceObject, collider: SpaceObject) {
-    if (colliding(asteroid, collider)) {
-        Score += getScore(asteroid,collider)
-        splitOrKillAsteroid(asteroid)
-        deactivate(collider)
-    }
+    checkCollisionWithScore(asteroid, collider, getScore(asteroid, collider))
 }
 
 fun colliding(target: SpaceObject, collider: SpaceObject): Boolean {
@@ -222,7 +218,7 @@ private fun getScore(asteroid: SpaceObject, collider: SpaceObject): Int {
     }
 }
 
-private fun spawnNewAsteroid(asteroid: SpaceObject) {
+fun spawnNewAsteroid(asteroid: SpaceObject) {
     val newOne: SpaceObject? = SpaceObjects.firstOrNull { it.type == SpaceObjectType.ASTEROID && ! it.active }
     if (newOne != null) {
         val newVelocity = asteroid.velocity.rotate(Random.nextDouble(90.0,270.0))
@@ -333,7 +329,7 @@ fun activateAsteroidAtEdge() {
     }
 }
 
-private fun activateAsteroid(asteroid: SpaceObject, scale: Double, position: Vector2, velocity: Vector2) {
+fun activateAsteroid(asteroid: SpaceObject, scale: Double, position: Vector2, velocity: Vector2) {
     asteroid.position = position
     asteroid.scale = scale
     asteroid.velocity = velocity
@@ -341,7 +337,7 @@ private fun activateAsteroid(asteroid: SpaceObject, scale: Double, position: Vec
     asteroid.active = true
 }
 
-private fun randomVelocity(): Vector2 {
+fun randomVelocity(): Vector2 {
     return Vector2(U.AsteroidSpeed, 0.0).rotate(randomAngle())
 }
 

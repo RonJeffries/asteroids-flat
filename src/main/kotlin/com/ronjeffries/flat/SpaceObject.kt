@@ -63,14 +63,27 @@ fun addComponent(entity: SpaceObject, component: Component) {
 }
 
 fun deactivate(entity: SpaceObject) {
-    entity.active = false
+    if (splittable(entity)) {
+        activateAsteroid(entity, entity.scale / 2, entity.position, randomVelocity())
+        spawnNewAsteroid(entity)
+    } else {
+        entity.active = false
+        resetComponents(entity)
+    }
+}
+
+private fun splittable(entity: SpaceObject): Boolean {
+    return entity.type == SpaceObjectType.ASTEROID && entity.scale > 1
+}
+
+private fun resetComponents(entity: SpaceObject) {
     for (component in entity.components) {
         when (component) {
             is SaucerTimer -> component.time = U.SaucerDelay
         }
     }
     for (timer in TimerTable) {
-        if (timer.entity == entity ) timer.time = timer.delayTime
+        if (timer.entity == entity) timer.time = timer.delayTime
     }
 }
 
