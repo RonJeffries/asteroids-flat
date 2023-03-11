@@ -9,8 +9,8 @@ class CollisionTests {
     fun `asteroid and missile far apart do not collide`() {
         val asteroid = newAsteroid()
         asteroid.position = Vector2(100.0, 100.0)
-        val missile :SpaceObject = newMissile()
-        missile.position = Vector2(200.0,200.0)
+        val missile: SpaceObject = newMissile()
+        missile.position = Vector2(200.0, 200.0)
         assertThat(colliding(asteroid, missile)).isEqualTo(false)
     }
 
@@ -18,8 +18,8 @@ class CollisionTests {
     fun `asteroid and missile close enough do collide`() {
         val asteroid = newAsteroid()
         asteroid.position = Vector2(100.0, 100.0)
-        val missile :SpaceObject = newMissile()
-        missile.position = Vector2(110.0,100.0)
+        val missile: SpaceObject = newMissile()
+        missile.position = Vector2(110.0, 100.0)
         assertThat(colliding(asteroid, missile)).isEqualTo(true)
     }
 
@@ -29,10 +29,10 @@ class CollisionTests {
         asteroid.position = Vector2(100.0, 100.0)
         asteroid.active = true
         asteroid.scale = 1.0
-        val missile :SpaceObject = newMissile()
-        missile.position = Vector2(110.0,100.0)
+        val missile: SpaceObject = newMissile()
+        missile.position = Vector2(110.0, 100.0)
         missile.active = true
-        checkOneAsteroid(asteroid, missile)
+        checkCollisionWithScore(asteroid, missile, getScore(asteroid, missile))
         assertThat(missile.active).isEqualTo(false)
     }
 
@@ -42,10 +42,10 @@ class CollisionTests {
         asteroid.position = Vector2(100.0, 100.0)
         asteroid.active = true
         asteroid.scale = 1.0
-        val missile :SpaceObject = newMissile()
-        missile.position = Vector2(110.0,100.0)
+        val missile: SpaceObject = newMissile()
+        missile.position = Vector2(110.0, 100.0)
         missile.active = true
-        checkOneAsteroid(asteroid, missile)
+        checkCollisionWithScore(asteroid, missile, getScore(asteroid, missile))
         assertThat(asteroid.active).isEqualTo(false)
     }
 
@@ -56,11 +56,11 @@ class CollisionTests {
         asteroid.active = true
         asteroid.scale = 2.0
         val availableAsteroid = newAsteroid()
-        SpaceObjects = arrayOf(asteroid,availableAsteroid)
-        val missile :SpaceObject = newMissile()
-        missile.position = Vector2(110.0,100.0)
+        SpaceObjects = arrayOf(asteroid, availableAsteroid)
+        val missile: SpaceObject = newMissile()
+        missile.position = Vector2(110.0, 100.0)
         missile.active = true
-        checkOneAsteroid(asteroid, missile)
+        checkCollisionWithScore(asteroid, missile, getScore(asteroid, missile))
         assertThat(asteroid.scale).isEqualTo(1.0)
     }
 
@@ -72,11 +72,11 @@ class CollisionTests {
         asteroid.scale = 2.0
         val availableAsteroid = newAsteroid()
         availableAsteroid.scale = 4.0
-        SpaceObjects = arrayOf(asteroid,availableAsteroid)
-        val missile :SpaceObject = newMissile()
-        missile.position = Vector2(110.0,100.0)
+        SpaceObjects = arrayOf(asteroid, availableAsteroid)
+        val missile: SpaceObject = newMissile()
+        missile.position = Vector2(110.0, 100.0)
         missile.active = true
-        checkOneAsteroid(asteroid, missile)
+        checkCollisionWithScore(asteroid, missile, getScore(asteroid, missile))
         assertThat(availableAsteroid.scale).isEqualTo(1.0)
         assertThat(availableAsteroid.active).isEqualTo(true)
     }
@@ -89,13 +89,13 @@ class CollisionTests {
         asteroid.scale = 2.0
         val availableAsteroid = newAsteroid()
         availableAsteroid.scale = 4.0
-        SpaceObjects = arrayOf(asteroid,availableAsteroid)
-        val missile :SpaceObject = newMissile()
-        missile.position = Vector2(110.0,100.0)
+        SpaceObjects = arrayOf(asteroid, availableAsteroid)
+        val missile: SpaceObject = newMissile()
+        missile.position = Vector2(110.0, 100.0)
         missile.active = true
         val asteroidVelocity = asteroid.velocity
         val availableAsteroidVelocity = availableAsteroid.velocity
-        checkOneAsteroid(asteroid, missile)
+        checkCollisionWithScore(asteroid, missile, getScore(asteroid, missile))
         assertThat(availableAsteroid.velocity).isNotEqualTo(availableAsteroidVelocity)
         assertThat(asteroid.velocity).isNotEqualTo(asteroidVelocity)
     }

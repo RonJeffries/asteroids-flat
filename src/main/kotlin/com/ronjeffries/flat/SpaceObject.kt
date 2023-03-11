@@ -1,6 +1,7 @@
 package com.ronjeffries.flat
 
 import org.openrndr.math.Vector2
+import kotlin.random.Random
 
 val asteroidRadius = { asteroid: SpaceObject -> U.AsteroidKillRadius* asteroid.scale}
 val missileRadius = { _: SpaceObject -> U.MissileKillRadius }

@@ -149,22 +149,14 @@ private fun checkCollisions() {
 
 private fun checkSaucerMissilesVsShip() {
     for (missile in activeSaucerMissiles(SpaceObjects)) {
-        checkShipVsMissile(Ship,missile)
+        checkCollisionWithScore(Ship, missile, 0)
     }
-}
-
-private fun checkShipVsMissile(ship: SpaceObject, missile: SpaceObject){
-    checkCollisionWithScore(ship, missile, 0)
 }
 
 private fun checkAllMissilesVsSaucer(saucer: SpaceObject) {
     for (missile: SpaceObject in activeMissiles(SpaceObjects)) {
-        checkSaucerVsMissile(saucer, missile)
+        checkCollisionWithScore(saucer, missile, U.SaucerScore)
     }
-}
-
-fun checkSaucerVsMissile(saucer: SpaceObject, missile: SpaceObject) {
-    checkCollisionWithScore(saucer, missile, U.SaucerScore)
 }
 
 fun checkCollisionWithScore(first: SpaceObject, second: SpaceObject, score: Int) {
@@ -183,32 +175,21 @@ private fun checkAllMissilesVsAsteroids() {
 
 private fun checkMissileVsAsteroids(missile: SpaceObject) {
     for (asteroid in activeAsteroids(SpaceObjects)) {
-        checkOneAsteroid(asteroid, missile)
+        checkCollisionWithScore(asteroid, missile, getScore(asteroid, missile))
     }
 }
 
 private fun checkShipVsAsteroids(ship: SpaceObject) {
     for (asteroid in activeAsteroids(SpaceObjects)) {
-        checkOneAsteroid(asteroid, ship)
+        checkCollisionWithScore(asteroid, ship, getScore(asteroid, ship))
     }
-}
-
-fun checkOneAsteroid(asteroid: SpaceObject, collider: SpaceObject) {
-    checkCollisionWithScore(asteroid, collider, getScore(asteroid, collider))
 }
 
 fun colliding(target: SpaceObject, collider: SpaceObject): Boolean {
     return collider.position.distanceTo(target.position) <= killRadius((target)) + killRadius(collider)
 }
 
-private fun splitOrKillAsteroid(asteroid: SpaceObject) {
-    if (asteroid.scale > 1) {
-        activateAsteroid(asteroid, asteroid.scale / 2, asteroid.position, randomVelocity())
-        spawnNewAsteroid(asteroid)
-    } else deactivate(asteroid)
-}
-
-private fun getScore(asteroid: SpaceObject, collider: SpaceObject): Int {
+fun getScore(asteroid: SpaceObject, collider: SpaceObject): Int {
     if (collider.type != SpaceObjectType.MISSILE) return 0
     return when (asteroid.scale) {
         4.0 -> 20

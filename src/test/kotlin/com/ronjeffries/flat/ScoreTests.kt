@@ -11,13 +11,13 @@ class ScoreTests {
         asteroid.position = Vector2(100.0, 100.0)
         asteroid.active = true
         asteroid.scale = 4.0
-        val missile :SpaceObject = newMissile()
-        missile.position = Vector2(100.0,100.0)
+        val missile: SpaceObject = newMissile()
+        missile.position = Vector2(100.0, 100.0)
         missile.active = true
         val oldScore = Score
-        checkOneAsteroid(asteroid, missile)
+        checkCollisionWithScore(asteroid, missile, getScore(asteroid, missile))
         assertThat(asteroid.scale).isEqualTo(2.0)
-        assertThat(Score-oldScore).isEqualTo(20)
+        assertThat(Score - oldScore).isEqualTo(20)
     }
 
     @Test
@@ -26,13 +26,13 @@ class ScoreTests {
         asteroid.position = Vector2(100.0, 100.0)
         asteroid.active = true
         asteroid.scale = 2.0
-        val missile :SpaceObject = newMissile()
-        missile.position = Vector2(100.0,100.0)
+        val missile: SpaceObject = newMissile()
+        missile.position = Vector2(100.0, 100.0)
         missile.active = true
         val oldScore = Score
-        checkOneAsteroid(asteroid, missile)
+        checkCollisionWithScore(asteroid, missile, getScore(asteroid, missile))
         assertThat(asteroid.scale).isEqualTo(1.0)
-        assertThat(Score-oldScore).isEqualTo(50)
+        assertThat(Score - oldScore).isEqualTo(50)
     }
 
     @Test
@@ -41,11 +41,11 @@ class ScoreTests {
         asteroid.position = Vector2(100.0, 100.0)
         asteroid.active = true
         asteroid.scale = 1.0
-        val missile :SpaceObject = newMissile()
-        missile.position = Vector2(100.0,100.0)
+        val missile: SpaceObject = newMissile()
+        missile.position = Vector2(100.0, 100.0)
         missile.active = true
         val oldScore = Score
-        checkOneAsteroid(asteroid, missile)
+        checkCollisionWithScore(asteroid, missile, getScore(asteroid, missile))
         assertThat(asteroid.active).isEqualTo(false)
         assertThat(Score - oldScore).isEqualTo(100)
     }
@@ -56,11 +56,11 @@ class ScoreTests {
         saucer.position = Vector2(100.0, 100.0)
         saucer.active = true
         saucer.scale = 1.0
-        val missile :SpaceObject = newMissile()
-        missile.position = Vector2(110.0,100.0)
+        val missile: SpaceObject = newMissile()
+        missile.position = Vector2(110.0, 100.0)
         missile.active = true
         val oldScore = Score
-        checkSaucerVsMissile(saucer, missile)
+        checkCollisionWithScore(saucer, missile, U.SaucerScore)
         assertThat(Score - oldScore).isEqualTo(200)
         assertThat(saucer.active).isEqualTo(false)
     }
@@ -75,7 +75,7 @@ class ScoreTests {
     @Test
     fun `asteroid radii`() {
         val asteroid = newAsteroid()
-        assertThat(killRadius(asteroid)).isEqualTo(U.AsteroidKillRadius*4.0)
+        assertThat(killRadius(asteroid)).isEqualTo(U.AsteroidKillRadius * 4.0)
         asteroid.scale = 1.0
         assertThat(killRadius(asteroid)).isEqualTo(U.AsteroidKillRadius)
     }
