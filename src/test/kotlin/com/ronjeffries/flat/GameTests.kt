@@ -7,14 +7,25 @@ import org.openrndr.math.Vector2
 class GameTests {
     @Test
     fun `game starts with four asteroids`() {
-        createGame(U.MissileCount, U.AsteroidCount)
+        createGame(U.ShipMissileCount, U.AsteroidCount)
         startGame(U.ScreenWidth, U.ScreenHeight)
         assertThat(activeAsteroids(SpaceObjects).size).isEqualTo(4)
     }
 
     @Test
+    fun `check game creates requested number of items`() {
+        val saucerMissileCount = 3
+        val shipMissileCount = 5
+        val asteroidCount = 7
+        createGame(saucerMissileCount, shipMissileCount, asteroidCount)
+        assertThat(saucerMissiles(SpaceObjects).size).isEqualTo(saucerMissileCount)
+        assertThat(shipMissiles(SpaceObjects).size).isEqualTo(shipMissileCount)
+        assertThat(asteroids(SpaceObjects).size).isEqualTo(asteroidCount)
+    }
+
+    @Test
     fun `second wave is six`() {
-        createGame(U.MissileCount, U.AsteroidCount)
+        createGame(U.ShipMissileCount, U.AsteroidCount)
         startGame(U.ScreenWidth, U.ScreenHeight)
         clearAsteroids()
         checkIfAsteroidsNeeded(0.1)
@@ -34,7 +45,7 @@ class GameTests {
 
     @Test
     fun `new wave is full size`() {
-        createGame(U.MissileCount, U.AsteroidCount)
+        createGame(U.ShipMissileCount, U.AsteroidCount)
         startGame(U.ScreenWidth, U.ScreenHeight)
         clearAsteroids()
         checkIfAsteroidsNeeded(0.1)
@@ -47,7 +58,7 @@ class GameTests {
 
     @Test
     fun `ship refresh`() {
-        createGame(U.MissileCount, U.AsteroidCount)
+        createGame(U.ShipMissileCount, U.AsteroidCount)
         startGame(U.ScreenWidth, U.ScreenHeight)
         Ship.active = false
         updateTimers(0.1)
@@ -97,7 +108,7 @@ class GameTests {
         val timer = Timer(Ship, U.ShipDelay) {}
         assertThat(safeToEmerge(timer)).isEqualTo(true)
         activateAsteroids(1)
-        val asteroid = activeAsteroids(SpaceObjects).first()!!
+        val asteroid = activeAsteroids(SpaceObjects).first()
         asteroid.position = U.CenterOfUniverse + Vector2(50.0, 50.0)
         assertThat(safeToEmerge(timer)).isEqualTo(false)
     }

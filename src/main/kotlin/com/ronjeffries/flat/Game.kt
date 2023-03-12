@@ -24,13 +24,13 @@ object U {
     const val AsteroidSpeed = 100.0
     const val AsteroidWaveDelay = 4.0
     const val LightSpeed = 500.0
-    const val MissileCount = 6
     const val MissileKillRadius = 1.0
     val MissileOffsetFromShip = Vector2(50.0, 0.0)
     val MissileVelocity = Vector2(LightSpeed / 3.0, 0.0)
     const val MissileTime = 3.0
     const val SaucerDelay = 7.0
     const val SaucerKilLRadius = 20.0
+    const val SaucerMissileCount = 4
     const val SaucerScore = 200
     const val SaucerSpeed = 150.0
     const val ScreenHeight = 1024
@@ -38,10 +38,11 @@ object U {
           val CenterOfUniverse = Vector2(ScreenWidth/2.0, ScreenHeight/2.0)
     const val SafeShipDistance = ScreenHeight/10.0
     const val ShipDelay = 4.0
+    const val ShipDeltaV = 120.0
     const val ShipDecelerationFactor = 0.5
     const val ShipDropInScale = 3.0
     const val ShipKillRadius = 24.0
-    const val ShipDeltaV = 120.0
+    const val ShipMissileCount = 4
 }
 
 var Score: Int = 0
@@ -154,7 +155,7 @@ private fun checkSaucerMissilesVsShip() {
 }
 
 private fun checkAllMissilesVsSaucer(saucer: SpaceObject) {
-    for (missile: SpaceObject in activeMissiles(SpaceObjects)) {
+    for (missile: SpaceObject in activeShipMissiles(SpaceObjects)) {
         checkCollisionWithScore(saucer, missile, U.SaucerScore)
     }
 }
@@ -168,7 +169,7 @@ fun checkCollisionWithScore(first: SpaceObject, second: SpaceObject, score: Int)
 }
 
 private fun checkAllMissilesVsAsteroids() {
-    for (missile in activeMissiles(SpaceObjects)) {
+    for (missile in activeShipMissiles(SpaceObjects)) {
         checkMissileVsAsteroids(missile)
     }
 }
@@ -281,7 +282,7 @@ fun withAvailableSaucerMissile(action: (SpaceObject) -> Unit) {
 }
 
 fun withAvailableMissile(action: (SpaceObject) -> Unit) {
-    for (missile in missiles(SpaceObjects)) {
+    for (missile in shipMissiles(SpaceObjects)) {
         if (! missile.active) return action(missile)
     }
 }
@@ -326,7 +327,7 @@ private fun randomAngle() = Random.nextDouble(360.0)
 
 fun safeToEmerge(timer: Timer): Boolean {
     if ( Saucer.active) return false
-    if (activeMissiles(SpaceObjects).isNotEmpty()) return false
+    if (activeShipMissiles(SpaceObjects).isNotEmpty()) return false
     if (activeSaucerMissiles(SpaceObjects).isNotEmpty()) return false
     for (asteroid in activeAsteroids(SpaceObjects)) {
         if ( asteroid.position.distanceTo(U.CenterOfUniverse) < U.SafeShipDistance ) return false

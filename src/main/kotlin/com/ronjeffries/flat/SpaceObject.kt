@@ -1,7 +1,6 @@
 package com.ronjeffries.flat
 
 import org.openrndr.math.Vector2
-import kotlin.random.Random
 
 val asteroidRadius = { asteroid: SpaceObject -> U.AsteroidKillRadius* asteroid.scale}
 val missileRadius = { _: SpaceObject -> U.MissileKillRadius }
@@ -49,8 +48,8 @@ fun activeAsteroids(spaceObjects: Array<SpaceObject>): List<SpaceObject> = aster
 
 fun inactiveAsteroids(spaceObjects: Array<SpaceObject>): List<SpaceObject> = asteroids(spaceObjects).filter { ! it.active}
 
-fun activeMissiles(spaceObjects: Array<SpaceObject>): List<SpaceObject> =
-    missiles(spaceObjects).filter { it.active}
+fun activeShipMissiles(spaceObjects: Array<SpaceObject>): List<SpaceObject> =
+    shipMissiles(spaceObjects).filter { it.active}
 
 fun activeSaucerMissiles(spaceObjects: Array<SpaceObject>): List<SpaceObject> =
     saucerMissiles(spaceObjects).filter { it.active }
@@ -88,7 +87,7 @@ private fun resetComponents(entity: SpaceObject) {
     }
 }
 
-fun missiles(spaceObjects: Array<SpaceObject>): List<SpaceObject> =
+fun shipMissiles(spaceObjects: Array<SpaceObject>): List<SpaceObject> =
     spaceObjects.filter {it.type == SpaceObjectType.MISSILE}
 
 fun move(spaceObject: SpaceObject, width: Double, height: Double, deltaTime: Double) {
