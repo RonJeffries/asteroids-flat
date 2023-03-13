@@ -3,6 +3,7 @@ package com.ronjeffries.flat
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.within
 import org.junit.jupiter.api.Test
+import kotlin.random.Random
 
 class InitialTests {
     @Test
@@ -111,6 +112,11 @@ class InitialTests {
         for (direction in saucerDireections) {
             assertThat(direction.x).isLessThan(0.0)
         }
+    }
+
+    @Test
+    fun `Random nextInt(from, to)`() {
+//        for (i in 1..100) println(Random.nextInt(0,2))
     }
 
     @Test

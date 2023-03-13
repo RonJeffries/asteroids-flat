@@ -1,6 +1,7 @@
 package com.ronjeffries.flat
 
 import org.openrndr.math.Vector2
+import org.openrndr.draw.Drawer
 
 val asteroidRadius = { asteroid: SpaceObject -> U.AsteroidKillRadius* asteroid.scale}
 val missileRadius = { _: SpaceObject -> U.MissileKillRadius }
@@ -9,12 +10,17 @@ val shipRadius = { _: SpaceObject -> U.ShipKillRadius }
 
 fun killRadius(spaceObject: SpaceObject) = spaceObject.type.killRadius(spaceObject)
 
-enum class SpaceObjectType(val points: List<Vector2>, val killRadius: (SpaceObject)->Double) {
-    ASTEROID(asteroidPoints, asteroidRadius),
-    SHIP(shipPoints, shipRadius),
-    SAUCER(saucerPoints, saucerRadius),
-    MISSILE(missilePoints, missileRadius),
-    SAUCER_MISSILE(missilePoints, missileRadius)
+enum class SpaceObjectType(
+    val points: List<Vector2>,
+    val killRadius: (SpaceObject) -> Double,
+    val draw: (Drawer, SpaceObject) -> Unit
+) {
+    ASTEROID(asteroidPoints, asteroidRadius,
+        {drawer, spaceObject -> drawer.lineStrip(rocks[spaceObject.pointsIndex])}),
+    SHIP(shipPoints, shipRadius, { drawer, spaceObject -> drawer.lineStrip(spaceObject.type.points) }),
+    SAUCER(saucerPoints, saucerRadius, { drawer, spaceObject -> drawer.lineStrip(spaceObject.type.points) }),
+    MISSILE(missilePoints, missileRadius, { drawer, spaceObject -> drawer.lineStrip(spaceObject.type.points) }),
+    SAUCER_MISSILE(missilePoints, missileRadius, { drawer, spaceObject -> drawer.lineStrip(spaceObject.type.points) })
 }
 
 data class SpaceObject(
@@ -25,6 +31,8 @@ data class SpaceObject(
     var dy: Double,
     var angle: Double = 0.0,
     var active: Boolean = false,
+    var spinRate: Double = 0.0,
+    var pointsIndex: Int = 0
 ) {
     var position: Vector2
         get() = Vector2(x,y)
@@ -92,6 +100,7 @@ fun shipMissiles(spaceObjects: Array<SpaceObject>): List<SpaceObject> =
 
 fun move(spaceObject: SpaceObject, width: Double, height: Double, deltaTime: Double) {
     with (spaceObject) {
+        angle += spinRate*deltaTime
         x = wrap(x+dx*deltaTime, width)
         y = wrap(y+dy*deltaTime, height)
     }

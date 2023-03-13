@@ -316,7 +316,14 @@ fun activateAsteroid(asteroid: SpaceObject, scale: Double, position: Vector2, ve
     asteroid.scale = scale
     asteroid.velocity = velocity
     asteroid.angle = randomAngle()
+    asteroid.spinRate = randomSpinRate()
     asteroid.active = true
+    asteroid.pointsIndex = Random.nextInt(0,4)
+}
+
+fun randomSpinRate(): Double {
+    val spin = Random.nextDouble(10.0,90.0, )
+    if (Random.nextInt(0,2) == 1) return spin else return -spin
 }
 
 fun randomVelocity(): Vector2 {

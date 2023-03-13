@@ -7,6 +7,35 @@ import org.openrndr.math.Vector2
 import kotlin.math.max
 import kotlin.random.Random
 
+val rocks = listOf(
+    listOf(
+        Vector2(4.0, 2.0), Vector2(3.0, 0.0), Vector2(4.0, -2.0),
+        Vector2(1.0, -4.0), Vector2(-2.0, -4.0), Vector2(-4.0, -2.0),
+        Vector2(-4.0, 2.0), Vector2(-2.0, 4.0), Vector2(0.0, 2.0),
+        Vector2(2.0, 4.0), Vector2(4.0, 2.0),
+    ),
+    listOf(
+        Vector2(2.0, 1.0), Vector2(4.0, 2.0), Vector2(2.0, 4.0),
+        Vector2(0.0, 3.0), Vector2(-2.0, 4.0), Vector2(-4.0, 2.0),
+        Vector2(-3.0, 0.0), Vector2(-4.0, -2.0), Vector2(-2.0, -4.0),
+        Vector2(-1.0, -3.0), Vector2(2.0, -4.0), Vector2(4.0, -1.0),
+        Vector2(2.0, 1.0)
+    ),
+    listOf(
+        Vector2(-2.0, 0.0), Vector2(-4.0, -1.0), Vector2(-2.0, -4.0),
+        Vector2(0.0, -1.0), Vector2(0.0, -4.0), Vector2(2.0, -4.0),
+        Vector2(4.0, -1.0), Vector2(4.0, 1.0), Vector2(2.0, 4.0),
+        Vector2(-1.0, 4.0), Vector2(-4.0, 1.0), Vector2(-2.0, 0.0)
+    ),
+    listOf(
+        Vector2(1.0, 0.0), Vector2(4.0, 1.0), Vector2(4.0, 2.0),
+        Vector2(1.0, 4.0), Vector2(-2.0, 4.0), Vector2(-1.0, 2.0),
+        Vector2(-4.0, 2.0), Vector2(-4.0, -1.0), Vector2(-2.0, -4.0),
+        Vector2(1.0, -3.0), Vector2(2.0, -4.0), Vector2(4.0, -2.0),
+        Vector2(1.0, 0.0)
+    )
+)
+
 val asteroidPoints =
     listOf(
         Vector2(4.0, 2.0), Vector2(3.0, 0.0), Vector2(4.0, -2.0),
@@ -47,7 +76,7 @@ fun draw(spaceObject: SpaceObject, drawer: Drawer, deltaTime: Double) {
         drawer.stroke = ColorRGBa.WHITE
         drawer.strokeWeight = 1.0/scale
         shipSpecialHandling(spaceObject, drawer, deltaTime)
-        drawer.lineStrip(spaceObject.type.points)
+        spaceObject.type.draw(drawer, spaceObject)
     }
 }
 
