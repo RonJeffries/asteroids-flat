@@ -74,6 +74,7 @@ fun draw(spaceObject: SpaceObject, drawer: Drawer, deltaTime: Double) {
         drawer.scale(scale, scale)
         drawer.rotate(spaceObject.angle)
         drawer.stroke = ColorRGBa.WHITE
+        drawer.fill = ColorRGBa.WHITE
         drawer.strokeWeight = 1.0/scale
         spaceObject.type.draw(drawer, spaceObject, deltaTime)
     }

@@ -1,5 +1,6 @@
 package com.ronjeffries.flat
 
+import org.openrndr.color.ColorRGBa
 import org.openrndr.math.Vector2
 import org.openrndr.draw.Drawer
 import kotlin.math.max
@@ -13,12 +14,22 @@ val shipRadius = { _: SpaceObject -> U.ShipKillRadius }
 fun killRadius(spaceObject: SpaceObject) = spaceObject.type.killRadius(spaceObject)
 
 val drawShip = { drawer: Drawer, spaceObject: SpaceObject, deltaTime: Double ->
-    drawer.lineStrip(spaceObject.type.points)
     dropScale = max(dropScale - U.ShipDropInScale*deltaTime, 1.0)
     drawer.scale(dropScale, dropScale)
+    drawer.lineStrip(spaceObject.type.points)
     if (Controls.accelerate && Random.nextInt(1, 3) == 1) {
         drawer.lineStrip(shipFlare)
     }
+}
+
+val drawShipMissile = { drawer: Drawer, spaceObject: SpaceObject, deltaTime: Double ->
+    drawer.circle(Vector2.ZERO, spaceObject.type.killRadius(spaceObject))
+}
+
+val drawSaucerMissile = { drawer: Drawer, spaceObject: SpaceObject, deltaTime: Double ->
+    drawer.stroke = ColorRGBa.RED
+    drawer.fill = ColorRGBa.RED
+    drawer.circle(Vector2.ZERO, spaceObject.type.killRadius(spaceObject))
 }
 
 enum class SpaceObjectType(
@@ -30,8 +41,8 @@ enum class SpaceObjectType(
         {drawer, spaceObject, deltaTime -> drawer.lineStrip(rocks[spaceObject.pointsIndex])}),
     SHIP(shipPoints, shipRadius, drawShip),
     SAUCER(saucerPoints, saucerRadius, { drawer, spaceObject, deltaTime -> drawer.lineStrip(spaceObject.type.points) }),
-    MISSILE(missilePoints, missileRadius, { drawer, spaceObject, deltaTime -> drawer.lineStrip(spaceObject.type.points) }),
-    SAUCER_MISSILE(missilePoints, missileRadius, { drawer, spaceObject, deltaTime -> drawer.lineStrip(spaceObject.type.points) })
+    MISSILE(missilePoints, missileRadius, drawShipMissile),
+    SAUCER_MISSILE(missilePoints, missileRadius, drawSaucerMissile)
 }
 
 data class SpaceObject(
