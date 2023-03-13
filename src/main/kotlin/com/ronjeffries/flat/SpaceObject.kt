@@ -13,10 +13,24 @@ val shipRadius = { _: SpaceObject -> U.ShipKillRadius }
 
 fun killRadius(spaceObject: SpaceObject) = spaceObject.type.killRadius(spaceObject)
 
+val drawAsteroid = {drawer: Drawer, spaceObject: SpaceObject, deltaTime: Double ->
+    drawer.lineStrip(rocks[spaceObject.pointsIndex])
+}
+
+val drawSaucer = { drawer: Drawer, spaceObject: SpaceObject, deltaTime: Double ->
+    drawer.lineStrip(saucerPoints)
+}
+
+val drawSaucerMissile = { drawer: Drawer, spaceObject: SpaceObject, deltaTime: Double ->
+    drawer.stroke = ColorRGBa.RED
+    drawer.fill = ColorRGBa.RED
+    drawer.circle(Vector2.ZERO, spaceObject.type.killRadius(spaceObject))
+}
+
 val drawShip = { drawer: Drawer, spaceObject: SpaceObject, deltaTime: Double ->
     dropScale = max(dropScale - U.ShipDropInScale*deltaTime, 1.0)
     drawer.scale(dropScale, dropScale)
-    drawer.lineStrip(spaceObject.type.points)
+    drawer.lineStrip(shipPoints)
     if (Controls.accelerate && Random.nextInt(1, 3) == 1) {
         drawer.lineStrip(shipFlare)
     }
@@ -26,23 +40,15 @@ val drawShipMissile = { drawer: Drawer, spaceObject: SpaceObject, deltaTime: Dou
     drawer.circle(Vector2.ZERO, spaceObject.type.killRadius(spaceObject))
 }
 
-val drawSaucerMissile = { drawer: Drawer, spaceObject: SpaceObject, deltaTime: Double ->
-    drawer.stroke = ColorRGBa.RED
-    drawer.fill = ColorRGBa.RED
-    drawer.circle(Vector2.ZERO, spaceObject.type.killRadius(spaceObject))
-}
-
 enum class SpaceObjectType(
-    val points: List<Vector2>,
     val killRadius: (SpaceObject) -> Double,
     val draw: (Drawer, SpaceObject, Double) -> Unit
 ) {
-    ASTEROID(asteroidPoints, asteroidRadius,
-        {drawer, spaceObject, deltaTime -> drawer.lineStrip(rocks[spaceObject.pointsIndex])}),
-    SHIP(shipPoints, shipRadius, drawShip),
-    SAUCER(saucerPoints, saucerRadius, { drawer, spaceObject, deltaTime -> drawer.lineStrip(spaceObject.type.points) }),
-    MISSILE(missilePoints, missileRadius, drawShipMissile),
-    SAUCER_MISSILE(missilePoints, missileRadius, drawSaucerMissile)
+    ASTEROID(asteroidRadius, drawAsteroid),
+    SHIP(shipRadius, drawShip),
+    SAUCER(saucerRadius, drawSaucer),
+    MISSILE(missileRadius, drawShipMissile),
+    SAUCER_MISSILE(missileRadius, drawSaucerMissile)
 }
 
 data class SpaceObject(
