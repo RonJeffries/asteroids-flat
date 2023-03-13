@@ -2,6 +2,8 @@ package com.ronjeffries.flat
 
 import org.openrndr.math.Vector2
 import org.openrndr.draw.Drawer
+import kotlin.math.max
+import kotlin.random.Random
 
 val asteroidRadius = { asteroid: SpaceObject -> U.AsteroidKillRadius* asteroid.scale}
 val missileRadius = { _: SpaceObject -> U.MissileKillRadius }
@@ -10,17 +12,26 @@ val shipRadius = { _: SpaceObject -> U.ShipKillRadius }
 
 fun killRadius(spaceObject: SpaceObject) = spaceObject.type.killRadius(spaceObject)
 
+val drawShip = { drawer: Drawer, spaceObject: SpaceObject, deltaTime: Double ->
+    drawer.lineStrip(spaceObject.type.points)
+    dropScale = max(dropScale - U.ShipDropInScale*deltaTime, 1.0)
+    drawer.scale(dropScale, dropScale)
+    if (Controls.accelerate && Random.nextInt(1, 3) == 1) {
+        drawer.lineStrip(shipFlare)
+    }
+}
+
 enum class SpaceObjectType(
     val points: List<Vector2>,
     val killRadius: (SpaceObject) -> Double,
-    val draw: (Drawer, SpaceObject) -> Unit
+    val draw: (Drawer, SpaceObject, Double) -> Unit
 ) {
     ASTEROID(asteroidPoints, asteroidRadius,
-        {drawer, spaceObject -> drawer.lineStrip(rocks[spaceObject.pointsIndex])}),
-    SHIP(shipPoints, shipRadius, { drawer, spaceObject -> drawer.lineStrip(spaceObject.type.points) }),
-    SAUCER(saucerPoints, saucerRadius, { drawer, spaceObject -> drawer.lineStrip(spaceObject.type.points) }),
-    MISSILE(missilePoints, missileRadius, { drawer, spaceObject -> drawer.lineStrip(spaceObject.type.points) }),
-    SAUCER_MISSILE(missilePoints, missileRadius, { drawer, spaceObject -> drawer.lineStrip(spaceObject.type.points) })
+        {drawer, spaceObject, deltaTime -> drawer.lineStrip(rocks[spaceObject.pointsIndex])}),
+    SHIP(shipPoints, shipRadius, drawShip),
+    SAUCER(saucerPoints, saucerRadius, { drawer, spaceObject, deltaTime -> drawer.lineStrip(spaceObject.type.points) }),
+    MISSILE(missilePoints, missileRadius, { drawer, spaceObject, deltaTime -> drawer.lineStrip(spaceObject.type.points) }),
+    SAUCER_MISSILE(missilePoints, missileRadius, { drawer, spaceObject, deltaTime -> drawer.lineStrip(spaceObject.type.points) })
 }
 
 data class SpaceObject(

@@ -75,17 +75,6 @@ fun draw(spaceObject: SpaceObject, drawer: Drawer, deltaTime: Double) {
         drawer.rotate(spaceObject.angle)
         drawer.stroke = ColorRGBa.WHITE
         drawer.strokeWeight = 1.0/scale
-        shipSpecialHandling(spaceObject, drawer, deltaTime)
-        spaceObject.type.draw(drawer, spaceObject)
-    }
-}
-
-private fun shipSpecialHandling(spaceObject: SpaceObject, drawer: Drawer, deltaTime: Double) {
-    if (spaceObject.type == SpaceObjectType.SHIP) {
-        dropScale = max(dropScale - U.ShipDropInScale*deltaTime, 1.0)
-        drawer.scale(dropScale, dropScale)
-        if (Controls.accelerate && Random.nextInt(1, 3) == 1) {
-            drawer.lineStrip(shipFlare)
-        }
+        spaceObject.type.draw(drawer, spaceObject, deltaTime)
     }
 }
