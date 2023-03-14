@@ -41,15 +41,20 @@ val drawShipMissile = { drawer: Drawer, spaceObject: SpaceObject, deltaTime: Dou
     drawer.circle(Vector2.ZERO, spaceObject.type.killRadius(spaceObject))
 }
 
-var splatSize: Double = 5.0
+var elapsedSplatTime: Double = 0.0
 val drawSplat = { drawer: Drawer, spaceObject: SpaceObject, deltaTime: Double ->
-    splatSize += deltaTime*5.0
-    if (splatSize > 20.0) {
-        splatSize = 5.0
+    elapsedSplatTime += deltaTime*1.0
+    if (elapsedSplatTime > 2.0) {
+        spaceObject.active = false
     }
-    drawer.scale(splatSize, splatSize)
+    var splatRadius = 1.0 + elapsedSplatTime*2.0
+    drawer.scale(splatRadius, splatRadius)
+    val opacity = 1.0*(2.0- elapsedSplatTime)
+    val color = ColorRGBa(1.0 ,1.0, 1.0, opacity)
+    drawer.fill = color
+    drawer.stroke = color
     for (point in splatPoints) {
-        drawer.circle(point, 1/splatSize)
+        drawer.circle(point, 1/(5*splatRadius))
     }
 }
 
@@ -119,6 +124,12 @@ fun deactivate(entity: SpaceObject) {
     } else {
         entity.active = false
         resetComponents(entity)
+    }
+    if (entity.type == SpaceObjectType.SHIP) {
+        Splat.active = true
+        elapsedSplatTime = 0.0
+        Splat.position = entity.position
+        Splat.angle = randomAngle()
     }
 }
 

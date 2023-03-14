@@ -53,6 +53,7 @@ lateinit var Saucer: SpaceObject
 var saucerSpeed = U.SaucerSpeed
 lateinit var Ship: SpaceObject
 lateinit var SpaceObjects: Array<SpaceObject>
+lateinit var Splat: SpaceObject
 var TimerTable: List<Timer> = mutableListOf<Timer>()
 
 fun gameCycle(
@@ -330,7 +331,7 @@ fun randomVelocity(): Vector2 {
     return Vector2(U.AsteroidSpeed, 0.0).rotate(randomAngle())
 }
 
-private fun randomAngle() = Random.nextDouble(360.0)
+fun randomAngle() = Random.nextDouble(360.0)
 
 fun safeToEmerge(timer: Timer): Boolean {
     if ( Saucer.active) return false
