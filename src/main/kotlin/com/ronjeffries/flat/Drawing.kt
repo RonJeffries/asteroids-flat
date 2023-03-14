@@ -67,6 +67,13 @@ val shipFlare = listOf(
     Vector2(-3.0,-2.0), Vector2(-7.0,0.0), Vector2(-3.0, 2.0)
 )
 
+val splatPoints = listOf(
+    Vector2(-2.0, 0.0), Vector2(-2.0, -2.0), Vector2(2.0, -2.0),
+    Vector2(3.0, 1.0), Vector2(2.0, -1.0), Vector2(0.0, 2.0),
+    Vector2(1.0, 3.0), Vector2(-1.0, 3.0), Vector2(-4.0, -1.0),
+    Vector2(-3.0, 1.0)
+)
+
 fun draw(spaceObject: SpaceObject, drawer: Drawer, deltaTime: Double) {
     drawer.isolated {
         val scale = 4.0 *spaceObject.scale

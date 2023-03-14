@@ -14,6 +14,7 @@ fun createGame(saucerMissileCount: Int, shipMissileCount: Int, asteroidCount: In
     Saucer = newSaucer()
     objects.add(Saucer)
     for (i in 1..asteroidCount) objects.add(newAsteroid())
+    objects.add(newSplat())
     SpaceObjects = objects.toTypedArray()
 }
 
@@ -70,3 +71,13 @@ fun newShip(): SpaceObject = SpaceObject(SpaceObjectType.SHIP, 0.0, 0.0, 0.0, 0.
         ) { activateShip() }
         addComponent(spaceObject, shipTimer)
     }
+
+fun newSplat(): SpaceObject = SpaceObject(
+    type = SpaceObjectType.SPLAT,
+    x = U.ScreenWidth * 0.75,
+    y = U.ScreenHeight * 0.75,
+    dx = 0.0,
+    dy = 0.0,
+    angle = 0.0,
+    active = true
+)

@@ -10,6 +10,7 @@ val asteroidRadius = { asteroid: SpaceObject -> U.AsteroidKillRadius* asteroid.s
 val missileRadius = { _: SpaceObject -> U.MissileKillRadius }
 val saucerRadius = { _: SpaceObject -> U.SaucerKilLRadius }
 val shipRadius = { _: SpaceObject -> U.ShipKillRadius }
+val splatRadius = { _: SpaceObject -> 0.0}
 
 fun killRadius(spaceObject: SpaceObject) = spaceObject.type.killRadius(spaceObject)
 
@@ -40,6 +41,18 @@ val drawShipMissile = { drawer: Drawer, spaceObject: SpaceObject, deltaTime: Dou
     drawer.circle(Vector2.ZERO, spaceObject.type.killRadius(spaceObject))
 }
 
+var splatSize: Double = 5.0
+val drawSplat = { drawer: Drawer, spaceObject: SpaceObject, deltaTime: Double ->
+    splatSize += deltaTime*5.0
+    if (splatSize > 20.0) {
+        splatSize = 5.0
+    }
+    drawer.scale(splatSize, splatSize)
+    for (point in splatPoints) {
+        drawer.circle(point, 1/splatSize)
+    }
+}
+
 enum class SpaceObjectType(
     val killRadius: (SpaceObject) -> Double,
     val draw: (Drawer, SpaceObject, Double) -> Unit
@@ -48,7 +61,8 @@ enum class SpaceObjectType(
     SHIP(shipRadius, drawShip),
     SAUCER(saucerRadius, drawSaucer),
     MISSILE(missileRadius, drawShipMissile),
-    SAUCER_MISSILE(missileRadius, drawSaucerMissile)
+    SAUCER_MISSILE(missileRadius, drawSaucerMissile),
+    SPLAT(splatRadius, drawSplat)
 }
 
 data class SpaceObject(
