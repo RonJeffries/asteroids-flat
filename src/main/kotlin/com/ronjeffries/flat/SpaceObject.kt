@@ -126,11 +126,15 @@ fun deactivate(entity: SpaceObject) {
         resetComponents(entity)
     }
     if (entity.type == SpaceObjectType.SHIP) {
-        Splat.active = true
-        elapsedSplatTime = 0.0
-        Splat.position = entity.position
-        Splat.angle = randomAngle()
+        activateSplat(entity,Splat)
     }
+}
+
+private fun activateSplat(entity: SpaceObject, splat: SpaceObject) {
+    splat.active = true
+    elapsedSplatTime = 0.0
+    splat.position = entity.position
+    splat.angle = randomAngle()
 }
 
 private fun splittable(entity: SpaceObject): Boolean {
