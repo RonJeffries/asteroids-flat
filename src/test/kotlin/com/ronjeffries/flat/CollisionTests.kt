@@ -51,6 +51,7 @@ class CollisionTests {
 
     @Test
     fun `when colliding asteroid scale exceeds 1, it gets smaller`() {
+        createGame(4,4,23)
         val asteroid = newAsteroid()
         asteroid.position = Vector2(100.0, 100.0)
         asteroid.active = true
@@ -122,5 +123,16 @@ class CollisionTests {
         checkCollisionWithScore(Ship, missile, 222)
         assertThat(Ship.active).isEqualTo(false)
         assertThat(ShipSplat.active).isEqualTo(true)
+    }
+
+    @Test
+    fun `missile killing asteroid activates splat`() {
+        createGame(4,4,23)
+        assertThat(AsteroidSplat.active).isEqualTo(false)
+        val missile = newSaucerMissile()
+        val asteroid = newAsteroid()
+        missile.position = asteroid.position
+        checkCollisionWithScore(asteroid, missile, 222)
+        assertThat(AsteroidSplat.active).isEqualTo(true)
     }
 }

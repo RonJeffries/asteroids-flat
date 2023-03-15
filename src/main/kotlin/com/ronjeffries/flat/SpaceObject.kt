@@ -131,6 +131,9 @@ fun deactivate(entity: SpaceObject) {
     if (entity.type == SpaceObjectType.SAUCER) {
         activateSplat(entity,SaucerSplat)
     }
+    if (entity.type == SpaceObjectType.ASTEROID) {
+        activateSplat(entity,AsteroidSplat)
+    }
 }
 
 private fun activateSplat(entity: SpaceObject, splat: SpaceObject) {

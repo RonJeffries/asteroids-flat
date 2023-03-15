@@ -55,6 +55,7 @@ lateinit var Ship: SpaceObject
 lateinit var SpaceObjects: Array<SpaceObject>
 lateinit var ShipSplat: SpaceObject
 lateinit var SaucerSplat: SpaceObject
+lateinit var AsteroidSplat: SpaceObject
 var TimerTable: List<Timer> = mutableListOf<Timer>()
 
 fun gameCycle(
