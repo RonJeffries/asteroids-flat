@@ -47,7 +47,7 @@ val drawSplat = { drawer: Drawer, spaceObject: SpaceObject, deltaTime: Double ->
     if (elapsedSplatTime > 2.0) {
         spaceObject.active = false
     }
-    var splatRadius = 1.0 + elapsedSplatTime*2.0
+    val splatRadius = 1.0 + elapsedSplatTime*2.0
     drawer.scale(splatRadius, splatRadius)
     val opacity = 1.0*(2.0- elapsedSplatTime)
     val color = ColorRGBa(1.0 ,1.0, 1.0, opacity)
@@ -126,7 +126,10 @@ fun deactivate(entity: SpaceObject) {
         resetComponents(entity)
     }
     if (entity.type == SpaceObjectType.SHIP) {
-        activateSplat(entity,Splat)
+        activateSplat(entity,ShipSplat)
+    }
+    if (entity.type == SpaceObjectType.SAUCER) {
+        activateSplat(entity,SaucerSplat)
     }
 }
 

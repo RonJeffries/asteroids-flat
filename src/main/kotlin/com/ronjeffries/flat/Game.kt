@@ -53,7 +53,8 @@ lateinit var Saucer: SpaceObject
 var saucerSpeed = U.SaucerSpeed
 lateinit var Ship: SpaceObject
 lateinit var SpaceObjects: Array<SpaceObject>
-lateinit var Splat: SpaceObject
+lateinit var ShipSplat: SpaceObject
+lateinit var SaucerSplat: SpaceObject
 var TimerTable: List<Timer> = mutableListOf<Timer>()
 
 fun gameCycle(

@@ -14,8 +14,10 @@ fun createGame(saucerMissileCount: Int, shipMissileCount: Int, asteroidCount: In
     Saucer = newSaucer()
     objects.add(Saucer)
     for (i in 1..asteroidCount) objects.add(newAsteroid())
-    Splat = newSplat()
-    objects.add(Splat)
+    ShipSplat = newSplat()
+    objects.add(ShipSplat)
+    SaucerSplat = newSplat()
+    objects.add(SaucerSplat)
     SpaceObjects = objects.toTypedArray()
 }
 
