@@ -99,4 +99,28 @@ class CollisionTests {
         assertThat(availableAsteroid.velocity).isNotEqualTo(availableAsteroidVelocity)
         assertThat(asteroid.velocity).isNotEqualTo(asteroidVelocity)
     }
+
+    @Test
+    fun `missile killing saucer activates splat`() {
+        createGame(4,4,23)
+        assertThat(SaucerSplat.active).isEqualTo(false)
+        val missile = newMissile()
+        Saucer.active = true
+        missile.position = Saucer.position
+        checkCollisionWithScore(Saucer, missile, 222)
+        assertThat(Saucer.active).isEqualTo(false)
+        assertThat(SaucerSplat.active).isEqualTo(true)
+    }
+
+    @Test
+    fun `missile killing ship activates splat`() {
+        createGame(4,4,23)
+        assertThat(ShipSplat.active).isEqualTo(false)
+        val missile = newSaucerMissile()
+        Ship.active = true
+        missile.position = Ship.position
+        checkCollisionWithScore(Ship, missile, 222)
+        assertThat(Ship.active).isEqualTo(false)
+        assertThat(ShipSplat.active).isEqualTo(true)
+    }
 }
