@@ -28,9 +28,9 @@ class GameTests {
         createGame(U.ShipMissileCount, U.AsteroidCount)
         startGame(U.ScreenWidth, U.ScreenHeight)
         clearAsteroids()
-        checkIfAsteroidsNeeded(0.1)
+        checkIfNewAsteroidWaveNeeded(0.1)
         assertThat(activeAsteroids(SpaceObjects).size).isEqualTo(0)
-        checkIfAsteroidsNeeded(U.AsteroidWaveDelay+0.1)
+        checkIfNewAsteroidWaveNeeded(U.AsteroidWaveDelay+0.1)
         assertThat(activeAsteroids(SpaceObjects).size).isEqualTo(6)
     }
 
@@ -48,8 +48,8 @@ class GameTests {
         createGame(U.ShipMissileCount, U.AsteroidCount)
         startGame(U.ScreenWidth, U.ScreenHeight)
         clearAsteroids()
-        checkIfAsteroidsNeeded(0.1)
-        checkIfAsteroidsNeeded(4.1)
+        checkIfNewAsteroidWaveNeeded(0.1)
+        checkIfNewAsteroidWaveNeeded(4.1)
         assertThat(activeAsteroids(SpaceObjects).size).isEqualTo(6)
         activeAsteroids(SpaceObjects).forEach {
             assertThat(it.scale).isEqualTo(4.0)

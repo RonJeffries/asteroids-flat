@@ -69,7 +69,7 @@ fun gameCycle(
     drawEverything(spaceObjects, drawer, deltaTime)
     checkCollisions()
     drawScore(drawer)
-    checkIfAsteroidsNeeded(deltaTime)
+    checkIfNewAsteroidWaveNeeded(deltaTime)
 }
 
 private fun updateEverything(
@@ -110,7 +110,7 @@ private fun drawEverything(spaceObjects: Array<SpaceObject>, drawer: Drawer, del
     }
 }
 
-fun checkIfAsteroidsNeeded(deltaTime: Double) {
+fun checkIfNewAsteroidWaveNeeded(deltaTime: Double) {
     if (activeAsteroids(SpaceObjects).isEmpty()) {
         AsteroidsGoneFor += deltaTime
         if (AsteroidsGoneFor > U.AsteroidWaveDelay) {
